@@ -1,0 +1,56 @@
+.warning {
+  width: 352px !important;
+  height: 62px !important;
+  animation: external_pulsate 1.5s linear infinite;
+}
+
+@keyframes external_pulsate {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--bs-tertiary-color-rgb), 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(var(--bs-tertiary-color-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--bs-tertiary-color-rgb), 0);
+  }
+}
+
+.warn_0 {
+  background-color: green;
+  padding: 5px;
+}
+
+.warn_1 {
+  background-color: rgb(193, 151, 0);
+  padding: 5px;
+}
+
+.warn_2 {
+  background-color: rgb(255, 132, 0);
+  padding: 5px;
+}
+
+.warn_3 {
+  background-color: rgb(184, 1, 1);
+  padding: 5px;
+}
+
+.warn_4 {
+  background-color: rgb(146, 2, 139);
+  padding: 5px;
+}
+
+.customtooltip {
+  --bs-tooltip-bg: rgba(22, 23, 25, 255);
+  --bs-tooltip-color: var(--bs-white);
+  --bs-tooltip-opacity: 1;
+  font-weight: 600;
+  display: flex;
+  justify-content: start;
+}
+
+.dwdlogo {
+  background-color: rgba(46, 75, 155, 255);
+  margin-right: 5px;
+}
