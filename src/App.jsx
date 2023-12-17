@@ -7,14 +7,8 @@ import DeploymentStatistics from "./components/deploymentStatistics/DeploymentSt
 
 function App() {
   return (
-    <div className="">
-      <span className="position-absolute canvas">
-        <SplineCanvas />
-      </span>
-      <span className="z-1">
-        <DwdWidget location="Titisee-Neustadt" interval={300000} />
-        <DeploymentStatistics />
-      </span>
+    <div className="p-5">
+      <DwdWidget location="München" interval={300000} />
     </div>
   );
 }

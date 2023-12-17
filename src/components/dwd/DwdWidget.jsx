@@ -1,67 +1,376 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { getDWDWarnings } from "./src/dwd";
-import WeatherWarning from "./WeatherWarning";
 import "./css/weatherwarnings.scss";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { getDWDWarnings } from "./src/dwd";
 
-const DwdWidget = (props) => {
-  const [warnings, setWarnings] = useState([]);
+const WeatherWarning = (props) => {
+  const [warning, setWarning] = useState(null);
+  const [headline, setHeadline] = useState(null);
+  const [tooltip, setTooltip] = useState(null);
 
-  const fetchData = async (name) => {
-    console.log(name);
+  //Update tooltip position
+  useEffect(() => {
+    // Get all elements with data-bs-toggle="tooltip"
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]'
+    );
+
+    // Initialize tooltips for each element
+    const tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
+
+    // Cleanup when the component is unmounted
+    return () => {
+      tooltipList.forEach((tooltip) => tooltip.dispose());
+    };
+  }, [tooltip, props.tooltipPosition]);
+
+  async function fetchWarning(location) {
+    console.log("Fetching...");
     try {
-      const warnCellIds = await fetch(
-        "src/components/dwd/assets/warncellids.json"
-      )
-        .then((response) => response.json())
-        .catch((error) => {
-          console.error("Error loading JSON file:", error);
-          throw error;
-        });
-      const keys = Object.keys(warnCellIds);
-      for (const key of keys) {
-        if (key.includes(name)) {
-          const warnCellId = warnCellIds[key];
-          console.log(warnCellId);
-          await getDWDWarnings(warnCellId, setWarnings);
-          return;
-        }
+      const warnings = await getDWDWarnings(location);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log("Fetching complete! " + warnings.length + " Warnings found");
+      console.log(warnings);
+      if (warnings.length > 0) {
+        const warning = warnings[0];
+        setHeadline(warning?.headline.split(" "));
+        setTooltip(
+          "Ab: " + warning?.effective + "</br> Bis: " + warning?.expires
+        );
+        setWarning(warning);
+      } else {
+        setWarning(false);
       }
-      throw new Error("No matching warnCellId found");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }
 
+  //Get DWD warnings & update accordingly
   useEffect(() => {
-    const fetchDataWithInterval = () => {
-      fetchData();
-      const interval = setInterval(fetchData(props.location), props.interval);
-      return () => clearInterval(interval);
-    };
-
-    fetchDataWithInterval(); // Run on mount
-
-    // Run whenever props.location changes
-    return fetchDataWithInterval;
+    fetchWarning(props.location);
+    const interval = setInterval(() => {
+      fetchWarning(props.location);
+    }, props.interval);
+    return () => clearInterval(interval);
   }, [props.location, props.interval]);
 
   return (
-    <div className="m-3 d-inline-flex">
-      <WeatherWarning
-        warning={warnings[0]}
-        tooltipPosition={props.tooltipPosition}
-        location={props.location}
-      />
+    <div className={warning == null && !props.alwaysVisible ? "invisible" : ""}>
+      <a
+        className="text-decoration-none text-white"
+        href={
+          "https://www.dwd.de/DE/wetter/warnungen/warnWetter_node.html?ort=" +
+          props.location
+        }
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div
+          className={
+            "d-flex rounded bg-secondary-subtle warning  " +
+            (warning ? "pulsate" : "") +
+            props.className
+          }
+          data-bs-toggle={warning ? "tooltip" : ""}
+          data-bs-custom-class="customtooltip"
+          data-bs-placement={props.tooltipPosition}
+          data-bs-html="true"
+          data-bs-title={tooltip}
+        >
+          <WarnIcon
+            level={warning ? warning.level : warning == false ? 0 : undefined}
+            event={
+              warning
+                ? warning.event
+                : warning == false
+                ? "nowarning"
+                : undefined
+            }
+          />
+          {warning ? (
+            <span className="d-flex flex-fill align-items-center justify-content-between">
+              <span className="d-flex flex-column ps-2 pe-2 fw-semibold justify-content-center">
+                <span>{headline.slice(0, 2).join(" ")}</span>
+                <span>{headline.slice(2, headline.length + 1).join(" ")}</span>
+              </span>
+              <img
+                className="rounded dwdlogo p-1"
+                src={"src/components/dwd/assets/dwd_logo.png"}
+                height="50"
+              />
+            </span>
+          ) : warning == false ? (
+            <span className="d-flex flex-fill align-items-center justify-content-between">
+              <span className="d-flex flex-column ps-2 pe-2 fw-semibold justify-content-center">
+                Keine Warnungen
+              </span>
+              <img
+                className="rounded dwdlogo p-1"
+                src={"src/components/dwd/assets/dwd_logo.png"}
+                height="50"
+              />
+            </span>
+          ) : (
+            <span className="d-flex gap-2 align-items-center fw-semibold fs-5 justify-content-center flex-fill">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              Laden...
+            </span>
+          )}
+        </div>
+      </a>
     </div>
   );
 };
 
-DwdWidget.propTypes = {
-  location: PropTypes.string.isRequired,
-  interval: PropTypes.number.isRequired,
+WeatherWarning.propTypes = {
+  className: PropTypes.string,
   tooltipPosition: PropTypes.oneOf(["top", "bottom", "left", "right"]),
+  location: PropTypes.string,
+  interval: PropTypes.number,
+  alwaysVisible: PropTypes.bool,
+};
+WeatherWarning.defaultProps = {
+  className: "",
+  tooltipPosition: "bottom",
+  location: "",
+  interval: 3000000,
+  alwaysVisible: true,
 };
 
-export default DwdWidget;
+export default WeatherWarning;
+
+const WarnIcon = (props) => {
+  const icon = {
+    loading: (
+      <span className="flex-fill d-flex align-items-center">
+        <div className="spinner-grow" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </span>
+    ),
+    nowarning: (
+      <span className="fs-2 flex-fill d-flex align-items-center">
+        <i className="bi bi-check-lg" />
+      </span>
+    ),
+    windböen: (
+      <span className="fs-5 position-absolute mt-3">
+        <i className="bi bi-wind" />
+      </span>
+    ),
+    sturmböen: (
+      <span className="fs-5 position-absolute mt-3">
+        <i className="bi bi-wind" />
+      </span>
+    ),
+    schweresturmböen: (
+      <span className="fs-5 position-absolute mt-3">
+        <i className="bi bi-wind" />
+      </span>
+    ),
+    orkanartigeböen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-wind" />
+      </span>
+    ),
+    orkanböen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-wind" />
+      </span>
+    ),
+    extremeorkanböen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-wind" />
+      </span>
+    ),
+
+    starkregen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-rain-heavy" />
+      </span>
+    ),
+    heftigerstarkregen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-rain-heavy" />
+      </span>
+    ),
+    extremheftigerstarkregen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-rain-heavy" />
+      </span>
+    ),
+    dauerregen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-rain" />
+      </span>
+    ),
+    ergiebigerdauerregen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-rain" />
+      </span>
+    ),
+    extremergiebigerdauerregen: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-rain" />
+      </span>
+    ),
+    gewitter: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-lightning-rain" />
+      </span>
+    ),
+    starkesgewitter: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-lightning-rain" />
+      </span>
+    ),
+    schweregewitter: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-lightning-rain" />
+      </span>
+    ),
+    extremesgewitter: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-lightning-rain" />
+      </span>
+    ),
+    nebel: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-fog2" />
+      </span>
+    ),
+    tornado: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-tornado" />
+      </span>
+    ),
+    leichterschneefall: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    schneefall: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    starkerschneefall: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    extremstarkerschneefall: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    schneeverwehung: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    starkeschneeverwehung: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    extremstarkeschneeverwehung: (
+      <span className="fs-5 position-absolute mt-3 ">
+        <i className="bi bi-cloud-snow" />
+      </span>
+    ),
+    frost: (
+      <span className="fs-5 position-absolute mt-3 ms-2">
+        <i className="bi bi-thermometer-snow" />
+      </span>
+    ),
+    strengerfrost: (
+      <span className="fs-5 position-absolute mt-3 ms-2">
+        <i className="bi bi-thermometer-snow" />
+      </span>
+    ),
+    starkewärmebelastung: (
+      <span className="fs-5 position-absolute mt-3 ms-2">
+        <i className="bi bi-thermometer-sun" />
+      </span>
+    ),
+    extremwärmebelastung: (
+      <span className="fs-5 position-absolute mt-3 ms-2">
+        <i className="bi bi-thermometer-sun" />
+      </span>
+    ),
+    geringeglätte: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-snow3" />
+      </span>
+    ),
+    glätte: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-snow3" />
+      </span>
+    ),
+    glatteis: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-snow3" />
+      </span>
+    ),
+    extremesglatteis: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-snow3" />
+      </span>
+    ),
+    tauwetter: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-droplet" />
+      </span>
+    ),
+    starkestauwetter: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-droplet" />
+      </span>
+    ),
+    erhöhteuvintensität: (
+      <span className="fs-5 position-absolute mt-3 pt-1">
+        <i className="bi bi-sun" />
+      </span>
+    ),
+  };
+
+  return (
+    <div
+      className={
+        "rounded-start d-flex flex-column align-items-center warnicon warn_" +
+        props.level
+      }
+    >
+      {icon[props.event]}
+      {props.event != "nowarning" && props.event != "loading" ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="52"
+          height="52"
+          fill="currentColor"
+          className="bi bi-triangle"
+          viewBox="0 0 16 16"
+        >
+          <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+        </svg>
+      ) : null}
+    </div>
+  );
+};
+WarnIcon.propTypes = {
+  level: PropTypes.number,
+  event: PropTypes.string,
+};
+WarnIcon.defaultProps = {
+  level: -1,
+  event: "loading",
+};

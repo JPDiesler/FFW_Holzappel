@@ -2,10 +2,10 @@ import csv
 import json
 
 # Specify the path to your CSV file
-csv_file_path = 'src\components\weatherWarning\warncellids.csv'
+csv_file_path = 'src\components\dwd\\assets\warncellids.csv'
 
 # Specify the path where you want to save the JSON file
-json_file_path = 'src\components\weatherWarning\warncellids.json'
+json_file_path = 'src\components\dwd\\assets\warncellids.json'
 
 # Read data from CSV and convert to a list of dictionaries
 csv_data = {}
@@ -14,7 +14,8 @@ with open(csv_file_path, 'r', encoding='utf-8') as file:
         if n > 0:
             # Use try-except to handle potential issues with empty lines or incorrect CSV format
             try:
-                key, value = line.strip().split(';', 1)
+                key, value,_= line.strip().split(';', 2)
+                print(value)
                 csv_data[value] = key
             except ValueError:
                 # Handle cases where the line doesn't contain the expected number of fields

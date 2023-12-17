@@ -1,33 +1,63 @@
+import warncellids from "../assets/warncellids.json";
 /**
  * Retrieves weather warnings from the DWD (German Weather Service) API based on a given community ID.
  * Translates the retrieved data into a standardized format, sorts the warnings by severity level,
- * and sets the sorted warnings using a provided `set` function.
- * @param {string} communityID - The ID of the community for which weather warnings are requested.
- * @param {function} set - A function that sets the retrieved weather warnings.
+ * and returns the sorted warnings.
+ * @param {string} location - The ID of the community for which weather warnings are requested.
+ * @returns {Array} - The retrieved weather warnings.
  */
-export async function getDWDWarnings(communityID, set) {
-  const dwdApiUrlCounties = `https://maps.dwd.de/geoserver/dwd/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=dwd%3AWarnungen_Landkreise&CQL_FILTER=GC_WARNCELLID%3D%27${communityID}%27&OutputFormat=application/json`;
-  const dwdApiUrlCities = `https://maps.dwd.de/geoserver/dwd/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=dwd%3AWarnungen_Gemeinden&CQL_FILTER=WARNCELLID%3D%27${communityID}%27&OutputFormat=application/json`;
+export async function getDWDWarnings(location) {
+  const warncellIDs = getWarnCellIDs(location);
+  const gemeinde_warncellID = warncellIDs.stadt[0]?.id;
+  const kreis_warncellID = warncellIDs.kreis.slice(-1)[0]?.id;
+
+  if (!kreis_warncellID && !gemeinde_warncellID) {
+    throw new Error(`No matching warning cell IDs found for "${location}".`);
+  }
+
+  const API_URL_DWD_Kreise = `https://maps.dwd.de/geoserver/dwd/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=dwd%3AWarnungen_Landkreise&CQL_FILTER=GC_WARNCELLID%3D%27${kreis_warncellID}%27&OutputFormat=application/json`;
+  const API_URL_DWD_Gemeinden = `https://maps.dwd.de/geoserver/dwd/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=dwd%3AWarnungen_Gemeinden&CQL_FILTER=WARNCELLID%3D%27${gemeinde_warncellID}%27&OutputFormat=application/json`;
 
   try {
-    const response = await fetch(dwdApiUrlCities);
-    const data = await response.json();
-    let newWarnings = data.features.map((feature) =>
-      translate(feature.properties)
+    const [responseGemeinde, responseKreise] = await Promise.allSettled([
+      fetch(API_URL_DWD_Gemeinden),
+      fetch(API_URL_DWD_Kreise),
+    ]);
+
+    const settledResponses = [responseGemeinde, responseKreise].map(
+      (response) => {
+        if (response.status === "fulfilled") {
+          return response.value.json();
+        } else {
+          throw new Error(
+            `Failed to fetch data from API for ${response.reason}`
+          );
+        }
+      }
     );
 
-    if (newWarnings.length === 0) {
-      const countyResponse = await fetch(dwdApiUrlCounties);
-      const countyData = await countyResponse.json();
-      newWarnings = countyData.features.map((feature) =>
-        translate(feature.properties)
-      );
-    }
+    const [dataGemeinde, dataKreis] = await Promise.allSettled(
+      settledResponses
+    );
 
-    newWarnings = quickSort(newWarnings, "level");
-    set(newWarnings);
+    let newWarnings =
+      dataGemeinde.status === "fulfilled"
+        ? dataGemeinde.value.features?.map((feature) =>
+            translate(feature.properties)
+          )
+        : [];
+
+    if (newWarnings.length === 0) {
+      newWarnings =
+        dataKreis.status === "fulfilled"
+          ? dataKreis.value.features?.map((feature) =>
+              translate(feature.properties)
+            )
+          : [];
+    }
+    return newWarnings.sort((a, b) => a.level - b.level);
   } catch (error) {
-    console.error("Fehler beim Abrufen der DWD-Warnungen:", error);
+    throw new Error("Fehler beim Abrufen der DWD-Warnungen: " + error.message);
   }
 }
 
@@ -36,26 +66,6 @@ export async function getDWDWarnings(communityID, set) {
  * @param {object} properties - The properties of a warning feature.
  * @returns {object} - The translated properties in a standardized format.
  */
-function translate(properties) {
-  // Translate properties to standardized format
-  // ...
-
-  return translatedProperties;
-}
-
-/**
- * Sorts an array of warnings by severity level using the quicksort algorithm.
- * @param {array} warnings - The array of warnings to be sorted.
- * @param {string} sortBy - The property to sort the warnings by.
- * @returns {array} - The sorted array of warnings.
- */
-function quickSort(warnings, sortBy) {
-  // Sort warnings by severity level using quicksort algorithm
-  // ...
-
-  return sortedWarnings;
-}
-
 function translate(obj) {
   const levels = {
     Minor: 1,
@@ -74,25 +84,11 @@ function translate(obj) {
   return new_obj;
 }
 
-function quickSort(arr, attribute) {
-  if (arr.length <= 1) {
-    return arr;
-  }
-
-  const pivot = arr[0];
-  const left = [];
-  const right = [];
-
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i][attribute] > pivot[attribute]) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
-  }
-  return [...quickSort(left, attribute), pivot, ...quickSort(right, attribute)];
-}
-
+/**
+ * Formats a given time string into a specific format used in the German language.
+ * @param {string} time - The time string to be formatted.
+ * @returns {string} - The formatted date and time string in the format "dd.mm.yyyy hh:mm Uhr".
+ */
 function formatTime(time) {
   const date = new Date(time);
   const options = {
@@ -110,4 +106,35 @@ function formatTime(time) {
 
   // Concatenate date and time without commas
   return `${formattedDate.replace(/,/g, "")} ${formattedTime} Uhr`;
+}
+
+function getWarnCellIDs(location) {
+  const possible = [
+    location,
+    "Stadt " + location,
+    "Kreis " + location,
+    "Landkreis " + location,
+    "Kreis und Stadt " + location,
+  ];
+  const results = {
+    stadt: [],
+    kreis: [],
+  };
+
+  for (const [key, value] of Object.entries(warncellids)) {
+    if (possible.includes(key)) {
+      console.log(key, value);
+
+      if (
+        key.toLowerCase().includes("stadt") &&
+        !key.toLowerCase().includes("kreis")
+      ) {
+        results.stadt.push({ name: key, id: value });
+      } else {
+        results.kreis.push({ name: key, id: value });
+      }
+    }
+  }
+  console.log(results);
+  return results;
 }

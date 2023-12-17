@@ -1,6 +1,9 @@
 .warning {
   width: 352px !important;
   height: 62px !important;
+}
+
+.pulsate {
   animation: external_pulsate 1.5s linear infinite;
 }
 
@@ -16,8 +19,17 @@
   }
 }
 
+.warnicon {
+  width: 62px;
+  height: 62px;
+}
+
+.warn_-1 {
+  background-color: gray;
+  padding: 5px;
+}
 .warn_0 {
-  background-color: green;
+  background-color: rgb(5, 106, 5);
   padding: 5px;
 }
 
@@ -37,7 +49,7 @@
 }
 
 .warn_4 {
-  background-color: rgb(146, 2, 139);
+  background-color: rgb(116, 1, 110);
   padding: 5px;
 }
 
