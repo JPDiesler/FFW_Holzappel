@@ -1,13 +1,34 @@
-.bg-image {
-  background-image: url(https://cdn.fs.teachablecdn.com/0QVRJRm1S5a7ygbVAy8j);
-  height: 100vh;
-  width: 100vw;
-  background-color: aqua;
-}
-
 .canvas {
-  height: 100vh;
-  width: 100vw;
+  background-image: url(../spectrum-5k-1.png);
+  height: 650px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
   z-index: -1;
   top: 0;
+}
+
+.rounded-spacer {
+  height: 50px;
+}
+
+.bg-custom-white {
+  background-color: #fffafa;
+}
+
+.element {
+  height: 500px;
+}
+
+.footer {
+  height: 200px;
+}
+
+.item-1 {
+  order: 1;
+}
+
+.item-2 {
+  order: 2;
 }

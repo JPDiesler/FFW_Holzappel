@@ -50,6 +50,9 @@ const WeatherWarning = (props) => {
     }
   }
 
+  useEffect(() => {
+    console.log(warning);
+  }, [warning]);
   //Get DWD warnings & update accordingly
   useEffect(() => {
     fetchWarning(props.location);
@@ -60,7 +63,9 @@ const WeatherWarning = (props) => {
   }, [props.location, props.interval]);
 
   return (
-    <div className={warning == null && !props.alwaysVisible ? "invisible" : ""}>
+    <div
+      className={warning == false && !props.alwaysVisible ? "invisible" : ""}
+    >
       <a
         className="text-decoration-none text-white"
         href={
@@ -72,7 +77,7 @@ const WeatherWarning = (props) => {
       >
         <div
           className={
-            "d-flex rounded bg-secondary-subtle warning  " +
+            "d-flex rounded warning  " +
             (warning ? "pulsate" : "") +
             props.className
           }
@@ -94,29 +99,29 @@ const WeatherWarning = (props) => {
           />
           {warning ? (
             <span className="d-flex flex-fill align-items-center justify-content-between">
-              <span className="d-flex flex-column ps-2 pe-2 fw-semibold justify-content-center">
+              <span className="d-flex flex-column ps-1 pe-1 fw-semibold justify-content-center">
                 <span>{headline.slice(0, 2).join(" ")}</span>
                 <span>{headline.slice(2, headline.length + 1).join(" ")}</span>
               </span>
               <img
                 className="rounded dwdlogo p-1"
                 src={"src/components/dwd/assets/dwd_logo.png"}
-                height="50"
+                height="40"
               />
             </span>
           ) : warning == false ? (
             <span className="d-flex flex-fill align-items-center justify-content-between">
-              <span className="d-flex flex-column ps-2 pe-2 fw-semibold justify-content-center">
+              <span className="d-flex flex-fill ps-1 pe-1 fw-semibold justify-content-center">
                 Keine Warnungen
               </span>
               <img
                 className="rounded dwdlogo p-1"
                 src={"src/components/dwd/assets/dwd_logo.png"}
-                height="50"
+                height="40"
               />
             </span>
           ) : (
-            <span className="d-flex gap-2 align-items-center fw-semibold fs-5 justify-content-center flex-fill">
+            <span className="d-flex gap-2 align-items-center fw-semibold  justify-content-center flex-fill">
               <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
@@ -150,194 +155,194 @@ const WarnIcon = (props) => {
   const icon = {
     loading: (
       <span className="flex-fill d-flex align-items-center">
-        <div className="spinner-grow" role="status">
+        {/* <div className="spinner-grow" role="status">
           <span className="visually-hidden">Loading...</span>
-        </div>
+        </div> */}
       </span>
     ),
     nowarning: (
-      <span className="fs-2 flex-fill d-flex align-items-center">
+      <span className="fs-3 flex-fill d-flex align-items-center">
         <i className="bi bi-check-lg" />
       </span>
     ),
     windböen: (
-      <span className="fs-5 position-absolute mt-3">
+      <span className=" position-absolute mt-2 pt-1">
         <i className="bi bi-wind" />
       </span>
     ),
     sturmböen: (
-      <span className="fs-5 position-absolute mt-3">
+      <span className=" position-absolute mt-2 pt-1">
         <i className="bi bi-wind" />
       </span>
     ),
     schweresturmböen: (
-      <span className="fs-5 position-absolute mt-3">
+      <span className=" position-absolute mt-2 pt-1">
         <i className="bi bi-wind" />
       </span>
     ),
     orkanartigeböen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-wind" />
       </span>
     ),
     orkanböen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-wind" />
       </span>
     ),
     extremeorkanböen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-wind" />
       </span>
     ),
 
     starkregen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain-heavy" />
       </span>
     ),
     heftigerstarkregen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain-heavy" />
       </span>
     ),
     extremheftigerstarkregen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain-heavy" />
       </span>
     ),
     dauerregen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain" />
       </span>
     ),
     ergiebigerdauerregen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain" />
       </span>
     ),
     extremergiebigerdauerregen: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain" />
       </span>
     ),
     gewitter: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     starkesgewitter: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     schweregewitter: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     extremesgewitter: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     nebel: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-fog2" />
       </span>
     ),
     tornado: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-tornado" />
       </span>
     ),
     leichterschneefall: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     schneefall: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     starkerschneefall: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     extremstarkerschneefall: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     schneeverwehung: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     starkeschneeverwehung: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     extremstarkeschneeverwehung: (
-      <span className="fs-5 position-absolute mt-3 ">
+      <span className=" position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     frost: (
-      <span className="fs-5 position-absolute mt-3 ms-2">
+      <span className=" position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-snow" />
       </span>
     ),
     strengerfrost: (
-      <span className="fs-5 position-absolute mt-3 ms-2">
+      <span className=" position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-snow" />
       </span>
     ),
     starkewärmebelastung: (
-      <span className="fs-5 position-absolute mt-3 ms-2">
+      <span className=" position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-sun" />
       </span>
     ),
     extremwärmebelastung: (
-      <span className="fs-5 position-absolute mt-3 ms-2">
+      <span className=" position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-sun" />
       </span>
     ),
     geringeglätte: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     glätte: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     glatteis: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     extremesglatteis: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     tauwetter: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-droplet" />
       </span>
     ),
     starkestauwetter: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-droplet" />
       </span>
     ),
     erhöhteuvintensität: (
-      <span className="fs-5 position-absolute mt-3 pt-1">
+      <span className=" position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-sun" />
       </span>
     ),
@@ -354,8 +359,8 @@ const WarnIcon = (props) => {
       {props.event != "nowarning" && props.event != "loading" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="52"
-          height="52"
+          width="48"
+          height="48"
           fill="currentColor"
           className="bi bi-triangle"
           viewBox="0 0 16 16"

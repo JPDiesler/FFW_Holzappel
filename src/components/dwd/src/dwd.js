@@ -55,7 +55,7 @@ export async function getDWDWarnings(location) {
             )
           : [];
     }
-    return newWarnings.sort((a, b) => a.level - b.level);
+    return newWarnings.sort((a, b) => b.level - a.level);
   } catch (error) {
     throw new Error("Fehler beim Abrufen der DWD-Warnungen: " + error.message);
   }
@@ -111,6 +111,7 @@ function formatTime(time) {
 function getWarnCellIDs(location) {
   const possible = [
     location,
+    "Gemeinde" + location,
     "Stadt " + location,
     "Kreis " + location,
     "Landkreis " + location,
@@ -122,13 +123,8 @@ function getWarnCellIDs(location) {
   };
 
   for (const [key, value] of Object.entries(warncellids)) {
-    if (possible.includes(key)) {
-      console.log(key, value);
-
-      if (
-        key.toLowerCase().includes("stadt") &&
-        !key.toLowerCase().includes("kreis")
-      ) {
+    if (key.includes(location)) {
+      if (!key.toLowerCase().includes("kreis")) {
         results.stadt.push({ name: key, id: value });
       } else {
         results.kreis.push({ name: key, id: value });
