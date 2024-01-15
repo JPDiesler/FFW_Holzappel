@@ -23,6 +23,7 @@ const ModeButton = (props) => {
         className="btn text-light d-flex align-items-center"
         type="button"
         data-bs-toggle="dropdown"
+        data-bs-auto-close="true"
       >
         <span className="border-end border-light pe-1">{icon}</span>
         <span className="ps-1">
@@ -31,21 +32,21 @@ const ModeButton = (props) => {
       </button>
       <ul className="dropdown-menu p-2 custom-width">
         <li
-          className="d-flex align-items-center p-1 dropdown-item"
+          className="d-flex align-items-center p-1 dropdown-item mousepointer"
           onClick={() => onClick("ligth")}
         >
           <i className="bi bi-brightness-high-fill pe-1"></i>
           Hell
         </li>
         <li
-          className="d-flex align-items-center p-1 dropdown-item"
+          className="d-flex align-items-center p-1 dropdown-item mousepointer"
           onClick={() => onClick("dark")}
         >
           <i className="bi bi-moon-stars-fill pe-1"></i>
           Dunkel
         </li>
         <li
-          className="d-flex align-items-center p-1 dropdown-item"
+          className="d-flex align-items-center p-1 dropdown-item mousepointer"
           onClick={() => onClick("auto")}
         >
           <i className="bi bi-circle-half pe-1"></i>

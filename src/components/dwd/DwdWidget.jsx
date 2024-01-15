@@ -34,7 +34,6 @@ const WeatherWarning = (props) => {
       const warnings = await getDWDWarnings(location);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log("Fetching complete! " + warnings.length + " Warnings found");
-      console.log(warnings);
       if (warnings.length > 0) {
         const warning = warnings[0];
         setHeadline(warning?.headline.split(" "));
@@ -50,9 +49,6 @@ const WeatherWarning = (props) => {
     }
   }
 
-  useEffect(() => {
-    console.log(warning);
-  }, [warning]);
   //Get DWD warnings & update accordingly
   useEffect(() => {
     fetchWarning(props.location);

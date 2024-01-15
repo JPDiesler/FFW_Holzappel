@@ -1,12 +1,26 @@
 .canvas {
-  background-image: url(../spectrum-5k-1.png);
-  height: 650px;
+  background-image: url(../LFBA_Iveco_202302_Austria_Scheffau_01_mirrored.jpg);
+  height: 50vw;
   width: 100%;
-  background-size: cover;
+  background-size: 200%;
   background-repeat: no-repeat;
-  background-position: center center;
-  z-index: -1;
+  background-position-x: 80%;
+  background-position-y: 100%;
   top: 0;
+}
+
+.test {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(167, 166, 166, 0.595);
+  clip-path: polygon(0% 0%, 0 100%, 48%100%, 35%50%, 48%0%);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 18%;
 }
 
 .rounded-spacer {
@@ -31,4 +45,12 @@
 
 .item-2 {
   order: 2;
+}
+
+.vehicle-img {
+  height: 25vw;
+}
+
+.vehicle-img-dlk {
+  height: 20vw;
 }

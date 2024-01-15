@@ -131,6 +131,5 @@ function getWarnCellIDs(location) {
       }
     }
   }
-  console.log(results);
   return results;
 }
