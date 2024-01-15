@@ -9,6 +9,10 @@
   top: 0;
 }
 
+.element {
+  height: 100vh;
+}
+
 .test {
   height: 100%;
   width: 100%;
@@ -53,4 +57,11 @@
 
 .vehicle-img-dlk {
   height: 20vw;
+}
+
+.map {
+  height: 500px;
+  width: 900px;
+  border-radius: 15px;
+  overflow: hidden;
 }

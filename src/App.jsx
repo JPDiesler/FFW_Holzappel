@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/Navbar";
 import ModeButton from "./components/modeButton/ModeButton";
 import DeploymentStatistics from "./components/modules/deploymentStatistics/DeploymentStatistics";
 import Aktuelles from "./components/modules/aktuelles/Aktuelles";
+import Map from "./components/map/Map";
 
 function App() {
   return (
@@ -48,12 +49,14 @@ function App() {
               Dann komm uns doch an einem <br /> unserer Übungsabende besuchen!
             </h3>
           </div>
-          <div className="flex-fill">Map</div>
+          <div className="flex-fill map">
+            <Map />
+          </div>
         </div>
-        <div id="aktuelles" className="ms-5 me-5 element">
+        <div id="aktuelles" className="ms-5 me-5">
           <Aktuelles />
         </div>
-        <div id="date" className="ms-5 me-5 element">
+        <div id="date" className="ms-5 me-5">
           <h1>Termine</h1>
         </div>
         <div id="deployment" className="ms-5 me-5">
