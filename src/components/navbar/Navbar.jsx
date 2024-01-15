@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import Hover from "../hover/Hover";
 import Donations from "../modules/donations/Donations";
-
+import "./Navbar.scss";
 const Navbar = (props) => {
   const [visiblity, setVisiblity] = useState(false);
 
@@ -14,7 +14,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="bg-black rounded-pill p-2 d-inline-flex jusitify-content-center align-items-center gap-2">
+      <div className="test-navbar">
         <button
           className="btn text-white  rounded-pill fw-semibold"
           onClick={() => scrollToElement("aktuelles")}

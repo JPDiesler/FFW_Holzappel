@@ -1,0 +1,27 @@
+@media (orientation: portrait) {
+  .test-navbar {
+    z-index: 10000;
+    position: fixed !important;
+    bottom: 0;
+    background-color: black;
+    height: 75px;
+    width: 100vh;
+  }
+
+  .navball {
+    background-color: black;
+    color: #ebebeb;
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 50%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+}

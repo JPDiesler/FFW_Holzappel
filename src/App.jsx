@@ -1,243 +1,147 @@
 import React from "react";
 import "./App.scss";
+import { useEffect, useState } from "react";
 import DwdWidget from "./components/dwd/DwdWidget";
 import Navbar from "./components/navbar/Navbar";
 import ModeButton from "./components/modeButton/ModeButton";
 import DeploymentStatistics from "./components/modules/deploymentStatistics/DeploymentStatistics";
 import Aktuelles from "./components/modules/aktuelles/Aktuelles";
 import Map from "./components/map/Map";
+import Vehicles from "./components/modules/vehicles/Vehicles";
+import NavbarMobile from "./components/navbar/NavbarMobile";
 
 function App() {
+  const [isPortrait, setIsPortrait] = useState(
+    window.innerHeight > window.innerWidth
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <div id="header" className="">
-        <div className="canvas d-flex flex-column justify-content-end position-relative">
-          <div className="position-absolute test z-0">
-            <img
-              src="/Unbenannt.png"
-              width={"30%"}
-              className="logo translate-middle"
-            />
-          </div>
-          <div className="flex-fill d-flex flex-column mt-3 ps-3 pe-3">
+      {isPortrait ? (
+        <>
+          <div className="canvas d-flex flex-column justify-content-end position-relative">
+            <div className="z-1 flex-fill d-flex justify-content-center mt-3">
+              <DwdWidget location={"Holzappel"} alwaysVisible={false} />
+            </div>
+            <div className="position-absolute path z-0">
+              <img
+                src="/Unbenannt.png"
+                width={"30%"}
+                className="logo translate-middle"
+              />
+            </div>
+            <div className="bg-body d-flex flex-column align-items-center rounded-top-5 rounded-spacer z-0 position-relative">
+              <h5 className="fw-semibold m-0 mt-2">Scrollen</h5>
+              <i className="position-absolute mt-4 fs-5 bi bi-chevron-compact-down m-0"></i>
+            </div>
             <div
-              id="topbar"
-              className="row d-flex justify-content-between align-items-center gap-3"
+              className="navball"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasBottom"
+              aria-controls="offcanvasBottom"
             >
-              <div className="col flex-grow-1 d-flex justify-content-start">
-                <ModeButton />
+              <i className="bi bi-list"></i>
+            </div>
+
+            <div
+              className="offcanvas offcanvas-bottom menu-height border-0 rounded-top-5 menu"
+              tabIndex="-1"
+              id="offcanvasBottom"
+              aria-labelledby="offcanvasBottomLabel"
+            >
+              <div className="offcanvas-header">
+                <h1 className="menu-title" id="offcanvasBottomLabel">
+                  Menü
+                </h1>
               </div>
-              <div className="col flex-grow-1 z-1">
-                <Navbar />
-              </div>
-              <div className="col flex-grow-1 d-flex justify-content-end z-1">
-                <DwdWidget location={"Holzappel"} alwaysVisible={false} />
+              <div className="offcanvas-body">
+                <div className="d-flex flex-column justifiy-content-center align-items-center">
+                  <NavbarMobile />
+
+                  <button
+                    type="button"
+                    className="btn fs-1 close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="50"
+                      height="50"
+                      fill="currentColor"
+                      className="bi bi-x-lg"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          <div className="bg-body rounded-top-5 rounded-spacer z-0"></div>
-        </div>
-      </div>
-      <div id="content">
-        <div className="ms-5 me-5 mt-5 element d-flex">
-          <div className="flex-fill d-flex flex-column">
-            <h1>
-              Dich interessiert das <br />
-              Feuerwehr Handwerk?
-            </h1>
-            <h3 className="text-primary">
-              Dann komm uns doch an einem <br /> unserer Übungsabende besuchen!
-            </h3>
+        </>
+      ) : (
+        <div id="header" className="">
+          <div className="canvas d-flex flex-column justify-content-end position-relative">
+            <div className="position-absolute path z-0">
+              <img
+                src="/Unbenannt.png"
+                width={"30%"}
+                className="logo translate-middle"
+              />
+            </div>
+            <div className="flex-fill d-flex flex-column mt-3 ps-3 pe-3">
+              <div
+                id="topbar"
+                className="row d-flex justify-content-between align-items-center gap-3"
+              >
+                <div className="col flex-grow-1 d-flex justify-content-start">
+                  <ModeButton />
+                </div>
+                <div className="col flex-grow-1 z-1">
+                  <Navbar />
+                </div>
+                <div className="col flex-grow-1 d-flex justify-content-end z-1">
+                  <DwdWidget location={"Holzappel"} alwaysVisible={false} />
+                </div>
+              </div>
+            </div>
+            <div className="bg-body d-flex flex-column align-items-center rounded-top-5 rounded-spacer z-0 position-relative">
+              <h5 className="fw-semibold m-0 mt-2">Scrollen</h5>
+              <i className="position-absolute mt-4 fs-5 bi bi-chevron-compact-down m-0"></i>
+            </div>
           </div>
-          <div className="flex-fill map">
+        </div>
+      )}
+
+      <div id="content">
+        <div
+          id="landing"
+          className="element border d-flex flex-wrap align-items-center m-5"
+        >
+          <div className="flex-fill min-width">Test</div>
+          <div className="map min-width">
             <Map />
           </div>
         </div>
-        <div id="aktuelles" className="ms-5 me-5">
-          <Aktuelles />
+        <div id="aktuelles" className="element border m-5"></div>
+        <div id="date" className="element border m-5"></div>
+        <div id="depolyments" className="element border m-5"></div>
+        <div id="vehicles" className="element border m-5 pt-5 pb-5">
+          <Vehicles />
         </div>
-        <div id="date" className="ms-5 me-5">
-          <h1>Termine</h1>
-        </div>
-        <div id="deployment" className="ms-5 me-5">
-          <DeploymentStatistics />
-        </div>
-        <div id="vehicles" className="ms-5 me-5">
-          <h1>Unsere Fahrzeuge</h1>
-          <div
-            id="carouselExampleIndicators"
-            className="carousel carousel-dark slide"
-          >
-            <div className="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="0"
-                className="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="2"
-                aria-label="Slide 3"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="3"
-                aria-label="Slide 4"
-              ></button>
-            </div>
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <div className="element d-flex justify-content-center align-items-center ">
-                  <div className="border rounded-5 d-flex">
-                    <span className="p-3">
-                      <img src="./TLF_3000.png" className="vehicle-img" />
-                    </span>
-                    <div className="vr" />
-                    <span className="p-3 d-flex flex-column bg-secondary-subtle rounded-end-5">
-                      <h1>TLF-3000</h1>
-                      <h4 className="text-secondary">
-                        Florian Diez 15/23-2 <br /> Besatzung: 1/2
-                      </h4>
-                      <span className="flex-fill d-flex align-items-center">
-                        <h5>
-                          3000L Wassertank <br />
-                          Dachwasserwerfer <br /> Frontsprühbalken <br />{" "}
-                          Truppkabine <br /> Allradantrieb
-                        </h5>
-                      </span>
-
-                      <h5 className="text-secondary">
-                        Indienstellung: <br /> 07.10.2023
-                      </h5>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="element d-flex justify-content-center align-items-center ">
-                  <div className="border rounded-5 d-flex ">
-                    <div className="p-3 d-flex flex-column justify-content-center">
-                      <img src="./TLF_1625.png" className="vehicle-img" />
-                    </div>
-                    <div className="vr" />
-                    <div className="p-3 d-flex flex-column rounded-end-5 bg-secondary-subtle">
-                      <h1>TLF-16/25</h1>
-                      <h4 className="text-secondary">
-                        Florian Diez 15/23-1 <br /> Besatzung: 1/8
-                      </h4>
-                      <span className="flex-fill d-flex align-items-center">
-                        <h5>
-                          2500L Wassertank <br />
-                          TH-Ausrüstung <br />
-                          Gruppenkabine <br /> Allradantrieb
-                        </h5>
-                      </span>
-
-                      <h5 className="text-secondary">
-                        Indienstellung: <br /> 20.12.2005
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="element d-flex justify-content-center align-items-center ">
-                  <div className="border rounded-5 d-flex">
-                    <span className="p-3">
-                      <img src="./DLK.png" className="vehicle-img-dlk" />
-                    </span>
-                    <div className="vr" />
-                    <span className="p-3 d-flex flex-column bg-secondary-subtle rounded-end-5">
-                      <h1>DLK-18/12</h1>
-                      <h4 className="text-secondary">
-                        Florian Diez 15/33 <br /> Besatzung: 1/2
-                      </h4>
-                      <span className="flex-fill d-flex align-items-center">
-                        <h5>
-                          500KG Korb <br />
-                          27m Leiterpark <br />
-                          Truppkabine
-                        </h5>
-                      </span>
-
-                      <h5 className="text-secondary">
-                        Indienstellung: <br /> 11.06.2022
-                      </h5>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="element d-flex justify-content-center align-items-center ">
-                  <div className="border rounded-5 d-flex">
-                    <span className="p-3">
-                      <img src="./image.png" className="vehicle-img-dlk" />
-                    </span>
-                    <div className="vr" />
-                    <span className="p-3 d-flex flex-column bg-secondary-subtle rounded-end-5">
-                      <h1>MTF</h1>
-                      <h4 className="text-secondary">
-                        Florian Diez 15/19 <br /> Besatzung: 1/8
-                      </h4>
-                      <span className="flex-fill d-flex align-items-center">
-                        {/* <h5>
-                          500KG Korb <br />
-                          27m Leiterpark <br />
-                          Truppkabine
-                        </h5> */}
-                      </span>
-
-                      <h5 className="text-secondary">
-                        Indienstellung: <br /> 28.04.2011
-                      </h5>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-            >
-              <span
-                className="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-            >
-              <span
-                className="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        id="footer"
-        className="border-top border-3 border-danger bg-black footer d-flex justify-content-between p-2"
-      >
-        <img src="/vg_diez_logo.svg" height={"90px"} />
       </div>
     </>
   );

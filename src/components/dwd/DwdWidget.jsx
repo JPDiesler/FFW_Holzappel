@@ -34,9 +34,17 @@ const WeatherWarning = (props) => {
       const warnings = await getDWDWarnings(location);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log("Fetching complete! " + warnings.length + " Warnings found");
+      console.log(warnings);
       if (warnings.length > 0) {
         const warning = warnings[0];
-        setHeadline(warning?.headline.split(" "));
+        let modifiedHeadline = warning?.headline;
+        if (modifiedHeadline.includes("VORABINFORMATION")) {
+          modifiedHeadline = modifiedHeadline.replace("UNWETTER", "");
+        }
+        if (modifiedHeadline.includes("/")) {
+          modifiedHeadline = modifiedHeadline.split("/")[0];
+        }
+        setHeadline(modifiedHeadline.split(" "));
         setTooltip(
           "Ab: " + warning?.effective + "</br> Bis: " + warning?.expires
         );
@@ -90,6 +98,13 @@ const WeatherWarning = (props) => {
                 ? warning.event
                 : warning == false
                 ? "nowarning"
+                : undefined
+            }
+            info={
+              warning
+                ? warning.event.includes("vorabinformation")
+                  ? true
+                  : false
                 : undefined
             }
           />
@@ -150,195 +165,195 @@ export default WeatherWarning;
 const WarnIcon = (props) => {
   const icon = {
     loading: (
-      <span className="flex-fill d-flex align-items-center">
+      <span className="z-1 flex-fill d-flex align-items-center">
         {/* <div className="spinner-grow" role="status">
           <span className="visually-hidden">Loading...</span>
         </div> */}
       </span>
     ),
     nowarning: (
-      <span className="fs-3 flex-fill d-flex align-items-center">
+      <span className="z-1 fs-3 flex-fill d-flex align-items-center">
         <i className="bi bi-check-lg" />
       </span>
     ),
     windböen: (
-      <span className=" position-absolute mt-2 pt-1">
+      <span className="z-1 position-absolute mt-2 pt-1">
         <i className="bi bi-wind" />
       </span>
     ),
     sturmböen: (
-      <span className=" position-absolute mt-2 pt-1">
+      <span className="z-1 position-absolute mt-2 pt-1">
         <i className="bi bi-wind" />
       </span>
     ),
     schweresturmböen: (
-      <span className=" position-absolute mt-2 pt-1">
+      <span className="z-1 position-absolute mt-2 pt-1">
         <i className="bi bi-wind" />
       </span>
     ),
     orkanartigeböen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-wind" />
       </span>
     ),
     orkanböen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-wind" />
       </span>
     ),
     extremeorkanböen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-wind" />
       </span>
     ),
 
     starkregen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain-heavy" />
       </span>
     ),
     heftigerstarkregen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain-heavy" />
       </span>
     ),
     extremheftigerstarkregen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain-heavy" />
       </span>
     ),
     dauerregen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain" />
       </span>
     ),
     ergiebigerdauerregen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain" />
       </span>
     ),
     extremergiebigerdauerregen: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-rain" />
       </span>
     ),
     gewitter: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     starkesgewitter: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     schweregewitter: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     extremesgewitter: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-lightning-rain" />
       </span>
     ),
     nebel: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-fog2" />
       </span>
     ),
     tornado: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-tornado" />
       </span>
     ),
     leichterschneefall: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     schneefall: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     starkerschneefall: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     extremstarkerschneefall: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     schneeverwehung: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     starkeschneeverwehung: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     extremstarkeschneeverwehung: (
-      <span className=" position-absolute mt-2 pt-1 ">
+      <span className=" z-1 position-absolute mt-2 pt-1 ">
         <i className="bi bi-cloud-snow" />
       </span>
     ),
     frost: (
-      <span className=" position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-snow" />
       </span>
     ),
     strengerfrost: (
-      <span className=" position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-snow" />
       </span>
     ),
     starkewärmebelastung: (
-      <span className=" position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-sun" />
       </span>
     ),
     extremwärmebelastung: (
-      <span className=" position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
         <i className="bi bi-thermometer-sun" />
       </span>
     ),
     geringeglätte: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     glätte: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     glatteis: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     extremesglatteis: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-snow3" />
       </span>
     ),
     tauwetter: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-droplet" />
       </span>
     ),
     starkestauwetter: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-droplet" />
       </span>
     ),
     erhöhteuvintensität: (
-      <span className=" position-absolute mt-2 pt-1 pt-1">
+      <span className=" z-1 position-absolute mt-2 pt-1 pt-1">
         <i className="bi bi-sun" />
       </span>
     ),
@@ -347,18 +362,19 @@ const WarnIcon = (props) => {
   return (
     <div
       className={
-        "rounded-start d-flex flex-column align-items-center warnicon warn_" +
-        props.level
+        "z-0 rounded-start d-flex flex-column align-items-center warnicon warn_" +
+        props.level +
+        (props.info ? " warn_vor" : "")
       }
     >
-      {icon[props.event]}
+      {icon[props.event.replace("vorabinformation", "").split("/")[0]]}
       {props.event != "nowarning" && props.event != "loading" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="48"
           height="48"
           fill="currentColor"
-          className="bi bi-triangle"
+          className="z-1 bi bi-triangle"
           viewBox="0 0 16 16"
         >
           <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
@@ -370,8 +386,10 @@ const WarnIcon = (props) => {
 WarnIcon.propTypes = {
   level: PropTypes.number,
   event: PropTypes.string,
+  info: PropTypes.bool,
 };
 WarnIcon.defaultProps = {
   level: -1,
   event: "loading",
+  info: false,
 };
