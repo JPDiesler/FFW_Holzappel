@@ -24,4 +24,15 @@
     transform: translateX(-50%);
     z-index: 3;
   }
+
+  .offcanvas {
+    height: 80vh !important;
+  }
+}
+
+@media (orientation: landscape) {
+  .test-navbar {
+    background-color: black;
+    color: #ebebeb;
+  }
 }

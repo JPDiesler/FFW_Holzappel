@@ -17,11 +17,6 @@ const Map = () => {
         maxZoom={20}
         subdomains={["mt0", "mt1", "mt2", "mt3"]}
       />
-      <Marker position={position}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
     </MapContainer>
   );
 };
