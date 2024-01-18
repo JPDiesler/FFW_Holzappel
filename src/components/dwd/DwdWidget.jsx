@@ -110,7 +110,7 @@ const WeatherWarning = (props) => {
           />
           {warning ? (
             <span className="d-flex flex-fill align-items-center justify-content-between">
-              <span className="d-flex flex-column ps-1 pe-1 fw-semibold justify-content-center">
+              <span className="d-flex flex-column ps-1 pe-1 ms-2 me-2 fw-semibold justify-content-center">
                 <span>{headline.slice(0, 2).join(" ")}</span>
                 <span>{headline.slice(2, headline.length + 1).join(" ")}</span>
               </span>
@@ -122,7 +122,7 @@ const WeatherWarning = (props) => {
             </span>
           ) : warning == false ? (
             <span className="d-flex flex-fill align-items-center justify-content-between">
-              <span className="d-flex flex-fill ps-1 pe-1 fw-semibold justify-content-center">
+              <span className="d-flex flex-fill ps-1 pe-1 ms-2 me-2 fw-semibold justify-content-center">
                 Keine Warnungen
               </span>
               <img
@@ -303,17 +303,17 @@ const WarnIcon = (props) => {
       </span>
     ),
     frost: (
-      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-1">
         <i className="bi bi-thermometer-snow" />
       </span>
     ),
     strengerfrost: (
-      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-1">
         <i className="bi bi-thermometer-snow" />
       </span>
     ),
     starkewärmebelastung: (
-      <span className=" z-1 position-absolute mt-2 pt-1 ms-2">
+      <span className=" z-1 position-absolute mt-2 pt-1 ms-1">
         <i className="bi bi-thermometer-sun" />
       </span>
     ),

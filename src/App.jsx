@@ -27,6 +27,21 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const html = document.getElementsByTagName("html")[0];
+    const colorMode = html.getAttribute("data-bs-theme");
+    if (colorMode == "auto") {
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (prefersDarkScheme) {
+        html.setAttribute("data-bs-theme", "dark");
+      } else {
+        html.setAttribute("data-bs-theme", "light");
+      }
+    }
+  }, []);
+
   function scrollToElement(id) {
     var element = document.getElementById(id);
     element.scrollIntoView({ behavior: "smooth" });
@@ -119,13 +134,16 @@ function App() {
         ></div>
         <div
           id="deployment"
-          className={"element border " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
-        ></div>
+          className={
+            "d-flex justify-content-center element " +
+            (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
+          }
+        >
+          <DeploymentStatistics />
+        </div>
         <div
           id="vehicles"
-          className={
-            "d-flex element border " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
-          }
+          className={"d-flex element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
         ></div>
       </div>
     </>

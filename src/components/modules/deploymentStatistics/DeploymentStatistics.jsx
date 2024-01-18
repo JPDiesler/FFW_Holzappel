@@ -226,7 +226,12 @@ const DeploymentStatistics = (props) => {
   const data = countData(["B", "TH", "G", "U", "F"], deployments);
   console.log(data);
 
-  useEffect(() => {
+  function createChart() {
+    // Destroy the old chart if it exists
+    if (window.myChart) {
+      window.myChart.destroy();
+    }
+
     const ctx = document.getElementById("deploymentChart");
 
     const indexOfLargest = data.indexOf(Math.max(...data));
@@ -237,6 +242,45 @@ const DeploymentStatistics = (props) => {
     if (chartRef.current) {
       chartRef.current.destroy();
     }
+
+    // Create a hidden div with the .text-body class
+    let div = document.createElement("div");
+    div.className = "text-body";
+    div.style.display = "none";
+    document.body.appendChild(div);
+
+    // Get the computed color of the div
+    let color = window.getComputedStyle(div).color;
+
+    // Remove the div
+    document.body.removeChild(div);
+    const chartPlugin = {
+      id: "custom_text_in_center",
+      beforeDatasetsDraw: (chart) => {
+        let chartArea = chart.chartArea;
+        let ctx = chart.ctx;
+
+        let width = chartArea.right - chartArea.left;
+        let height = chartArea.bottom - chartArea.top;
+
+        ctx.save();
+        let fontSize = (height / 114).toFixed(2);
+        ctx.font = "bold " + fontSize + "em Arial";
+        ctx.textBaseline = "middle";
+        // Use the color for the text
+        ctx.fillStyle = color;
+        console.log(typeof color, color);
+
+        let text = "2023", // Your text here
+          textX =
+            chartArea.left +
+            Math.round((width - ctx.measureText(text).width) / 2),
+          textY = chartArea.top + height / 2;
+
+        ctx.fillText(text, textX, textY);
+        ctx.restore();
+      },
+    };
 
     // Create a new Chart instance
     chartRef.current = new Chart(ctx, {
@@ -267,7 +311,7 @@ const DeploymentStatistics = (props) => {
           legend: {
             display: true,
             labels: {
-              color: "#e9ecef",
+              color: color,
               font: {
                 weight: "550",
                 size: "15",
@@ -276,8 +320,10 @@ const DeploymentStatistics = (props) => {
             align: "center",
             position: "bottom",
           },
+          custom_text_in_center: {}, // Enable the plugin
         },
       },
+      plugins: [chartPlugin],
     });
 
     // Cleanup: Destroy the Chart instance when the component unmounts
@@ -286,56 +332,85 @@ const DeploymentStatistics = (props) => {
         chartRef.current.destroy();
       }
     };
+  }
+
+  useEffect(() => {
+    // Create a MutationObserver instance
+    const observer = new MutationObserver((mutationsList) => {
+      // Removed unused observer parameter
+      // Look through all mutations that just occured
+      for (let mutation of mutationsList) {
+        // If the data-bs-theme attribute was modified
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-bs-theme"
+        ) {
+          // Update the chart
+          createChart();
+        }
+      }
+    });
+
+    // Start observing the document with the configured parameters
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Cleanup: Disconnect the observer when the component unmounts
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    createChart();
   }, [data]);
 
   return (
     <>
-      <div className="d-inline-flex flex-column mt-3 mb-3 test-q">
-        <h1>Einsatzstatistik</h1>
-        <div className="d-flex align-items-center justify-content-center">
-          <div>
+      <div className="d-flex align-items-center justify-content-center flex-column mt-3 mb-3">
+        <h1 className="title">Einsatzstatistik</h1>
+        <div className="flex-fill d-flex align-items-center justify-content-center flex-column">
+          <div className="d-flex flex-wrap align-items-center justify-content-center gap-3 mb-5">
             <canvas id="deploymentChart" className="canvas-chart"></canvas>
-          </div>
-          <div className="overflow-y-scroll list rounded border p-2">
-            <ul className="list-group">
-              {deployments.map((deployment, index) => (
-                <li
-                  key={index}
-                  className="list-group-item list-group-item-action pt-0 pb-0"
-                >
-                  <div className="d-flex gap-3 align-items-center">
-                    <h5 className="m-0 number">{index + 1 + "."}</h5>
-                    <div className="vr" />
-                    <div className="d-flex flex-column datetime">
-                      <span>{deployment.date}</span>
-                      <span>{deployment.time}</span>
+
+            <div className="overflow-y-scroll scrollbar list rounded border p-2">
+              <ul className="list-group">
+                {deployments.map((deployment, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item list-group-item-action pt-0 pb-0"
+                  >
+                    <div className="d-flex gap-3 align-items-center">
+                      <h5 className="m-0 number">{index + 1 + "."}</h5>
+                      <div className="vr" />
+                      <div className="d-flex flex-column datetime">
+                        <span>{deployment.date}</span>
+                        <span>{deployment.time}</span>
+                      </div>
+                      <div className="vr" />
+                      <span>{deployment.description}</span>
                     </div>
-                    <div className="vr" />
-                    <span>{deployment.description}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="d-flex align-items-center justify-content-center mt-5">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination justify-content-center">
-              <li className="page-item disabled">
-                <a className="page-link">Vorheriges Jahr</a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  2023
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  Nächstes Jahr
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <div className="d-flex align-items-center justify-content-center">
+            <nav aria-label="Page navigation example">
+              <ul className="pagination justify-content-center">
+                <li className="page-item disabled">
+                  <a className="page-link">Vorheriges Jahr</a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    2023
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    Nächstes Jahr
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </>

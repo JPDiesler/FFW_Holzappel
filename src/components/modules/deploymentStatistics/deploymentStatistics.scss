@@ -1,12 +1,16 @@
 .canvas-chart {
-  width: 450px;
-  height: 450px;
-  color: #101010;
+  width: 50vw;
+  height: 50vw;
+  max-width: 500px;
+  max-height: 500px;
+  min-width: 100px;
+  min-height: 100px;
 }
 
 .number {
   width: 35px;
   min-width: 35px;
+  text-align: center;
 }
 
 .datetime {
@@ -18,7 +22,47 @@
   height: 450px;
 }
 
-.test-q {
-  height: 100%;
-  width: 100%;
+.title {
+  font-size: 4em;
+}
+
+.scrollbar::-webkit-scrollbar {
+  height: 25px;
+  width: 25px;
+}
+.scrollbar::-webkit-scrollbar-horizontal {
+  background-clip: content-box;
+}
+.scrollbar::-webkit-scrollbar-vertical {
+  border: 7px solid transparent;
+  background-clip: content-box;
+  border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-track:vertical {
+  border: solid transparent 8px;
+  border-radius: 20px;
+  background-clip: content-box;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.scrollbar::-webkit-scrollbar-thumb:vertical {
+  background: var(--bs-tertiary-color);
+  border-radius: 15px;
+  border: solid transparent 5px;
+  background-clip: content-box;
+}
+
+.scrollbar::-webkit-scrollbar-track:horizontal {
+  border: solid transparent 8px;
+  border-radius: 20px;
+  background-clip: content-box;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.scrollbar::-webkit-scrollbar-thumb:horizontal {
+  background: var(--bs-tertiary-color);
+  border-radius: 15px;
+  border: solid transparent 5px;
+  background-clip: content-box;
 }

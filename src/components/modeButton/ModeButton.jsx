@@ -14,7 +14,18 @@ const ModeButton = (props) => {
 
   function onClick(mode) {
     setIcon(icons[mode]);
-    html.setAttribute("data-bs-theme", mode);
+    if (mode == "auto") {
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (prefersDarkScheme) {
+        html.setAttribute("data-bs-theme", "dark");
+      } else {
+        html.setAttribute("data-bs-theme", "light");
+      }
+    } else {
+      html.setAttribute("data-bs-theme", mode);
+    }
   }
 
   return (
