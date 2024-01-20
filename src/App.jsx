@@ -100,7 +100,7 @@ function App() {
         </div>
       ) : (
         <div id="header" className="">
-          <ScrollToTopButton />
+          {/* <ScrollToTopButton /> */}
           <div className="canvas d-flex flex-column justify-content-end position-relative">
             <div className="position-absolute path z-0">
               <img
@@ -159,7 +159,9 @@ function App() {
         <div
           id="aktuelles"
           className={"element border " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
-        ></div>
+        >
+          <Aktuelles />
+        </div>
         <div
           id="date"
           className={"element border " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}

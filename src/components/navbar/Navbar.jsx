@@ -14,7 +14,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="d-flex flex-column justify-content-center align-items-center postion-relative">
+      <div className="d-flex flex-column justify-content-center align-items-center postion-relative position-fixed z-4">
         <div
           id="navbar"
           className="bg-black rounded-pill p-2 d-inline-flex jusitify-content-center align-items-center gap-2"

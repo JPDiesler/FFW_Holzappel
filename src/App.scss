@@ -1,10 +1,10 @@
 @media (orientation: landscape) {
   .canvas {
-    background-image: url(/LFBA_Iveco_202302_Austria_Scheffau_01_modifed.jpg);
+    background-image: url(/public/DLK_1812.jpg);
     height: 100vh;
     min-height: 500px;
     width: 100%;
-    background-position-y: bottom;
+    background-size: cover;
     background-position-x: 80%;
   }
 
