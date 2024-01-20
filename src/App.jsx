@@ -12,6 +12,8 @@ import NavbarMobile from "./components/navbar/NavbarMobile";
 import "./components/navbar/Navbar.scss";
 
 function App() {
+  const [colorMode, setColorMode] = useState();
+
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
   );
@@ -29,17 +31,40 @@ function App() {
 
   useEffect(() => {
     const html = document.getElementsByTagName("html")[0];
-    const colorMode = html.getAttribute("data-bs-theme");
-    if (colorMode == "auto") {
-      const prefersDarkScheme = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      if (prefersDarkScheme) {
-        html.setAttribute("data-bs-theme", "dark");
-      } else {
-        html.setAttribute("data-bs-theme", "light");
-      }
-    }
+
+    // Create a new mutation observer
+    const observer = new MutationObserver((mutations) => {
+      // For each mutation
+      mutations.forEach((mutation) => {
+        // If the mutation is an attribute mutation and the attribute is 'data-bs-theme'
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-bs-theme"
+        ) {
+          const colorMode = html.getAttribute("data-bs-theme");
+          if (colorMode == "auto") {
+            const prefersDarkScheme = window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches;
+            if (prefersDarkScheme) {
+              html.setAttribute("data-bs-theme", "dark");
+              setColorMode("dark");
+            } else {
+              html.setAttribute("data-bs-theme", "light");
+              setColorMode("light");
+            }
+          } else {
+            setColorMode(colorMode);
+          }
+        }
+      });
+    });
+
+    // Start observing the 'html' element for attribute mutations
+    observer.observe(html, { attributes: true });
+
+    // Clean up the observer when the component unmounts
+    return () => observer.disconnect();
   }, []);
 
   function scrollToElement(id) {
@@ -48,7 +73,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className={colorMode == "dark" ? "bg-secondary-subtle" : "bg-body"}>
       {isPortrait ? (
         <div className="canvas d-flex flex-column justify-content-end position-relative">
           <div className="z-1 flex-fill d-flex justify-content-center mt-3">
@@ -98,7 +123,12 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="bg-body d-flex align-items-center justify-content-center rounded-top-5 rounded-spacer z-0 position-relative">
+            <div
+              className={
+                (colorMode == "dark" ? "bg-secondary-subtle" : "bg-body") +
+                " d-flex align-items-center justify-content-center rounded-top-5 rounded-spacer z-0 position-relative"
+              }
+            >
               <div
                 className="d-flex flex-column align-items-center justify-content-center pointer"
                 onClick={() => scrollToElement("landing")}
@@ -146,7 +176,7 @@ function App() {
           className={"d-flex element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
         ></div>
       </div>
-    </>
+    </div>
   );
 }
 
