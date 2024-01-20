@@ -5,6 +5,7 @@ import Hover from "../hover/Hover";
 import Donations from "../modules/donations/Donations";
 const Navbar = (props) => {
   const [visiblity, setVisiblity] = useState(false);
+  const [menu, setMenu] = useState(false);
 
   function scrollToElement(id) {
     var element = document.getElementById(id);
@@ -13,38 +14,54 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="bg-black rounded-pill p-2 d-inline-flex jusitify-content-center align-items-center gap-2">
-        <button
-          className="btn text-white  rounded-pill fw-semibold"
-          onClick={() => scrollToElement("aktuelles")}
+      <div className="d-flex flex-column justify-content-center align-items-center postion-relative">
+        <div
+          id="navbar"
+          className="bg-black rounded-pill p-2 d-inline-flex jusitify-content-center align-items-center gap-2"
         >
-          Aktuelles
-        </button>
-        <button
-          className="btn text-white  rounded-pill fw-semibold"
-          onClick={() => scrollToElement("date")}
-        >
-          Termine
-        </button>
-        <button
-          className="btn text-white rounded-pill fw-semibold"
-          onClick={() => scrollToElement("deployment")}
-        >
-          Einsätze
-        </button>
-        <button
-          className="btn text-white  rounded-pill fw-semibold"
-          onClick={() => scrollToElement("vehicles")}
-        >
-          Fahrzeuge
-        </button>
-        <button
-          className="btn text-white btn-primary rounded-pill fw-semibold d-flex align-items-center gap-1"
-          onClick={() => setVisiblity(true)}
-        >
-          <i className="bi bi-paypal"></i>Spenden
-        </button>
+          <button
+            className="btn text-white  rounded-pill fw-semibold"
+            onClick={() => scrollToElement("aktuelles")}
+          >
+            Aktuelles
+          </button>
+          <button
+            className="btn text-white  rounded-pill fw-semibold"
+            onClick={() => scrollToElement("date")}
+          >
+            Termine
+          </button>
+          <button
+            className="btn text-white rounded-pill fw-semibold"
+            onClick={() => scrollToElement("deployment")}
+          >
+            Einsätze
+          </button>
+          <button
+            className="btn text-white  rounded-pill fw-semibold"
+            onClick={() => scrollToElement("vehicles")}
+          >
+            Fahrzeuge
+          </button>
+          <button
+            className="btn text-white btn-primary rounded-pill fw-semibold d-flex align-items-center gap-1"
+            onClick={() => setVisiblity(true)}
+          >
+            <i className="bi bi-paypal"></i>Spenden
+          </button>
+          <button
+            className="btn text-white rounded-pill fw-semibold d-flex align-items-center gap-1"
+            onClick={() => {
+              console.log(!menu);
+              setMenu(!menu);
+            }}
+          >
+            <i className="bi bi-list"></i>
+          </button>
+        </div>
+        {/* <div className={`submenu ${menu ? "show" : ""}`}>Test</div> */}
       </div>
+
       {visiblity == true ? (
         <Hover fullscreen={true} centered={true}>
           <Donations onClose={setVisiblity} />
