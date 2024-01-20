@@ -224,13 +224,30 @@ const DeploymentStatistics = (props) => {
   }
 
   const data = countData(["B", "TH", "G", "U", "F"], deployments);
-  console.log(data);
+
+  function getComputedCSSProperty(className, cssProperty) {
+    // Create a hidden div with the given class
+    let div = document.createElement("div");
+    div.className = className;
+    div.style.display = "none";
+    document.body.appendChild(div);
+
+    // Get the computed color of the div
+    let color = window.getComputedStyle(div)[cssProperty];
+
+    // Remove the div
+    document.body.removeChild(div);
+
+    return color;
+  }
 
   function createChart() {
     // Destroy the old chart if it exists
     if (window.myChart) {
       window.myChart.destroy();
     }
+
+    let colorMode = document.documentElement.getAttribute("data-bs-theme");
 
     const ctx = document.getElementById("deploymentChart");
 
@@ -244,16 +261,17 @@ const DeploymentStatistics = (props) => {
     }
 
     // Create a hidden div with the .text-body class
-    let div = document.createElement("div");
-    div.className = "text-body";
-    div.style.display = "none";
-    document.body.appendChild(div);
-
-    // Get the computed color of the div
-    let color = window.getComputedStyle(div).color;
-
-    // Remove the div
-    document.body.removeChild(div);
+    let color = getComputedCSSProperty("text-body", "color");
+    let borderColor;
+    if (colorMode === "light") {
+      borderColor = getComputedCSSProperty("bg-body", "backgroundColor");
+    } else if (colorMode === "dark") {
+      borderColor = getComputedCSSProperty(
+        "bg-secondary-subtle",
+        "backgroundColor"
+      );
+    }
+    console.log("borderColor: " + borderColor);
     const chartPlugin = {
       id: "custom_text_in_center",
       beforeDatasetsDraw: (chart) => {
@@ -269,7 +287,6 @@ const DeploymentStatistics = (props) => {
         ctx.textBaseline = "middle";
         // Use the color for the text
         ctx.fillStyle = color;
-        console.log(typeof color, color);
 
         let text = "2023", // Your text here
           textX =
@@ -303,6 +320,9 @@ const DeploymentStatistics = (props) => {
               "#30D9A3",
               "#C2C2C2",
             ],
+            borderColor: borderColor,
+            borderWidth: 8,
+            borderRadius: 15,
           },
         ],
       },
@@ -319,6 +339,28 @@ const DeploymentStatistics = (props) => {
             },
             align: "center",
             position: "bottom",
+          },
+          tooltip: {
+            displayColors: false,
+            titleFont: {
+              size: 14,
+              weight: 600,
+            },
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || "";
+
+                if (label) {
+                  label += ": ";
+                }
+                if (context.raw !== undefined) {
+                  label += context.raw + " Einsätze";
+                } else {
+                  label += "0 Einsätze"; // default to 0 if context.raw is undefined
+                }
+                return label;
+              },
+            },
           },
           custom_text_in_center: {}, // Enable the plugin
         },
@@ -370,12 +412,12 @@ const DeploymentStatistics = (props) => {
           <div className="d-flex flex-wrap align-items-center justify-content-center gap-3 mb-5">
             <canvas id="deploymentChart" className="canvas-chart"></canvas>
 
-            <div className="overflow-y-scroll scrollbar list rounded border p-2">
+            <div className="bg-secondary-subtle overflow-y-scroll scrollbar list rounded border p-2">
               <ul className="list-group">
                 {deployments.map((deployment, index) => (
                   <li
                     key={index}
-                    className="list-group-item list-group-item-action pt-0 pb-0"
+                    className="list-group-item list-group-item-secondary list-group-item-action pt-0 pb-0"
                   >
                     <div className="d-flex gap-3 align-items-center">
                       <h5 className="m-0 number">{index + 1 + "."}</h5>
