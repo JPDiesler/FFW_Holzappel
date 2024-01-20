@@ -9,10 +9,11 @@ import Aktuelles from "./components/modules/aktuelles/Aktuelles";
 import Map from "./components/map/Map";
 import Vehicles from "./components/modules/vehicles/Vehicles";
 import NavbarMobile from "./components/navbar/NavbarMobile";
+import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton";
 import "./components/navbar/Navbar.scss";
 
 function App() {
-  const [colorMode, setColorMode] = useState();
+  const [colorMode, setColorMode] = useState("dark");
 
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
@@ -99,6 +100,7 @@ function App() {
         </div>
       ) : (
         <div id="header" className="">
+          <ScrollToTopButton />
           <div className="canvas d-flex flex-column justify-content-end position-relative">
             <div className="position-absolute path z-0">
               <img
@@ -150,7 +152,7 @@ function App() {
           }
         >
           <div className="flex-fill min-width">Test</div>
-          <div className="map min-width">
+          <div className="map min-width z-3">
             <Map />
           </div>
         </div>
