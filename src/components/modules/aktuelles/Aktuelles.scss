@@ -1,3 +1,106 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+
 .module {
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.badge-custom {
+  @extend .badge;
+  background-color: #0e0e0e; // Change this to your desired background color
+  color: #e8e8e8; // Change this to your desired text color
+}
+
+.blog {
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.changelog-details {
+  position: sticky;
+  display: inline;
+  height: 100%;
+  top: 0;
+  width: 350px;
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.entry {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.entry::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  bottom: 0;
+  left: 19px;
+  transform: translateX(-50%);
+  border-left: 4px solid var(--bs-secondary-color);
+  z-index: 0;
+}
+
+.changelog {
+  max-width: 700px;
+  border-bottom: 1px solid var(--bs-tertiary-color);
+  padding-bottom: 60px;
+  margin-bottom: 60px;
+}
+
+.commit {
+  color: #f0f0f0;
+  z-index: 10;
+}
+.commit.light {
+  color: rgb(71, 71, 71);
+  z-index: 10;
+}
+.scrollbar::-webkit-scrollbar {
+  height: 25px;
+  width: 25px;
+}
+.scrollbar::-webkit-scrollbar-horizontal {
+  background-clip: content-box;
+}
+.scrollbar::-webkit-scrollbar-vertical {
+  border: 7px solid transparent;
+  background-clip: content-box;
+  border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-track:vertical {
+  border: solid transparent 8px;
+  border-radius: 20px;
+  background-clip: content-box;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.scrollbar::-webkit-scrollbar-thumb:vertical {
+  background: var(--bs-tertiary-color);
+  border-radius: 15px;
+  border: solid transparent 5px;
+  background-clip: content-box;
+}
+
+.scrollbar::-webkit-scrollbar-track:horizontal {
+  border: solid transparent 8px;
+  border-radius: 20px;
+  background-clip: content-box;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.scrollbar::-webkit-scrollbar-thumb:horizontal {
+  background: var(--bs-tertiary-color);
+  border-radius: 15px;
+  border: solid transparent 5px;
+  background-clip: content-box;
 }

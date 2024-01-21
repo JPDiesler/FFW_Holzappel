@@ -407,6 +407,7 @@ const DeploymentStatistics = (props) => {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center flex-column mt-3 mb-3">
+        <div className="flex-fill" />
         <h1 className="title">Einsatzstatistik</h1>
         <div className="flex-fill d-flex align-items-center justify-content-center flex-column">
           <div className="d-flex flex-wrap align-items-center justify-content-center gap-3 mb-5">
@@ -419,15 +420,17 @@ const DeploymentStatistics = (props) => {
                     key={index}
                     className="list-group-item list-group-item-secondary list-group-item-action pt-0 pb-0"
                   >
-                    <div className="d-flex gap-3 align-items-center">
+                    <div className="d-flex gap-3 align-items-center ps-0">
                       <h5 className="m-0 number">{index + 1 + "."}</h5>
                       <div className="vr" />
                       <div className="d-flex flex-column datetime">
-                        <span>{deployment.date}</span>
-                        <span>{deployment.time}</span>
+                        <span className="fw-semibold">{deployment.date}</span>
+                        <span className="fw-semibold">{deployment.time}</span>
                       </div>
                       <div className="vr" />
-                      <span>{deployment.description}</span>
+                      <span className="fw-semibold">
+                        {deployment.description}
+                      </span>
                     </div>
                   </li>
                 ))}

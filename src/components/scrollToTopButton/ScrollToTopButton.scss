@@ -6,18 +6,56 @@
   transform: translateX(-50%);
   background-color: black;
   border: none;
-  height: 50px;
-  width: 150px;
+  height: 35px;
+  width: 120px;
   border-radius: 0 0 15px 15px;
   font-weight: 600;
-  animation: slideOut 0.5s ease-out forwards;
+  animation: slideOutTop 0.5s ease-out forwards;
+}
+
+.scrollToTopButton:hover {
+  transform: translateX(-50%) scale(1.05);
+  transition: 0.2s;
 }
 
 .scrollToTopButton.show {
-  animation: slideIn 0.5s ease-out forwards;
+  animation: slideInTop 0.5s ease-out forwards;
 }
 
-@keyframes slideIn {
+.chevron {
+  position: absolute;
+  top: -20%;
+}
+
+.text {
+  height: 30px;
+  display: flex;
+  align-items: end;
+}
+
+.sideMenu {
+  position: fixed;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  border-radius: 0 15px 15px 0;
+  padding: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: slideOutLeft 0.5s ease-out forwards;
+}
+
+.sideMenu.show {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.button:hover {
+  scale: 1.2;
+  transition: 0.25s;
+}
+
+@keyframes slideInTop {
   0% {
     top: -100px;
   }
@@ -26,11 +64,29 @@
   }
 }
 
-@keyframes slideOut {
+@keyframes slideOutTop {
   0% {
     top: 0;
   }
   100% {
     top: -100px;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    left: -100px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100px;
   }
 }
