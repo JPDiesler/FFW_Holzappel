@@ -14,7 +14,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="d-flex flex-column justify-content-center align-items-center postion-relative z-4">
+      <div className="d-flex flex-column justify-content-start align-items-center postion-relative z-4">
         <div
           id="navbar"
           className="bg-black rounded-pill p-2 d-inline-flex jusitify-content-center align-items-center gap-2"
@@ -59,7 +59,9 @@ const Navbar = (props) => {
             <i className="bi bi-list"></i>
           </button>
         </div>
-        {/* <div className={`submenu ${menu ? "show" : ""}`}>Test</div> */}
+        <div id="submenu" className={`menu ${menu ? "show" : ""}`}>
+          a
+        </div>
       </div>
 
       {visiblity == true ? (

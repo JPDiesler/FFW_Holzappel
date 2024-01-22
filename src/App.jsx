@@ -76,7 +76,7 @@ function App() {
 
   return (
     <>
-      <Aktuelles />
+      {/* <Aktuelles /> */}
       <div className={colorMode == "dark" ? "bg-secondary-subtle" : "bg-body"}>
         {isPortrait ? (
           <div className="canvas d-flex flex-column justify-content-end position-relative">
@@ -115,7 +115,7 @@ function App() {
               <div className="flex-fill d-flex flex-column mt-3 ps-3 pe-3">
                 <div
                   id="topbar"
-                  className="row d-flex justify-content-between align-items-center gap-3  z-1"
+                  className="row d-flex justify-content-between align-items-start gap-3  z-1"
                 >
                   <div className="col flex-grow-1 d-flex justify-content-start ">
                     <ModeButton />
@@ -163,7 +163,7 @@ function App() {
             id="aktuelles"
             className={"element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
-            <Aktuelles />
+            {/* <Aktuelles /> */}
           </div>
           <div
             id="date"

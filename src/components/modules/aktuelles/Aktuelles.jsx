@@ -38,15 +38,27 @@ const Aktuelles = (props) => {
     });
   });
 
+  window.addEventListener('scroll', function() {
+    const changelogDetails = document.querySelectorAll('.changelog-details');
+    changelogDetails.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      if (rect.top <= 0) {
+        element.style.top = '90px'; // Adjust this value to your liking
+      } else {
+        element.style.top = '20px'; // This should be the same as the initial top value in your CSS
+      }
+    });
+  });
+
   return (
     <div
       className={`module scrollbar ${
         colorMode == "dark" ? "bg-secondary-subtle" : "bg-body"
       }`}
     >
-      <div className="blog ">
+      <div className="blog">
         <div id="a1" className="entry gap-5">
-          <div id="changelog-details" className="changelog-details gap-4">
+          <div id="changelog-details" className="changelog-details gap-4 pb-5">
             <span>
               <svg
                 className={`bg-body commit ${
