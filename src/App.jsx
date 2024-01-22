@@ -12,13 +12,23 @@ import NavbarMobile from "./components/navbar/NavbarMobile";
 import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton";
 import "./components/navbar/Navbar.scss";
 import EventCalendar from "./components/calendar/EventCalendar";
+import LoadingScreen from "./components/loadingScreen/LoadingScreen";
 
 function App() {
   const [colorMode, setColorMode] = useState("dark");
+  const [isLoading, setIsLoading] = useState(true);
 
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
   );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 10000); // Adjust this value to control how long the loading screen is displayed
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -76,7 +86,9 @@ function App() {
 
   return (
     <>
-      {/* <Aktuelles /> */}
+      {isLoading && (
+        <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+      )}
       <div className={colorMode == "dark" ? "bg-secondary-subtle" : "bg-body"}>
         {isPortrait ? (
           <div className="canvas d-flex flex-column justify-content-end position-relative">
@@ -115,7 +127,7 @@ function App() {
               <div className="flex-fill d-flex flex-column mt-3 ps-3 pe-3">
                 <div
                   id="topbar"
-                  className="row d-flex justify-content-between align-items-start gap-3  z-1"
+                  className="row d-flex justify-content-between align-items-center gap-3  z-1"
                 >
                   <div className="col flex-grow-1 d-flex justify-content-start ">
                     <ModeButton />
@@ -124,7 +136,7 @@ function App() {
                     <Navbar />
                   </div>
                   <div className="col flex-grow-1 d-flex justify-content-end z-1 ">
-                    <DwdWidget location={"Holzappel"} alwaysVisible={false} />
+                    <DwdWidget location={"Holzappel"} alwaysVisible={true} />
                   </div>
                 </div>
               </div>
@@ -150,7 +162,7 @@ function App() {
           <div
             id="landing"
             className={
-              "element border d-flex flex-wrap align-items-center " +
+              "element d-flex flex-wrap align-items-center " +
               (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
             }
           >
