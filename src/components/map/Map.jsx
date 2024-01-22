@@ -3,7 +3,7 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 const Map = () => {
-  const position = [50.35370473458388, 7.895776959703545]; // Default coordinates
+  const position = [50.353706219595985, 7.895778944946577]; // Default coordinates
 
   return (
     <MapContainer
