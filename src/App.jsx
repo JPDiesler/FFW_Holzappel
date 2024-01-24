@@ -171,13 +171,13 @@ function App() {
               <Map />
             </div>
           </div>
-          <div
+          {/* <div
             id="aktuelles"
-            className={"element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
+            className={"" + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
-            {/* <Aktuelles /> */}
-          </div>
-          <div
+            <Aktuelles />
+          </div> */}
+          {/* <div
             id="date"
             className={
               "element d-flex justify-content-center align-items-center " +
@@ -185,7 +185,7 @@ function App() {
             }
           >
             <EventCalendar />
-          </div>
+          </div> */}
           <div
             id="deployment"
             className={
@@ -197,10 +197,10 @@ function App() {
           </div>
           <div
             id="vehicles"
-            className={
-              "d-flex element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
-            }
-          ></div>
+            className={"" + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
+          >
+            <Vehicles />
+          </div>
         </div>
 
         <div id="footer" className="footer"></div>

@@ -1,4 +1,30 @@
-.carousel-inner {
-  max-height: 80vh;
-  max-width: 90vw;
+.title {
+  font-size: 4em;
+}
+
+.vehicle_img {
+  max-width: 750px;
+}
+
+.vehicle_container {
+  height: 500px;
+  width: 1035px;
+}
+
+.vehicle_details {
+  background-color: rgb(5, 5, 5);
+  height: inherit;
+  width: 250px;
+}
+
+.carousel-content {
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide-left {
+  transform: translateX(-100%);
+}
+
+.slide-right {
+  transform: translateX(100%);
 }
