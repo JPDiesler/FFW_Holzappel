@@ -38,7 +38,7 @@ function ScrollToTopButton() {
     <div>
       <button
         onClick={scrollToTop}
-        className={`scrollToTopButton d-flex align-items-start justify-content-center ${
+        className={`scrollToTopButton d-flex align-items-start justify-content-center text-white ${
           showButton ? "show" : ""
         }`}
       >
