@@ -3,18 +3,30 @@
 }
 
 .vehicle_img {
+  width: 100%;
   max-width: 750px;
 }
 
 .vehicle_container {
-  height: 500px;
-  width: 1035px;
+  width: 50vw !important; // or some percentage or viewport width
+  height: 24.155vw !important; // 500 / 1035 = 0.4831 or 48.31%
+  min-width: 700px;
+  min-height: 328px;
 }
+
+// .vehicle_container {
+//   width: 1035px;
+//   height: 500px;
+// }
 
 .vehicle_details {
   background-color: rgb(5, 5, 5);
-  height: inherit;
-  width: 250px;
+  max-width: 250px;
+  min-width: 220px;
+}
+
+.vehicle_details.light {
+  background-color: var(--bs-secondary-bg);
 }
 
 .carousel-container {
@@ -46,4 +58,44 @@
 
 .placeholder {
   visibility: hidden;
+}
+
+.scrollbar-sm::-webkit-scrollbar {
+  height: 25px;
+  width: 5px;
+}
+.scrollbar-sm::-webkit-scrollbar-horizontal {
+  background-clip: content-box;
+}
+.scrollbar-sm::-webkit-scrollbar-vertical {
+  border: 7px solid transparent;
+  background-clip: content-box;
+  border-radius: 5px;
+}
+
+.scrollbar-sm::-webkit-scrollbar-track:vertical {
+  border: solid transparent 8px;
+  border-radius: 20px;
+  background-clip: content-box;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.scrollbar-sm::-webkit-scrollbar-thumb:vertical {
+  background: var(--bs-tertiary-color);
+  border-radius: 15px;
+  background-clip: content-box;
+}
+
+.scrollbar-sm::-webkit-scrollbar-track:horizontal {
+  border: solid transparent 8px;
+  border-radius: 20px;
+  background-clip: content-box;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.scrollbar-sm::-webkit-scrollbar-thumb:horizontal {
+  background: var(--bs-tertiary-color);
+  border-radius: 15px;
+  border: solid transparent 5px;
+  background-clip: content-box;
 }

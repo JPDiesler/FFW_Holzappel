@@ -2,12 +2,12 @@ import React from "react";
 import "./Vehicles.scss";
 
 export const tlfw = (
-  <div className="border rounded-5 d-inline-flex vehicle_container">
+  <div className="border rounded-5 d-flex vehicle_container overflow-hidden">
     <div className="flex-fill p-3 d-flex flex-column justify-content-center align-items-center">
       <img src="./TLF_3000.png" className="vehicle_img" />
     </div>
     <div className="vr" />
-    <span className="p-3 d-flex flex-column vehicle_details rounded-end-5">
+    <span className="flex-fill p-3 d-flex flex-column vehicle_details">
       <h1>TLF-3000</h1>
       <h4 className="text-secondary">
         Florian Diez 15/23-2 <br /> Besatzung: 1/2
@@ -39,11 +39,7 @@ export const dlk = (
         Florian Diez 15/33 <br /> Besatzung: 1/2
       </h4>
       <span className="flex-fill d-flex align-items-center">
-        <h5>
-          500KG Korb <br />
-          27m Leiterpark <br />
-          Truppkabine
-        </h5>
+        <h5></h5>
       </span>
 
       <h5 className="text-secondary">
@@ -80,7 +76,7 @@ export const hlf = (
 );
 
 export const mtf = (
-  <div className="border rounded-5 d-inline-flex vehicle_container">
+  <div className="border rounded-5 d-inline-flex vehicle_container border border-danger">
     <div className="flex-fill p-3 d-flex flex-column justify-content-center align-items-center">
       <img src="./image.png" className="vehicle-img-dlk" />
     </div>

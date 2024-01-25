@@ -197,7 +197,10 @@ function App() {
           </div>
           <div
             id="vehicles"
-            className={"" + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
+            className={
+              "element d-flex justify-content-center " +
+              (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
+            }
           >
             <Vehicles />
           </div>
