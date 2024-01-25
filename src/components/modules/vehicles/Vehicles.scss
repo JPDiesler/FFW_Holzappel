@@ -17,14 +17,33 @@
   width: 250px;
 }
 
-.carousel-content {
-  transition: transform 0.5s ease-in-out;
+.carousel-container {
+  position: absolute;
+  display: flex;
+  z-index: 0;
+  left: auto;
+  right: auto;
 }
 
-.slide-left {
-  transform: translateX(-100%);
+.carousel-container > :not(:first-child):not(:nth-child(2)) {
+  margin-left: 100vw;
 }
 
-.slide-right {
-  transform: translateX(100%);
+.indicator {
+  content: "";
+  height: 6px;
+  width: 50px;
+  border: none;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 3px;
+  background-color: var(--bs-secondary-bg);
+}
+
+.indicator_active {
+  background-color: #b4b4b4;
+}
+
+.placeholder {
+  visibility: hidden;
 }
