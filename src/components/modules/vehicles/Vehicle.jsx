@@ -47,11 +47,15 @@ const Vehicle = (props) => {
 
   return (
     <div
-      className={`border rounded-5 d-flex vehicle_container overflow-hidden ${
+      className={`border rounded-5 d-flex overflow-hidden vehicle_container ${
         isPortrait ? "flex-column" : ""
       }`}
     >
-      <div className="flex-fill d-flex align-items-center justify-content-center">
+      <div
+        className={`d-flex align-items-center justify-content-center ${
+          isPortrait ? "" : "flex-fill"
+        }`}
+      >
         {props.imgSrc === Vehicle.defaultProps.imgSrc ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,27 +73,55 @@ const Vehicle = (props) => {
         )}
       </div>
       <div className="vr" />
-      <span
-        className={`p-3 d-inline-flex flex-column overflow-y-auto text-break vehicle_details ${
-          isLightMode ? "light" : ""
-        }`}
-      >
-        <h1>{props.title}</h1>
-        <h4 className="text-secondary">
-          <span className="text-primary">{props.callsign}</span> <br />{" "}
-          Besatzung: {props.crew}
-        </h4>
-        <span className="flex-fill d-flex align-items-center">
-          <h5>{props.details}</h5>
-        </span>
+      {isPortrait ? (
+        <span
+          className={`flex-fill p-3 d-inline-flex text-break vehicle_details border-top ${
+            isLightMode ? "light" : ""
+          }`}
+        >
+          <span className="d-flex align-items-start justify-content-center flex-column">
+            <h1>{props.title}</h1>
+            <h4 className="text-secondary">
+              <span className="text-primary">{props.callsign}</span> <br />{" "}
+              Besatzung: {props.crew}
+            </h4>
+          </span>
 
-        <h5 className="text-secondary">
-          Indienstellung: <br /> {props.date}
-        </h5>
-        <h5 className="text-secondary">
-          Träger: <br /> {props.carrier}
-        </h5>
-      </span>
+          <span className="flex-fill d-flex align-items-center justify-content-center">
+            <h5>{props.details}</h5>
+          </span>
+          <span class="d-flex align-items-start justify-content-center flex-column">
+            <h5 className="text-secondary">
+              Indienstellung: <br /> {props.date}
+            </h5>
+            <h5 className="text-secondary">
+              Träger: <br /> {props.carrier}
+            </h5>
+          </span>
+        </span>
+      ) : (
+        <span
+          className={`flex-fill p-3 d-inline-flex flex-column overflow-y-auto text-break vehicle_details ${
+            isLightMode ? "light" : ""
+          }`}
+        >
+          <h1>{props.title}</h1>
+          <h4 className="text-secondary">
+            <span className="text-primary">{props.callsign}</span> <br />{" "}
+            Besatzung: {props.crew}
+          </h4>
+          <span className="flex-fill d-flex align-items-center">
+            <h5>{props.details}</h5>
+          </span>
+
+          <h5 className="text-secondary">
+            Indienstellung: <br /> {props.date}
+          </h5>
+          <h5 className="text-secondary">
+            Träger: <br /> {props.carrier}
+          </h5>
+        </span>
+      )}
     </div>
   );
 };

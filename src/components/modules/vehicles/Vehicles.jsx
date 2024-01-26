@@ -88,11 +88,10 @@ const Vehicles = () => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
-  useEffect(() => console.log(offset, activeIndex), [offset, activeIndex]);
-
   useEffect(() => {
     const handleResize = () => {
-      let width = vwToPx(50);
+      const vehicleContainer = document.querySelector(".vehicle_container");
+      const width = vehicleContainer.getBoundingClientRect().width;
       if (width < 700) {
         width = 700;
       }
@@ -114,7 +113,9 @@ const Vehicles = () => {
   const nextVehicle = () => {
     const newIndex = (activeIndex + 1) % vehicles.length;
     if (newIndex != 0) {
-      const offset_1 = window.innerWidth + vwToPx(50);
+      const vehicleContainer = document.querySelector(".vehicle_container");
+      const width = vehicleContainer.getBoundingClientRect().width;
+      const offset_1 = window.innerWidth + width;
       setOffset(offset - offset_1);
     } else {
       setOffset(0);
@@ -123,7 +124,9 @@ const Vehicles = () => {
   };
 
   const prevVehicle = () => {
-    const offset_1 = window.innerWidth + vwToPx(50);
+    const vehicleContainer = document.querySelector(".vehicle_container");
+    const width = vehicleContainer.getBoundingClientRect().width;
+    const offset_1 = window.innerWidth + width;
     let newIndex = activeIndex - 1;
     if (newIndex < 0) {
       newIndex = vehicles.length - 1;

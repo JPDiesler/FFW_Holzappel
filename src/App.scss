@@ -47,7 +47,8 @@
   }
 
   .element {
-    height: 100vh;
+    height: 100%;
+    min-height: 100vw;
   }
 
   .footer {
@@ -75,17 +76,6 @@
 }
 
 @media (orientation: portrait) {
-  // .canvas {
-  //   background-image: url(../LFBA_Iveco_202302_Austria_Scheffau_01_mirrored.jpg);
-  //   width: 100%;
-  //   height: 90vh;
-  //   background-size: cover;
-  //   background-repeat: no-repeat;
-  //   background-position-x: 85%;
-  //   background-position-y: 100%;
-  //   top: 0;
-  // }
-
   .canvas {
     background-image: url(public/LFBA_Iveco_202302_Austria_Scheffau_01.jpg);
     height: 100vh;
@@ -112,6 +102,7 @@
     left: 25%;
     max-width: 550px;
     min-width: 150px;
+    text-align: center;
   }
 
   .menu-title {
@@ -125,7 +116,8 @@
     width: 100%;
   }
   .element {
-    height: 100vw;
+    min-height: 100vh;
+    border: solid 2px red;
   }
 }
 

@@ -1,28 +1,39 @@
+@media (orientation: landscape) {
+  .vehicle_container {
+    width: 60vw !important; // or some percentage or viewport width
+    height: 30vw !important; // 500 / 1035 = 0.4831 or 48.31%
+    min-width: 700px;
+    min-height: 328px;
+  }
+  .vehicle_img {
+    width: 100%;
+    max-width: 750px;
+  }
+  .vehicle_details {
+    background-color: rgb(5, 5, 5);
+    max-width: 250px;
+    min-width: 220px;
+  }
+}
+
+@media (orientation: portrait) {
+  .vehicle_container {
+    width: 70vw !important; // or some percentage or viewport width
+    height: 50vw !important; // 500 / 1035 = 0.4831 or 48.31%
+    min-width: 700px;
+  }
+  .vehicle_img {
+    width: 50vw;
+  }
+  .vehicle_details {
+    background-color: rgb(5, 5, 5);
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
 .title {
   font-size: 4em;
-}
-
-.vehicle_img {
-  width: 100%;
-  max-width: 750px;
-}
-
-.vehicle_container {
-  width: 50vw !important; // or some percentage or viewport width
-  height: 24.155vw !important; // 500 / 1035 = 0.4831 or 48.31%
-  min-width: 700px;
-  min-height: 328px;
-}
-
-// .vehicle_container {
-//   width: 1035px;
-//   height: 500px;
-// }
-
-.vehicle_details {
-  background-color: rgb(5, 5, 5);
-  max-width: 250px;
-  min-width: 220px;
 }
 
 .vehicle_details.light {

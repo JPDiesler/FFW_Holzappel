@@ -51,7 +51,7 @@ const ModeButton = () => {
           <i className="bi bi-caret-down-fill"></i>
         </span>
       </button>
-      <ul className="dropdown-menu">
+      <ul className="dropdown-cs">
         <li
           className="d-flex align-items-center p-1"
           onClick={() => onClick("ligth")}
