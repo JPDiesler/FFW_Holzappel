@@ -13,6 +13,7 @@ import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton"
 import "./components/navbar/Navbar.scss";
 import EventCalendar from "./components/calendar/EventCalendar";
 import LoadingScreen from "./components/loadingScreen/LoadingScreen";
+import Recruting from "./components/modules/recruting/Recruting";
 
 function App() {
   const [colorMode, setColorMode] = useState("dark");
@@ -129,7 +130,7 @@ function App() {
                   id="topbar"
                   className="row d-flex justify-content-between align-items-center gap-3  z-1"
                 >
-                  <div className="col flex-grow-1 d-flex justify-content-start ">
+                  <div className="col flex-grow-1 d-flex justify-content-start z-1">
                     <ModeButton />
                   </div>
                   <div className="col flex-grow-1 z-1 d-flex justify-content-center ">
@@ -160,16 +161,10 @@ function App() {
 
         <div id="content">
           <div
-            id="landing"
-            className={
-              "element d-flex flex-wrap align-items-center " +
-              (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
-            }
+            id="recruting"
+            className={"element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
-            <div className="flex-fill min-width">Test</div>
-            <div className="map min-width z-3">
-              <Map />
-            </div>
+            <Recruting />
           </div>
           {/* <div
             id="aktuelles"
