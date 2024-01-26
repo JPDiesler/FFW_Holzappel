@@ -21,8 +21,8 @@
 @media (orientation: portrait) {
   .vehicle_container {
     width: 70vw !important; // or some percentage or viewport width
-    height: 50vw !important; // 500 / 1035 = 0.4831 or 48.31%
-    min-width: 700px;
+    //height 500 / 1035 = 0.4831 or 48.31%
+    height: 70vw;
   }
   .vehicle_img {
     width: 50vw;
@@ -30,12 +30,17 @@
   .vehicle_details {
     background-color: rgb(5, 5, 5);
     width: 100%;
-    overflow-x: auto;
   }
-}
+  .title {
+    font-size: 2.5em;
+    text-align: center;
+  }
 
-.title {
-  font-size: 4em;
+  .text-gap {
+    row-gap: 0;
+    column-gap: 5px;
+    box-sizing: content-box;
+  }
 }
 
 .vehicle_details.light {

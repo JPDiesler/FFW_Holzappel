@@ -1,3 +1,15 @@
+@media (orientation = portrait) {
+  .list {
+    height: 450px;
+    width: 85vw;
+  }
+}
+
+@media (orientation = landscape) {
+  .list {
+    height: 450px;
+  }
+}
 .canvas-chart {
   width: 50vw;
   height: 50vw;
@@ -16,10 +28,6 @@
 .datetime {
   width: 90px;
   min-width: 90px;
-}
-
-.list {
-  height: 450px;
 }
 
 .title {
@@ -65,4 +73,8 @@
   border-radius: 15px;
   border: solid transparent 5px;
   background-clip: content-box;
+}
+
+.scrollbar::-webkit-scrollbar-corner {
+  background-color: transparent;
 }

@@ -4,8 +4,11 @@ import Vehicle from "./Vehicle";
 
 const tlfw_details = (
   <>
-    3000L Wassertank <br /> Dachwasserwerfer <br /> Frontsprühbalken <br />{" "}
-    Truppkabine <br /> Allradantrieb
+    <span>3000L Wassertank</span>
+    <span>Dachwasserwerfer</span>
+    <span> Frontsprühbalken</span>
+    <span>Truppkabine</span>
+    <span>Allradantrieb</span>
   </>
 );
 
@@ -91,7 +94,7 @@ const Vehicles = () => {
   useEffect(() => {
     const handleResize = () => {
       const vehicleContainer = document.querySelector(".vehicle_container");
-      const width = vehicleContainer.getBoundingClientRect().width;
+      let width = vehicleContainer.getBoundingClientRect().width;
       if (width < 700) {
         width = 700;
       }
@@ -108,7 +111,7 @@ const Vehicles = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const vwToPx = (vw) => (vw / 100) * window.innerWidth;
+  //const vwToPx = (vw) => (vw / 100) * window.innerWidth;
 
   const nextVehicle = () => {
     const newIndex = (activeIndex + 1) % vehicles.length;
@@ -161,8 +164,8 @@ const Vehicles = () => {
             >
               <i className="bi bi-chevron-compact-left fs-1"></i>
             </button>
-            {vehicles.map((vehicle) => {
-              return vehicle;
+            {vehicles.map((vehicle, index) => {
+              return <div key={index}>{vehicle}</div>;
             })}
           </div>
           <button onClick={nextVehicle} className="btn p-0 pt-5 pb-5 ms-3 z-1">

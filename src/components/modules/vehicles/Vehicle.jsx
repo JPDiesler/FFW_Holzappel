@@ -51,18 +51,31 @@ const Vehicle = (props) => {
         isPortrait ? "flex-column" : ""
       }`}
     >
+      {isPortrait ? (
+        <span
+          className={`p-3 d-inline-flex align-items-start justify-content-between text-break border-bottom vehicle_details ${
+            isLightMode ? "light" : ""
+          }`}
+        >
+          <span>
+            <h1>{props.title}</h1>
+            <h4 className="text-primary">{props.callsign}</h4>
+          </span>
+        </span>
+      ) : (
+        ""
+      )}
       <div
-        className={`d-flex align-items-center justify-content-center ${
+        className={`flex-fill d-flex align-items-center justify-content-center ${
           isPortrait ? "" : "flex-fill"
         }`}
       >
         {props.imgSrc === Vehicle.defaultProps.imgSrc ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="250"
-            height="250"
             fill="currentColor"
-            className="bi bi-card-image"
+            height="50%"
+            className="bi bi-card-image vehicle_img"
             viewBox="0 0 16 16"
           >
             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
@@ -72,33 +85,10 @@ const Vehicle = (props) => {
           <img src={props.imgSrc} className="vehicle_img" />
         )}
       </div>
-      <div className="vr" />
-      {isPortrait ? (
-        <span
-          className={`flex-fill p-3 d-inline-flex text-break vehicle_details border-top ${
-            isLightMode ? "light" : ""
-          }`}
-        >
-          <span className="d-flex align-items-start justify-content-center flex-column">
-            <h1>{props.title}</h1>
-            <h4 className="text-secondary">
-              <span className="text-primary">{props.callsign}</span> <br />{" "}
-              Besatzung: {props.crew}
-            </h4>
-          </span>
+      {isPortrait ? "" : <div className="vr" />}
 
-          <span className="flex-fill d-flex align-items-center justify-content-center">
-            <h5>{props.details}</h5>
-          </span>
-          <span class="d-flex align-items-start justify-content-center flex-column">
-            <h5 className="text-secondary">
-              Indienstellung: <br /> {props.date}
-            </h5>
-            <h5 className="text-secondary">
-              Träger: <br /> {props.carrier}
-            </h5>
-          </span>
-        </span>
+      {isPortrait ? (
+        ""
       ) : (
         <span
           className={`flex-fill p-3 d-inline-flex flex-column overflow-y-auto text-break vehicle_details ${
@@ -131,7 +121,7 @@ Vehicle.propTypes = {
   title: PropTypes.string,
   callsign: PropTypes.string,
   crew: PropTypes.string,
-  details: PropTypes.string,
+  details: PropTypes.object,
   date: PropTypes.string,
   carrier: PropTypes.string,
 };
@@ -141,7 +131,7 @@ Vehicle.defaultProps = {
   title: "Title",
   callsign: "Funkrufname",
   crew: "Besatzung",
-  details: "Ausrüstung",
+  details: <span>Ausrüstung</span>,
   date: "Indienstellung",
   carrier: "Träger",
 };
