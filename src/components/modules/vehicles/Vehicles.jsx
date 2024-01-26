@@ -136,8 +136,8 @@ const Vehicles = () => {
 
   return (
     <div className="flex-fill d-flex flex-column justify-content-center align-items-center overflow-hidden">
-      <h1 className="title">Unsere Einsatzfahrzeuge</h1>
-      <div>
+      <h1 className="title mb-5">Unsere Einsatzfahrzeuge</h1>
+      <div className="mt-5">
         <div className="d-flex align-items-center position-relative">
           <button onClick={prevVehicle} className="btn p-0 pt-5 pb-5 me-3 z-1">
             <i className="bi bi-chevron-compact-left fs-1"></i>
@@ -162,7 +162,6 @@ const Vehicles = () => {
               return vehicle;
             })}
           </div>
-          {/* {vehicles[activeIndex]} */}
           <button onClick={nextVehicle} className="btn p-0 pt-5 pb-5 ms-3 z-1">
             <i className="bi bi-chevron-compact-right fs-1"></i>
           </button>
