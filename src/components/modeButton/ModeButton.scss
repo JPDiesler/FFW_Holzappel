@@ -1,6 +1,8 @@
-.custom-width {
-  min-width: 95px;
-  width: 95px;
+@import "../node_modules/bootstrap/scss/bootstrap";
+$dropdown-min-width: 10px;
+
+.dropdown-menu {
+  min-width: 10px; /* Adjust this value to your liking */
 }
 
 .mousepointer {

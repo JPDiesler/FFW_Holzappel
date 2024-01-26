@@ -1,9 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
 import "./ModeButton.scss";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useState } from "react";
 
-const ModeButton = (props) => {
+const ModeButton = () => {
+  useEffect(() => {
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }, []);
+
   const icons = {
     ligth: <i className="bi bi-brightness-high-fill pe-1"></i>,
     dark: <i className="bi bi-moon-stars-fill pe-1"></i>,
@@ -29,7 +39,7 @@ const ModeButton = (props) => {
   }
 
   return (
-    <div className="dropdown">
+    <div className="dropdown-center">
       <button
         className="btn text-light d-flex align-items-center"
         type="button"
@@ -41,33 +51,37 @@ const ModeButton = (props) => {
           <i className="bi bi-caret-down-fill"></i>
         </span>
       </button>
-      <ul className="dropdown-menu p-2 custom-width">
+      <ul className="dropdown-menu">
         <li
-          className="d-flex align-items-center p-1 dropdown-item mousepointer"
+          className="d-flex align-items-center p-1"
           onClick={() => onClick("ligth")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Light Mode"
         >
           <i className="bi bi-brightness-high-fill pe-1"></i>
-          Hell
         </li>
         <li
-          className="d-flex align-items-center p-1 dropdown-item mousepointer"
+          className="d-flex align-items-center p-1"
           onClick={() => onClick("dark")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Dark Mode"
         >
           <i className="bi bi-moon-stars-fill pe-1"></i>
-          Dunkel
         </li>
         <li
-          className="d-flex align-items-center p-1 dropdown-item mousepointer"
+          className="d-flex align-items-center p-1"
           onClick={() => onClick("auto")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Automatisch"
         >
           <i className="bi bi-circle-half pe-1"></i>
-          Auto
         </li>
       </ul>
     </div>
   );
 };
-
-ModeButton.propTypes = {};
 
 export default ModeButton;

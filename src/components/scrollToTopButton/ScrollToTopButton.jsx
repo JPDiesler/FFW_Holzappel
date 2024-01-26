@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./ScrollToTopButton.scss";
 
 const SCROLL_THRESHOLD_VH = 0.9;
@@ -34,6 +35,15 @@ function ScrollToTopButton() {
     element.scrollIntoView({ behavior: "smooth" });
   }
 
+  useEffect(() => {
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }, []);
+
   return (
     <div>
       <button
@@ -49,26 +59,38 @@ function ScrollToTopButton() {
       </button>
       <div className={`sideMenu ${showButton ? "show" : ""}`}>
         <button
-          className="btn text-white  rounded-pill fw-semibold button"
+          className="btn text-white rounded-pill fw-semibold button"
           onClick={() => scrollToElement("aktuelles")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Aktuelles"
         >
           <i className="bi bi-newspaper"></i>
         </button>
         <button
-          className="btn text-white  rounded-pill fw-semibold button"
+          className="btn text-white rounded-pill fw-semibold button"
           onClick={() => scrollToElement("date")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Termine"
         >
           <i className="bi bi-calendar-week"></i>
         </button>
         <button
           className="btn text-white rounded-pill fw-semibold button"
           onClick={() => scrollToElement("deployment")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Einsätze"
         >
           <i className="bi bi-bell"></i>
         </button>
         <button
-          className="btn text-white  rounded-pill fw-semibold button"
+          className="btn text-white rounded-pill fw-semibold button"
           onClick={() => scrollToElement("vehicles")}
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Fahrzeuge"
         >
           <i className="bi bi-truck"></i>
         </button>
