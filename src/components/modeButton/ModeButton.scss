@@ -1,10 +1,6 @@
-@import "../node_modules/bootstrap/scss/bootstrap";
-$dropdown-min-width: 10px;
-
-.dropdown-menu {
-  min-width: 10px; /* Adjust this value to your liking */
-}
-
-.mousepointer {
-  cursor: pointer;
+.modeMenu {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
 }
