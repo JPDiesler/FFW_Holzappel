@@ -52,8 +52,8 @@ function ScrollToTopButton() {
           showButton ? "show" : ""
         }`}
       >
-        <div className="d-flex flex-column align-items-center justifiy-content-start position-relative">
-          <i className="bi bi-chevron-compact-up chevron"></i>
+        <div className="d-flex flex-column align-items-center justifiy-content-start">
+          <i className="bi bi-chevron-compact-up text"></i>
           <span className="text">Nach oben</span>
         </div>
       </button>
