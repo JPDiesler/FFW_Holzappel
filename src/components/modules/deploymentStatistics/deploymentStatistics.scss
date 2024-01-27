@@ -20,14 +20,14 @@
 }
 
 .number {
-  width: 32px;
-  min-width: 32px;
+  width: 100%;
+  min-width: 16px;
+  max-width: 32px;
   text-align: center;
 }
 
 .datetime {
   width: 90px;
-  min-width: 90px;
 }
 
 .title {
