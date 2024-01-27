@@ -510,7 +510,7 @@ const DeploymentStatistics = () => {
     const buttons = [];
     for (let i = 1; i <= d; i++) {
       if (year - i < firstYear) break;
-      buttons.push(
+      buttons.unshift(
         <button
           key={i}
           type="button"
