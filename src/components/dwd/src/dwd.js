@@ -23,8 +23,8 @@ export async function getDWDWarnings(location) {
     service: "WFS",
     version: "2.0.0",
     request: "GetFeature",
-    typeName: "dwd%3AWarnungen_Landkreise",
-    CQL_FILTER: `GC_WARNCELLID%3D%27${kreis_warncellID}%27`,
+    typeName: decodeURIComponent("dwd%3AWarnungen_Landkreise"),
+    CQL_FILTER: decodeURIComponent(`GC_WARNCELLID%3D%27${kreis_warncellID}%27`),
     OutputFormat: "application/json",
   });
 
@@ -33,8 +33,8 @@ export async function getDWDWarnings(location) {
     service: "WFS",
     version: "2.0.0",
     request: "GetFeature",
-    typeName: "dwd%3AWarnungen_Gemeinden",
-    CQL_FILTER: `WARNCELLID%3D%27${gemeinde_warncellID}%27`,
+    typeName: decodeURIComponent("dwd%3AWarnungen_Gemeinden"),
+    CQL_FILTER: decodeURIComponent(`WARNCELLID%3D%27${gemeinde_warncellID}%27`),
     OutputFormat: "application/json",
   });
 
