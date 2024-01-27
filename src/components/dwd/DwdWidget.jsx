@@ -29,12 +29,9 @@ const WeatherWarning = (props) => {
   }, [tooltip, props.tooltipPosition]);
 
   async function fetchWarning(location) {
-    console.log("Fetching...");
     try {
       const warnings = await getDWDWarnings(location);
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Fetching complete! " + warnings.length + " Warnings found");
-      console.log(warnings);
       if (warnings.length > 0) {
         const warning = warnings[0];
         let modifiedHeadline = warning?.headline;

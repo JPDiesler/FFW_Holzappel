@@ -1,63 +1,115 @@
 import warncellids from "../assets/warncellids.json";
+
+const DWD_BASE_URL = "https://maps.dwd.de/geoserver/dwd/ows";
+
 /**
- * Retrieves weather warnings from the DWD (German Weather Service) API based on a given community ID.
- * Translates the retrieved data into a standardized format, sorts the warnings by severity level,
- * and returns the sorted warnings.
- * @param {string} location - The ID of the community for which weather warnings are requested.
- * @returns {Array} - The retrieved weather warnings.
+ * Retrieves DWD warnings for a given location.
+ * @param {string} location - The location for which to retrieve warnings.
+ * @returns {Promise<Array>} - A promise that resolves to an array of warning objects.
+ * @throws {Error} - If no matching warning cell IDs are found for the location.
  */
 export async function getDWDWarnings(location) {
-  const warncellIDs = getWarnCellIDs(location);
-  const gemeinde_warncellID = warncellIDs.stadt[0]?.id;
-  const kreis_warncellID = warncellIDs.kreis.slice(-1)[0]?.id;
+  const geocodingData = await geocode(location);
+
+  const gemeinde_warncellID = getWarnCellIDs(geocodingData.name, 0)[0];
+  const kreis_warncellID = getWarnCellIDs(geocodingData.county, 1)[0];
 
   if (!kreis_warncellID && !gemeinde_warncellID) {
     throw new Error(`No matching warning cell IDs found for "${location}".`);
   }
 
-  const API_URL_DWD_Kreise = `https://maps.dwd.de/geoserver/dwd/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=dwd%3AWarnungen_Landkreise&CQL_FILTER=GC_WARNCELLID%3D%27${kreis_warncellID}%27&OutputFormat=application/json`;
-  const API_URL_DWD_Gemeinden = `https://maps.dwd.de/geoserver/dwd/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=dwd%3AWarnungen_Gemeinden&CQL_FILTER=WARNCELLID%3D%27${gemeinde_warncellID}%27&OutputFormat=application/json`;
+  const API_URL_DWD_Kreise = new URL(DWD_BASE_URL);
+  API_URL_DWD_Kreise.search = new URLSearchParams({
+    service: "WFS",
+    version: "2.0.0",
+    request: "GetFeature",
+    typeName: "dwd%3AWarnungen_Landkreise",
+    CQL_FILTER: `GC_WARNCELLID%3D%27${kreis_warncellID}%27`,
+    OutputFormat: "application/json",
+  });
+
+  const API_URL_DWD_Gemeinden = new URL(DWD_BASE_URL);
+  API_URL_DWD_Gemeinden.search = new URLSearchParams({
+    service: "WFS",
+    version: "2.0.0",
+    request: "GetFeature",
+    typeName: "dwd%3AWarnungen_Gemeinden",
+    CQL_FILTER: `WARNCELLID%3D%27${gemeinde_warncellID}%27`,
+    OutputFormat: "application/json",
+  });
 
   try {
     const [responseGemeinde, responseKreise] = await Promise.allSettled([
-      fetch(API_URL_DWD_Gemeinden),
-      fetch(API_URL_DWD_Kreise),
+      fetch(API_URL_DWD_Gemeinden).then((res) =>
+        res.ok
+          ? res
+          : Promise.reject(`Failed to fetch Gemeinden: ${res.status}`)
+      ),
+      fetch(API_URL_DWD_Kreise).then((res) =>
+        res.ok ? res : Promise.reject(`Failed to fetch Kreise: ${res.status}`)
+      ),
     ]);
 
     const settledResponses = [responseGemeinde, responseKreise].map(
-      (response) => {
-        if (response.status === "fulfilled") {
-          return response.value.json();
-        } else {
-          throw new Error(
-            `Failed to fetch data from API for ${response.reason}`
-          );
-        }
-      }
+      (response, index) =>
+        handleResponse(response, index === 0 ? "Gemeinden" : "Kreise")
     );
 
     const [dataGemeinde, dataKreis] = await Promise.allSettled(
       settledResponses
     );
 
-    let newWarnings =
-      dataGemeinde.status === "fulfilled"
-        ? dataGemeinde.value.features?.map((feature) =>
-            translate(feature.properties)
-          )
-        : [];
+    let newWarnings = [];
 
-    if (newWarnings.length === 0) {
-      newWarnings =
-        dataKreis.status === "fulfilled"
-          ? dataKreis.value.features?.map((feature) =>
-              translate(feature.properties)
-            )
-          : [];
+    if (dataGemeinde.status === "fulfilled") {
+      newWarnings = newWarnings.concat(
+        dataGemeinde.value.features?.map((feature) =>
+          translate(feature.properties)
+        )
+      );
     }
+
+    if (dataKreis.status === "fulfilled") {
+      newWarnings = newWarnings.concat(
+        dataKreis.value.features?.map((feature) =>
+          translate(feature.properties)
+        )
+      );
+    }
+
+    newWarnings = newWarnings.filter(
+      (warning, index, self) =>
+        index ===
+        self.findIndex(
+          (t) =>
+            t.headline === warning.headline &&
+            t.description === warning.description &&
+            t.level === warning.level
+        )
+    );
     return newWarnings.sort((a, b) => b.level - a.level);
   } catch (error) {
-    throw new Error("Fehler beim Abrufen der DWD-Warnungen: " + error.message);
+    console.error(error);
+  }
+}
+
+/**
+ * Handles the response from the DWD API.
+ * @param {Object} response - The response object from the API.
+ * @param {string} type - The type of response (Gemeinden or Kreise).
+ * @returns {Promise<Object>} - A promise that resolves to the parsed response data.
+ */
+async function handleResponse(response, type) {
+  if (response.status === "fulfilled") {
+    try {
+      return await response.value.json();
+    } catch (error) {
+      throw new Error(`Failed to parse JSON for ${type}: ${error.message}`);
+    }
+  } else {
+    throw new Error(
+      `Failed to fetch data from API for ${type}: ${response.reason}`
+    );
   }
 }
 
@@ -108,28 +160,55 @@ function formatTime(time) {
   return `${formattedDate.replace(/,/g, "")} ${formattedTime} Uhr`;
 }
 
-function getWarnCellIDs(location) {
-  const possible = [
-    location,
-    "Gemeinde" + location,
-    "Stadt " + location,
-    "Kreis " + location,
-    "Landkreis " + location,
-    "Kreis und Stadt " + location,
-  ];
-  const results = {
-    stadt: [],
-    kreis: [],
-  };
-
-  for (const [key, value] of Object.entries(warncellids)) {
-    if (key.includes(location)) {
-      if (!key.toLowerCase().includes("kreis")) {
-        results.stadt.push({ name: key, id: value });
-      } else {
-        results.kreis.push({ name: key, id: value });
-      }
-    }
+/**
+ * Retrieves the warning cell IDs for a given location.
+ * @param {string} name - The name of the location.
+ * @param {number} type - The type of location (0 for gemeinde, 1 for kreis).
+ * @returns {Array<string>} - An array of warning cell IDs.
+ */
+function getWarnCellIDs(location, mode) {
+  let possible = null;
+  if (mode == 0) {
+    possible = [
+      location,
+      "Gemeinde " + location,
+      "Stadt " + location,
+      "Kreis und Stadt " + location,
+    ];
+  } else {
+    possible = [location];
   }
+  const results = [];
+
+  possible.forEach((element) => {
+    const result = warncellids[element];
+    if (result) {
+      results.push(result);
+    }
+  });
   return results;
+}
+
+/**
+ * Retrieves the geocoding data for a given location.
+ * @param {string} location - The location for which to retrieve geocoding data.
+ * @returns {Promise<Object>} - A promise that resolves to the geocoding data object.
+ */
+async function geocode(location) {
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
+      location
+    )}&format=json&addressdetails=1&limit=1`
+  );
+  const data = await response.json();
+
+  if (data.length > 0) {
+    const item = data[0];
+    return {
+      name: item.name,
+      county: item.address && item.address.county,
+    };
+  } else {
+    throw new Error(`Geocoding error: No results found for ${location}`);
+  }
 }
