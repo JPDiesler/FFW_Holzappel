@@ -107,7 +107,7 @@ const WeatherWarning = (props) => {
           />
           {warning ? (
             <span className="d-flex flex-fill align-items-center justify-content-between">
-              <span className="d-flex flex-column ps-1 pe-1 ms-2 me-2 fw-semibold justify-content-center">
+              <span className="d-flex flex-column flex-nowrap text-nowrap ps-1 pe-1 ms-2 me-2 fw-semibold justify-content-center warn_text">
                 <span>{headline.slice(0, 2).join(" ")}</span>
                 <span>{headline.slice(2, headline.length + 1).join(" ")}</span>
               </span>

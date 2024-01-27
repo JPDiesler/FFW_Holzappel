@@ -6,12 +6,10 @@ import Navbar from "./components/navbar/Navbar";
 import ModeButton from "./components/modeButton/ModeButton";
 import DeploymentStatistics from "./components/modules/deploymentStatistics/DeploymentStatistics";
 import Aktuelles from "./components/modules/aktuelles/Aktuelles";
-import Map from "./components/map/Map";
 import Vehicles from "./components/modules/vehicles/Vehicles";
 import NavbarMobile from "./components/navbar/NavbarMobile";
 import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton";
 import "./components/navbar/Navbar.scss";
-import EventCalendar from "./components/calendar/EventCalendar";
 import LoadingScreen from "./components/loadingScreen/LoadingScreen";
 import Recruting from "./components/modules/recruting/Recruting";
 

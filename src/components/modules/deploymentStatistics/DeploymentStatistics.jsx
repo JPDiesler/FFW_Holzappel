@@ -570,7 +570,7 @@ const DeploymentStatistics = () => {
               <>
                 <canvas id="deploymentChart" className="canvas-chart"></canvas>
                 <div
-                  className={`flex-fill bg-body overflow-y-auto scrollbar list rounded border p-2 ${
+                  className={`bg-body overflow-y-auto scrollbar list rounded border p-2 ${
                     isScrollable ? "pe-0" : ""
                   }`}
                   ref={divRef}

@@ -1,5 +1,6 @@
 import React from "react";
 import Map from "../../map/Map";
+import "./Recruting.scss";
 
 const Recruting = () => {
   return (
@@ -8,7 +9,7 @@ const Recruting = () => {
       className={"element d-flex flex-wrap align-items-center "}
     >
       <div className="flex-fill min-width">Recruting</div>
-      <div className="map min-width z-3">
+      <div className="map_container z-3">
         <Map />
       </div>
     </div>

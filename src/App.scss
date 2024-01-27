@@ -9,7 +9,7 @@
   }
 
   .element {
-    height: 100vh;
+    min-height: 100vh;
   }
 
   .path {
@@ -56,17 +56,6 @@
 
   .vehicle-img-dlk {
     height: 20vw;
-  }
-
-  .map {
-    height: 80%;
-    width: 50%;
-    border-radius: 15px;
-    overflow: hidden;
-  }
-
-  .min-width {
-    min-width: 400px;
   }
 }
 

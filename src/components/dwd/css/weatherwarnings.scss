@@ -1,8 +1,12 @@
 .warning {
   //width: 350px !important;
   height: 50px !important;
-  //background-color: #161719;
-  background-color: black;
+  background-color: #000000;
+  color: #fffffff5;
+}
+
+.warn_text {
+  width: 100%;
 }
 
 .pulsate {
