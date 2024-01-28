@@ -91,7 +91,7 @@ const Vehicle = (props) => {
         ""
       ) : (
         <span
-          className={`flex-fill p-3 d-inline-flex flex-column overflow-y-auto text-break vehicle_details ${
+          className={`flex-fill p-3 d-inline-flex flex-column overflow-y-auto text-break vehicle_details scrollbar ${
             isLightMode ? "light" : ""
           }`}
         >
@@ -100,8 +100,8 @@ const Vehicle = (props) => {
             <span className="text-primary">{props.callsign}</span> <br />{" "}
             Besatzung: {props.crew}
           </h4>
-          <span className="flex-fill d-flex align-items-center">
-            <h5>{props.details}</h5>
+          <span className="flex-fill d-flex align-items-center text-gap">
+            <h5 className="d-flex flex-column">{props.details}</h5>
           </span>
 
           <h5 className="text-secondary">

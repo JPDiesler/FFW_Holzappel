@@ -3,6 +3,50 @@ import { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import "./deploymentStatistics.scss";
 
+const deployments2022 = [
+  {
+    categorie: "B",
+    date: "31.01.2022",
+    time: "16:31 Uhr",
+    description: "Gebäudebrand",
+    type: "B3.01",
+  },
+  {
+    categorie: "TH",
+    date: "31.01.2022",
+    time: "16:31 Uhr",
+    description: "Verkehrsunfall B417",
+    type: "H2.03",
+  },
+  {
+    categorie: "U",
+    date: "31.01.2022",
+    time: "16:31 Uhr",
+    description: "Baum auf Straße B417",
+    type: "U2.07",
+  },
+  {
+    categorie: "W",
+    date: "31.01.2022",
+    time: "16:31 Uhr",
+    description: "Person in Zwangslage Herthasee",
+    type: "W2.01",
+  },
+  {
+    categorie: "G",
+    date: "31.01.2022",
+    time: "16:31 Uhr",
+    description: "Ölspur B417",
+    type: "G1.01",
+  },
+  {
+    categorie: "S",
+    date: "31.01.2022",
+    time: "16:31 Uhr",
+    description: "Personensuche Basalttagebau Balduin",
+    type: "S1.05",
+  },
+];
 const deployments2023 = [
   {
     categorie: "TH",
@@ -269,7 +313,7 @@ const deployment_data = {
   2019: [],
   2020: [],
   2021: [],
-  2022: [],
+  2022: deployments2022,
   2023: deployments2023,
   2024: deployments2024,
 };
@@ -373,24 +417,24 @@ const DeploymentStatistics = () => {
       type: "doughnut",
       data: {
         labels: [
-          "Brand",
-          "Tech. Hilfe",
-          "Wasserrettung",
-          "Unterstüzung",
-          "Gefahrstoff",
-          "Fehlarlam",
+          "Brandeinsätze",
+          "Gefahrstoffeinsätze",
+          "Unterstüzungseinsätze",
+          "Hilfeleistungseinsätze",
+          "Wassereinsätze",
+
+          "Sondereinsätze",
         ],
         datasets: [
           {
-            data: countData(["B", "TH", "W", "U", "G", "F"], data),
+            data: countData(["B", "G", "U", "TH", "W", "S"], data),
             backgroundColor: [
               "rgb(255, 99, 132)",
+              "rgb(255, 205, 86)",
+              "#30D9A3",
               "rgb(54, 162, 235)",
               "rgb(50, 70, 255)",
-              "#30D9A3",
-              "rgb(255, 205, 86)",
-
-              "#C2C2C2",
+              "rgb(156, 81, 255)",
             ],
             borderColor: borderColor,
             borderWidth: 8,
@@ -570,7 +614,7 @@ const DeploymentStatistics = () => {
               <>
                 <canvas id="deploymentChart" className="canvas-chart"></canvas>
                 <div
-                  className={`bg-body overflow-y-auto scrollbar list rounded border p-2 ${
+                  className={`bg-body list overflow-y-auto scrollbar  rounded border p-2 ${
                     isScrollable ? "pe-0" : ""
                   }`}
                   ref={divRef}
@@ -580,7 +624,9 @@ const DeploymentStatistics = () => {
                       <tbody className="">
                         {deployment_data[year].map((deployment, index) => (
                           <tr key={index} className="fw-semibold">
-                            <td className="text-center border-end">{index}.</td>
+                            <td className="text-center border-end">
+                              {index + 1}.
+                            </td>
                             <td>
                               {deployment.date}
                               <br />

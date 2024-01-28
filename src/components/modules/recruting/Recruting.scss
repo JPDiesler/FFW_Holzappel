@@ -4,3 +4,27 @@
   height: 500px;
   width: 750px;
 }
+
+.graphic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 256px; // Set this to the height of your axes images
+  border: solid 1px blueviolet;
+}
+
+.axe_1,
+.axe_2 {
+  position: relative;
+  width: 256px; // Set this to the width of your axes images
+  height: 256px; // Set this to the height of your axes images
+}
+
+.axe_1 {
+  transform: rotateZ(-20deg);
+}
+
+.axe_2 {
+  transform: translateX(-70%) rotateZ(20deg) scaleX(-1);
+}

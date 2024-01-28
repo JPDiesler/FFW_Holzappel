@@ -1,0 +1,37 @@
+.footer {
+  min-height: 300px;
+  border-top: 5px solid #3e74ff;
+  background-color: #080808;
+  display: flex;
+}
+
+.text-bg-black {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.instagram-gradient {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5851db,
+    #833ab4,
+    #c13584,
+    #e1306c,
+    #fd1d1d,
+    #f56040,
+    #f77737,
+    #fcaf45,
+    #ffdc80
+  );
+  color: #ffffff;
+}
+.facebook-gradient {
+  background: linear-gradient(45deg, #3b5998, #8b9dc3);
+  color: #ffffff;
+}
+
+.tiktok-gradient {
+  background: linear-gradient(45deg, #000000, #69c9d0, #ee1d52);
+  color: #ffffff;
+}

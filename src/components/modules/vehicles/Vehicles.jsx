@@ -84,8 +84,22 @@ const vehicles = [tlfw, dlk, hlf, mtf];
 
 const Vehicles = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPortrait, setIsPortrait] = useState(
+    window.innerHeight > window.innerWidth
+  );
   const activeIndexRef = useRef(activeIndex);
   const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -113,7 +127,7 @@ const Vehicles = () => {
 
   //const vwToPx = (vw) => (vw / 100) * window.innerWidth;
 
-  const nextVehicle = () => {
+  /* const changeSlide(activeIndex+1) = () => {
     const newIndex = (activeIndex + 1) % vehicles.length;
     if (newIndex != 0) {
       const vehicleContainer = document.querySelector(".vehicle_container");
@@ -138,6 +152,47 @@ const Vehicles = () => {
       setOffset(offset + offset_1);
     }
     setActiveIndex(newIndex);
+  }; */
+
+  const changeSlide = (newIndex) => {
+    const vehicleContainer = document.querySelector(".vehicle_container");
+
+    if (vehicleContainer) {
+      const width = vehicleContainer.getBoundingClientRect().width;
+      const offset_1 = window.innerWidth + width;
+
+      if (newIndex >= vehicles.length) {
+        // If newIndex is greater than vehicles.length - 1, wrap around to the start of the list
+        newIndex = 0;
+        setOffset(0);
+      } else if (newIndex < 0) {
+        // If newIndex is less than 0, wrap around to the end of the list
+        newIndex = vehicles.length - 1;
+        setOffset(-newIndex * offset_1);
+      } else if (newIndex > activeIndex) {
+        // next direction
+        setOffset(offset - offset_1);
+      } else if (newIndex < activeIndex) {
+        // prev direction
+        setOffset(offset + offset_1);
+      }
+
+      setActiveIndex(newIndex);
+    }
+  };
+
+  const jumpToSlide = (index) => {
+    const vehicleContainer = document.querySelector(".vehicle_container");
+
+    if (vehicleContainer) {
+      const width = vehicleContainer.getBoundingClientRect().width;
+      const offset_1 = window.innerWidth + width;
+
+      if (index >= 0 && index < vehicles.length) {
+        setOffset(-index * offset_1);
+        setActiveIndex(index);
+      }
+    }
   };
 
   return (
@@ -145,9 +200,17 @@ const Vehicles = () => {
       <h1 className="title mb-5">Unsere Einsatzfahrzeuge</h1>
       <div className="mt-5">
         <div className="d-flex align-items-center position-relative">
-          <button onClick={prevVehicle} className="btn p-0 pt-5 pb-5 me-3 z-1">
-            <i className="bi bi-chevron-compact-left fs-1"></i>
-          </button>
+          {isPortrait ? (
+            ""
+          ) : (
+            <button
+              onClick={() => changeSlide(activeIndex - 1)}
+              className="btn p-0 pt-5 pb-5 me-3 z-1"
+            >
+              <i className="bi bi-chevron-compact-left fs-1"></i>
+            </button>
+          )}
+
           <div className="placeholder z-1">{vehicles[0]}</div>
           <div
             id="carousel-container"
@@ -157,31 +220,62 @@ const Vehicles = () => {
               transition: "transform 0.75s ease-in-out",
             }}
           >
-            <button
-              onClick={prevVehicle}
-              className="btn p-0 pt-5 pb-5 me-3 placeholder"
-              disabled={true}
-            >
-              <i className="bi bi-chevron-compact-left fs-1"></i>
-            </button>
+            {isPortrait ? (
+              ""
+            ) : (
+              <button
+                className="btn p-0 pt-5 pb-5 me-3 placeholder"
+                disabled={true}
+              >
+                <i className="bi bi-chevron-compact-left fs-1"></i>
+              </button>
+            )}
+
             {vehicles.map((vehicle, index) => {
               return <div key={index}>{vehicle}</div>;
             })}
           </div>
-          <button onClick={nextVehicle} className="btn p-0 pt-5 pb-5 ms-3 z-1">
-            <i className="bi bi-chevron-compact-right fs-1"></i>
-          </button>
+          {isPortrait ? (
+            ""
+          ) : (
+            <button
+              onClick={() => changeSlide(activeIndex + 1)}
+              className="btn p-0 pt-5 pb-5 ms-3 z-1"
+            >
+              <i className="bi bi-chevron-compact-right fs-1"></i>
+            </button>
+          )}
         </div>
-        <div className="flex-fill d-flex justify-content-center align-items-centerp-2 pt-3 pb-4">
+        <div className="flex-fill d-flex justify-content-center align-items-center p-2 pt-3 pb-4">
+          {isPortrait ? (
+            <button
+              onClick={() => changeSlide(activeIndex - 1)}
+              className="btn p-2 me-3 z-1"
+            >
+              <i className="bi bi-chevron-compact-left fs-1"></i>
+            </button>
+          ) : (
+            ""
+          )}
           {vehicles.map((vehicle, index) => (
             <button
               key={index}
               className={`indicator ${
                 index === activeIndex ? "indicator_active " : ""
               }`}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => jumpToSlide(index)}
             ></button>
           ))}
+          {isPortrait ? (
+            <button
+              onClick={() => changeSlide(activeIndex + 1)}
+              className="btn p-1 ms-3 z-1"
+            >
+              <i className="bi bi-chevron-compact-right fs-1"></i>
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

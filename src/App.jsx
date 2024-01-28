@@ -12,6 +12,7 @@ import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton"
 import "./components/navbar/Navbar.scss";
 import LoadingScreen from "./components/loadingScreen/LoadingScreen";
 import Recruting from "./components/modules/recruting/Recruting";
+import Footer from "./components/modules/footer/Footer";
 
 function App() {
   const [colorMode, setColorMode] = useState("dark");
@@ -147,7 +148,7 @@ function App() {
               >
                 <div
                   className="d-flex flex-column align-items-center justify-content-center pointer"
-                  onClick={() => scrollToElement("landing")}
+                  onClick={() => scrollToElement("recruting")}
                 >
                   <h5 className="fw-semibold m-0 mt-2">Scrollen</h5>
                   <i className="fs-5 bi bi-chevron-compact-down m-0"></i>
@@ -164,12 +165,12 @@ function App() {
           >
             <Recruting />
           </div>
-          {/* <div
+          <div
             id="aktuelles"
-            className={"" + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
+            className={"blog_element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
             <Aktuelles />
-          </div> */}
+          </div>
           {/* <div
             id="date"
             className={
@@ -199,7 +200,7 @@ function App() {
           </div>
         </div>
 
-        <div id="footer" className="footer"></div>
+        <Footer />
       </div>
     </>
   );

@@ -16,6 +16,14 @@
     max-width: 250px;
     min-width: 220px;
   }
+  .carousel-container > :not(:first-child):not(:nth-child(2)) {
+    margin-left: 100vw !important;
+  }
+  .text-gap {
+    row-gap: 5px;
+    column-gap: 5px;
+    box-sizing: content-box;
+  }
 }
 
 @media (orientation: portrait) {
@@ -37,9 +45,12 @@
   }
 
   .text-gap {
-    row-gap: 0;
+    row-gap: 5px;
     column-gap: 5px;
     box-sizing: content-box;
+  }
+  .carousel-container > :not(:first-child) {
+    margin-left: 100vw !important;
   }
 }
 
@@ -53,10 +64,6 @@
   z-index: 0;
   left: auto;
   right: auto;
-}
-
-.carousel-container > :not(:first-child):not(:nth-child(2)) {
-  margin-left: 100vw;
 }
 
 .indicator {
