@@ -43,12 +43,12 @@ const Navbar = (props) => {
           >
             Fahrzeuge
           </button>
-          <button
+          {/* <button
             className="btn text-white btn-primary rounded-pill fw-semibold d-flex align-items-center gap-1"
             onClick={() => setVisiblity(true)}
           >
             <i className="bi bi-paypal"></i>Spenden
-          </button>
+          </button> */}
           <button
             className="btn text-white rounded-pill fw-semibold d-flex align-items-center gap-1"
             onClick={() => {

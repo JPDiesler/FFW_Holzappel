@@ -2,335 +2,23 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import "./deploymentStatistics.scss";
-
-const deployments2022 = [
-  {
-    categorie: "B",
-    date: "31.01.2022",
-    time: "16:31 Uhr",
-    description: "Gebäudebrand",
-    type: "B3.01",
-  },
-  {
-    categorie: "TH",
-    date: "31.01.2022",
-    time: "16:31 Uhr",
-    description: "Verkehrsunfall B417",
-    type: "H2.03",
-  },
-  {
-    categorie: "U",
-    date: "31.01.2022",
-    time: "16:31 Uhr",
-    description: "Baum auf Straße B417",
-    type: "U2.07",
-  },
-  {
-    categorie: "W",
-    date: "31.01.2022",
-    time: "16:31 Uhr",
-    description: "Person in Zwangslage Herthasee",
-    type: "W2.01",
-  },
-  {
-    categorie: "G",
-    date: "31.01.2022",
-    time: "16:31 Uhr",
-    description: "Ölspur B417",
-    type: "G1.01",
-  },
-  {
-    categorie: "S",
-    date: "31.01.2022",
-    time: "16:31 Uhr",
-    description: "Personensuche Basalttagebau Balduin",
-    type: "S1.05",
-  },
-];
-const deployments2023 = [
-  {
-    categorie: "TH",
-    date: "31.01.2023",
-    time: "16:31 Uhr",
-    description: "Eingeklemmente Person Hirschberg",
-    type: "H2.03",
-  },
-  {
-    categorie: "TH",
-    date: "24.02.2023",
-    time: "12:22 Uhr",
-    description: "Unterstüzung Personenrettung Langenscheid",
-    type: "H1.08",
-  },
-  {
-    categorie: "TH",
-    date: "10.03.2023",
-    time: "19:07 Uhr",
-    description: "Baum auf Fahrzeug L317 zwischen Hirschberg & Eppenrod",
-    type: "H2.07",
-  },
-  {
-    categorie: "U",
-    date: "10.03.2023",
-    time: "19:24 Uhr",
-    description: "umgestürzter Baum Laurenburger Schleuse",
-    type: "U2.07",
-  },
-  {
-    categorie: "B",
-    date: "23.03.2023",
-    time: "16:21 Uhr",
-    description: "Gebäudebrand Cramberg",
-    type: "B3.01",
-  },
-  {
-    categorie: "TH",
-    date: "24.03.2023",
-    time: "16:41 Uhr",
-    description: "Person in Zwangslage zwischen Holzappel & Geilnau",
-    type: "H2.04",
-  },
-  {
-    categorie: "W",
-    date: "28.04.2023",
-    time: "20:02 Uhr",
-    description: "Schiffsbrand Laurenburg",
-    type: "W3.01",
-  },
-  {
-    categorie: "B",
-    date: "09.05.2023",
-    time: "08:45 Uhr",
-    description: "Kaminbrand Holzappel",
-    type: "B2.04",
-  },
-  {
-    categorie: "B",
-    date: "25.05.2023",
-    time: "19:26 Uhr",
-    description: "Rauchentwicklung aus Gebäude Eppenrod",
-    type: "B2.01",
-  },
-  {
-    categorie: "B",
-    date: "08.06.2023",
-    time: "22:17 Uhr",
-    description: "Waldbrand Dörnberg",
-    type: "B2.02",
-  },
-  {
-    categorie: "B",
-    date: "03.07.2023",
-    time: "18:50 Uhr",
-    description: "Unterstützung TLF-3000 Flächenbrand Dachsenhausen",
-    type: "B2.02",
-  },
-  {
-    categorie: "B",
-    date: "04.07.2023",
-    time: "14:25 Uhr",
-    description: "Unterstützung TLF-3000 Flächenbrand Lierschied",
-    type: "B2.02",
-  },
-  {
-    categorie: "TH",
-    date: "10.07.2023",
-    time: "01:57 Uhr",
-    description: "Türöffnung für den Rettungsdienst in Horhausen",
-    type: "H2.01",
-  },
-  {
-    categorie: "TH",
-    date: "10.07.2023",
-    time: "11:08 Uhr",
-    description: "Personenrttung aus unwegsamen Gelände B417",
-    type: "H2.02",
-  },
-  {
-    categorie: "B",
-    date: "11.07.2023",
-    time: "18:17 Uhr",
-    description: "Flächenbrand Holzheim",
-    type: "B2.02",
-  },
-  {
-    categorie: "B",
-    date: "11.07.2023",
-    time: "19:43 Uhr",
-    description: "Rauchentwicklung aus Gebäude Dörnberg",
-    type: "B2.01",
-  },
-  {
-    categorie: "B",
-    date: "12.07.2023",
-    time: "15:50 Uhr",
-    description: "Unterstützung TLF-3000 Flächenbrand Altendiez",
-    type: "B2.02",
-  },
-  {
-    categorie: "B",
-    date: "19.07.2023",
-    time: "11:56 Uhr",
-    description: "Unterstützung TLF-3000 Flächenbrand Stahlhofen",
-    type: "B1.02",
-  },
-  {
-    categorie: "B",
-    date: "27.07.2023",
-    time: "11:39 Uhr",
-    description: "Fahrzeugbrand nach Verkehrsunfall Eppenrod",
-    type: "B2.03",
-  },
-  {
-    categorie: "B",
-    date: "03.09.2023",
-    time: "16:34 Uhr",
-    description: "Dachstuhlbrand in Diez",
-    type: "B3.01",
-  },
-  {
-    categorie: "B",
-    date: "12.09.2023",
-    time: "22:06 Uhr",
-    description: "Rauchentwicklung aus Gebäude Horhausen",
-    type: "B2.01",
-  },
-  {
-    categorie: "U",
-    date: "12.09.2023",
-    time: "23:24 Uhr",
-    description: "Unterstützung mit Aggregart in Diez nach Unwetter",
-    type: "U2.02",
-  },
-  {
-    categorie: "B",
-    date: "17.09.2023",
-    time: "19:08 Uhr",
-    description: "Gebäudebrand Scheidt",
-    type: "B3.01",
-  },
-  {
-    categorie: "G",
-    date: "22.10.2023",
-    time: "11:39 Uhr",
-    description: "Ölspur B417",
-    type: "G1.01",
-  },
-  {
-    categorie: "TH",
-    date: "26.10.2023",
-    time: "23:16 Uhr",
-    description: "Türöffnung für den Rettungsdienst Holzappel",
-    type: "H2.01",
-  },
-  {
-    categorie: "B",
-    date: "11.11.2023",
-    time: "11.05 Uhr",
-    description: "Kaminbrand Hirschberg",
-    type: "B2.04",
-  },
-  {
-    categorie: "B",
-    date: "14.11.2023",
-    time: "10:35 Uhr",
-    description: "Kaminbrand Laurenburg",
-    type: "B2.04",
-  },
-  {
-    categorie: "U",
-    date: "27.11.2023",
-    time: "19:01 Uhr",
-    description: "Unwetter, Ast auf Stromleitung Dörnberg-Hütte",
-    type: "U2.04",
-  },
-  {
-    categorie: "U",
-    date: "27.11.2023",
-    time: "20:23 Uhr",
-    description: "Unwetter, Baum auf Stromleitung Holzappel",
-    type: "U2.04",
-  },
-  {
-    categorie: "TH",
-    date: "27.11.2023",
-    time: "21:36 Uhr",
-    description: "Unwetter, Umgestürzter Baum Bruchhäuser Mühle",
-    type: "H1.07",
-  },
-  {
-    categorie: "U",
-    date: "27.11.2023",
-    time: "22:17 Uhr",
-    description: "Unwetter, Baum auf Fahrbahn B417 Holzappel-Laurenburg",
-    type: "U2.07",
-  },
-  {
-    categorie: "TH",
-    date: "27.11.2023",
-    time: "22:35 Uhr",
-    description: "PKW zwichen Bäumen eingeschlossen, B417 Holzappel-Laurenburg",
-    type: "H1.07",
-  },
-  {
-    categorie: "TH",
-    date: "28.11.2023",
-    time: "11:08 Uhr",
-    description: "Ast auf Stromleitung Dörnberg-Hütte",
-    type: "H1.07",
-  },
-];
-const deployments2024 = [
-  {
-    categorie: "B",
-    date: "08.01.2024",
-    time: "08:31 Uhr",
-    description: "B2 Busbrand L317 zwischen Hirschberg und Eppenrod",
-    type: "B2.03",
-  },
-  {
-    categorie: "B",
-    date: "08.01.2024",
-    time: "18:56 Uhr",
-    description: "B2 Kaminbrand Dörnberg Hütte",
-    type: "B2.04",
-  },
-  {
-    categorie: "B",
-    date: "23.01.2024",
-    time: "10:55 Uhr",
-    description: "B2 Kaminbrand Laurenburg",
-    type: "B2.04",
-  },
-];
-
-const deployment_data = {
-  2014: [],
-  2015: [],
-  2016: [],
-  2017: [],
-  2018: [],
-  2019: [],
-  2020: [],
-  2021: [],
-  2022: deployments2022,
-  2023: deployments2023,
-  2024: deployments2024,
-};
-
+import deployment_data from "./deployments";
+import DeploymentTypes from "./DeploymentTypes";
+import Hover from "../../hover/Hover";
 const DeploymentStatistics = () => {
   const chartRef = useRef(null);
   const divRef = useRef();
   const [isScrollable, setIsScrollable] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
   const firstYear = Math.min(...Object.keys(deployment_data).map(Number));
+  const [showDetails, setShowDetails] = useState(false);
 
   function countData(types, data) {
     const entryCount = [];
     types.forEach((type) => {
       let count = 0;
       data.forEach((deployment) => {
-        if (deployment.categorie == type) {
+        if (deployment.type.includes(type)) {
           count += 1;
         }
       });
@@ -408,6 +96,18 @@ const DeploymentStatistics = () => {
           textY = chartArea.top + height / 2;
 
         ctx.fillText(text, textX, textY);
+
+        // Add secondary text
+        let secondaryText = data.length + " Einsätze"; // Your secondary text here
+        let secondaryFontSize = fontSize / 3; // Adjust as needed
+        ctx.font = "bold " + secondaryFontSize + "em Arial";
+        let secondaryTextX =
+          chartArea.left +
+          Math.round((width - ctx.measureText(secondaryText).width) / 2);
+        let secondaryTextY = textY + parseInt(fontSize) * 10 + 5; // Adjust the multiplier as needed
+
+        ctx.fillText(secondaryText, secondaryTextX, secondaryTextY);
+
         ctx.restore();
       },
     };
@@ -422,12 +122,11 @@ const DeploymentStatistics = () => {
           "Unterstüzungseinsätze",
           "Hilfeleistungseinsätze",
           "Wassereinsätze",
-
           "Sondereinsätze",
         ],
         datasets: [
           {
-            data: countData(["B", "G", "U", "TH", "W", "S"], data),
+            data: countData(["B", "G", "U", "H", "W", "S"], data),
             backgroundColor: [
               "rgb(255, 99, 132)",
               "rgb(255, 205, 86)",
@@ -533,14 +232,13 @@ const DeploymentStatistics = () => {
       }
     }
 
-    const observer = new MutationObserver(checkScrollable);
-
-    observer.observe(div, { childList: true, subtree: true });
-
-    checkScrollable();
-
-    return () => observer.disconnect();
-  }, []);
+    if (deployment_data[year].length > 0) {
+      const observer = new MutationObserver(checkScrollable);
+      observer.observe(div, { childList: true, subtree: true });
+      checkScrollable();
+      return () => observer.disconnect();
+    }
+  }, [year, deployment_data]);
 
   function generatePreviousYearsButtons() {
     let d = 0;
@@ -599,7 +297,7 @@ const DeploymentStatistics = () => {
 
   return (
     <>
-      <div className="d-flex align-items-center justify-content-center flex-column pt-5 mt-3 mb-3">
+      <div className="d-flex align-items-center justify-content-center flex-column pt-5 mt-3 mb-5">
         <h1 className="title">Einsatzstatistik</h1>
         <div className="flex-fill d-flex align-items-center justify-content-center flex-column">
           <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
@@ -630,7 +328,9 @@ const DeploymentStatistics = () => {
                             <td>
                               {deployment.date}
                               <br />
-                              {deployment.time}
+                              {deployment.time != null
+                                ? deployment.time + " Uhr"
+                                : null}
                             </td>
                             <td className="text-center border-start">
                               {deployment.type}
@@ -648,6 +348,13 @@ const DeploymentStatistics = () => {
             )}
           </div>
         </div>
+        <a
+          className="icon-link icon-link-hover lh-1 mb-4"
+          href="#"
+          onClick={() => setShowDetails(true)}
+        >
+          Erfahre mehr über die Einsatzbezeichnungen
+        </a>
         <div className="d-flex align-items-center justify-content-center mt-3">
           <div className="btn-group" role="group" aria-label="Basic example">
             <button
@@ -718,6 +425,11 @@ const DeploymentStatistics = () => {
           </div>
         </div>
       </div>
+      {showDetails ? (
+        <Hover fullScreen={true} centered={true}>
+          <DeploymentTypes onClickClose={() => setShowDetails(false)} />
+        </Hover>
+      ) : null}
     </>
   );
 };

@@ -10,25 +10,15 @@ import Vehicles from "./components/modules/vehicles/Vehicles";
 import NavbarMobile from "./components/navbar/NavbarMobile";
 import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton";
 import "./components/navbar/Navbar.scss";
-import LoadingScreen from "./components/loadingScreen/LoadingScreen";
 import Recruting from "./components/modules/recruting/Recruting";
 import Footer from "./components/modules/footer/Footer";
 
 function App() {
-  const [colorMode, setColorMode] = useState("dark");
-  const [isLoading, setIsLoading] = useState(true);
+  const [colorMode, setColorMode] = useState("auto");
 
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
   );
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 10000); // Adjust this value to control how long the loading screen is displayed
-
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -86,9 +76,6 @@ function App() {
 
   return (
     <>
-      {isLoading && (
-        <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
-      )}
       <div className={colorMode == "dark" ? "bg-secondary-subtle" : "bg-body"}>
         {isPortrait ? (
           <div className="canvas d-flex flex-column justify-content-end position-relative">

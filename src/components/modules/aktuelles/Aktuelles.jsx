@@ -127,22 +127,26 @@ const Aktuelles = (props) => {
         <h5>Folg uns doch!</h5>
         <span className="rounded-pill bg-black d-inline-flex gap-3 ps-3 pe-3 pt-1 pb-1">
           <a
-            href="#"
+            href="https://www.instagram.com/feuerwehrholzappel/"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title="Instagram"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <i className="text-white bi bi-instagram fs-5"></i>
           </a>
           <a
-            href="#"
+            href="https://www.facebook.com/FeuerwehrHolzappel"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title="Facebook"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <i className="text-white bi bi-facebook fs-5"></i>
           </a>
-          <a
+          {/* <a
             href="#"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
@@ -155,9 +159,9 @@ const Aktuelles = (props) => {
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title="Threads"
-          >
+          > 
             <i className="text-white bi bi-threads fs-5"></i>
-          </a>
+          </a>*/}
         </span>
       </div>
     </div>

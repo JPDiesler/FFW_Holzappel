@@ -6,9 +6,10 @@ const tlfw_details = (
   <>
     <span>3000L Wassertank</span>
     <span>Dachwasserwerfer</span>
-    <span> Frontsprühbalken</span>
+    <span>Frontsprühbalken</span>
     <span>Truppkabine</span>
     <span>Allradantrieb</span>
+    <span>Waldbrandausrüstung</span>
   </>
 );
 
@@ -35,7 +36,7 @@ const dlk_details = (
 const dlk = (
   <Vehicle
     imgSrc="./DLK.png"
-    title="DLK-18/12"
+    title="DLAK-18/12"
     callsign="Florian Diez 15/33"
     crew="1/2"
     details={dlk_details}
@@ -80,7 +81,19 @@ const mtf = (
   />
 );
 
-const vehicles = [tlfw, dlk, hlf, mtf];
+const sga_details = <>24 KVA Leistung</>;
+const sga = (
+  <Vehicle
+    title="SGA 24"
+    callsign={null}
+    crew={null}
+    details={sga_details}
+    date="28.04.2011"
+    carrier="Förderverein"
+  />
+);
+
+const vehicles = [tlfw, dlk, hlf, mtf, sga];
 
 const Vehicles = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -124,35 +137,6 @@ const Vehicles = () => {
     // Remove the event listener when the component unmounts
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  //const vwToPx = (vw) => (vw / 100) * window.innerWidth;
-
-  /* const changeSlide(activeIndex+1) = () => {
-    const newIndex = (activeIndex + 1) % vehicles.length;
-    if (newIndex != 0) {
-      const vehicleContainer = document.querySelector(".vehicle_container");
-      const width = vehicleContainer.getBoundingClientRect().width;
-      const offset_1 = window.innerWidth + width;
-      setOffset(offset - offset_1);
-    } else {
-      setOffset(0);
-    }
-    setActiveIndex(newIndex);
-  };
-
-  const prevVehicle = () => {
-    const vehicleContainer = document.querySelector(".vehicle_container");
-    const width = vehicleContainer.getBoundingClientRect().width;
-    const offset_1 = window.innerWidth + width;
-    let newIndex = activeIndex - 1;
-    if (newIndex < 0) {
-      newIndex = vehicles.length - 1;
-      setOffset(-newIndex * offset_1);
-    } else {
-      setOffset(offset + offset_1);
-    }
-    setActiveIndex(newIndex);
-  }; */
 
   const changeSlide = (newIndex) => {
     const vehicleContainer = document.querySelector(".vehicle_container");
@@ -278,6 +262,15 @@ const Vehicles = () => {
           )}
         </div>
       </div>
+      <a
+        className="icon-link icon-link-hover lh-1"
+        href="https://de.wikipedia.org/wiki/Feuerwehrfahrzeuge_in_Deutschland#Normung"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Erfahre mehr über Feuerwehrfahrzeuge
+        <i className="bi bi-wikipedia"></i>
+      </a>
     </div>
   );
 };

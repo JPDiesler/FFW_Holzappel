@@ -59,7 +59,9 @@ const Vehicle = (props) => {
         >
           <span>
             <h1>{props.title}</h1>
-            <h4 className="text-primary">{props.callsign}</h4>
+            {props.callsign != null ? (
+              <span className="text-primary">{props.callsign}</span>
+            ) : null}
           </span>
         </span>
       ) : (
@@ -97,19 +99,29 @@ const Vehicle = (props) => {
         >
           <h1>{props.title}</h1>
           <h4 className="text-secondary">
-            <span className="text-primary">{props.callsign}</span> <br />{" "}
-            Besatzung: {props.crew}
-          </h4>
-          <span className="flex-fill d-flex align-items-center text-gap">
-            <h5 className="d-flex flex-column">{props.details}</h5>
-          </span>
+            {props.callsign != null ? (
+              <>
+                <span className="text-primary">{props.callsign}</span> <br />
+              </>
+            ) : null}
 
-          <h5 className="text-secondary">
-            Indienstellung: <br /> {props.date}
-          </h5>
-          <h5 className="text-secondary">
-            Träger: <br /> {props.carrier}
-          </h5>
+            {props.crew != null ? "Besatzung: " + props.crew : null}
+          </h4>
+          {props.details != null ? (
+            <span className="flex-fill d-flex align-items-center text-gap">
+              <h5 className="d-flex flex-column">{props.details}</h5>
+            </span>
+          ) : null}
+          {props.date != null ? (
+            <h5 className="text-secondary">
+              Indienstellung: <br /> {props.date}
+            </h5>
+          ) : null}
+          {props.carrier != null ? (
+            <h5 className="text-secondary">
+              Träger: <br /> {props.carrier}
+            </h5>
+          ) : null}
         </span>
       )}
     </div>

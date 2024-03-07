@@ -1,0 +1,37 @@
+.types {
+  max-height: 700px;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.red {
+  color: rgb(255, 99, 132);
+}
+
+.yellow {
+  color: rgb(255, 205, 86);
+}
+
+.green {
+  color: #30d9a3;
+}
+
+.blue {
+  color: rgb(54, 162, 235);
+}
+
+.dark-blue {
+  color: rgb(50, 70, 255);
+}
+
+.violet {
+  color: rgb(156, 81, 255);
+}
+
+.subtypes-table tr td:first-child {
+  height: 20px;
+  width: 26px;
+}
