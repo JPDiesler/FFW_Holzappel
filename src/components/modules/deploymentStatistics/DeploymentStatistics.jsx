@@ -5,9 +5,11 @@ import "./deploymentStatistics.scss";
 import deployment_data from "./deployments";
 import DeploymentTypes from "./deploymentTypes/DeploymentTypes";
 import Hover from "../../hover/Hover";
+import { main } from "@popperjs/core";
 const DeploymentStatistics = () => {
   const chartRef = useRef(null);
   const divRef = useRef();
+  const mainRef = useRef();
   const [isScrollable, setIsScrollable] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
   const firstYear = Math.min(...Object.keys(deployment_data).map(Number));
@@ -240,6 +242,29 @@ const DeploymentStatistics = () => {
     }
   }, [year, deployment_data]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If the element is not in the viewport, set showDetails to false
+        if (!entry.isIntersecting) {
+          setShowDetails(false);
+        }
+      },
+      {
+        root: null, // null means it's relative to the viewport
+        rootMargin: "0px",
+        threshold: 0.1, // 0.1 means it will trigger when 10% of the element is visible
+      }
+    );
+
+    if (mainRef.current) {
+      observer.observe(mainRef.current);
+    }
+
+    // Clean up the observer when the component unmounts
+    return () => observer.unobserve(mainRef.current);
+  }, []);
+
   function generatePreviousYearsButtons() {
     let d = 0;
     const currentYear = new Date().getFullYear();
@@ -296,7 +321,7 @@ const DeploymentStatistics = () => {
   }
 
   return (
-    <div className="position-relative vw-100 overflow-x-hidden">
+    <div className="position-relative vw-100 overflow-x-hidden" ref={mainRef}>
       <div
         className={`vw-100 position-absolute flex-grow d-flex align-items-center justify-content-center flex-column ${
           showDetails ? "out-left" : "centered"

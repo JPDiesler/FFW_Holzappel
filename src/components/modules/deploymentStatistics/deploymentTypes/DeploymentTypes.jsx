@@ -18,7 +18,7 @@ const DeploymentTypes = (props) => {
         >
           <i className="bi bi-arrow-left"></i>
         </button>
-        <span className="fw-semibold fs-3 me-auto">
+        <span className="title fw-semibold me-auto">
           Einsatzstichworte RLP-RLK-DIEZ
         </span>
       </div>

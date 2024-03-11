@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./Vehicles.scss";
 
 const Vehicle = (props) => {
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(true);
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
   );
@@ -34,6 +34,7 @@ const Vehicle = (props) => {
           const html = document.getElementsByTagName("html")[0];
           const colorMode = html.getAttribute("data-bs-theme");
           setIsLightMode(colorMode == "dark" ? false : true);
+          console.log("Color Mode: " + colorMode);
         }
       }
     });
@@ -47,30 +48,24 @@ const Vehicle = (props) => {
 
   return (
     <div
-      className={`border rounded-5 d-flex overflow-hidden vehicle_container ${
-        isPortrait ? "flex-column" : ""
+      className={`border border-2 rounded-5 d-flex overflow-hidden vehicle_container ${
+        isPortrait ? "flex-column w-100" : "flex-row"
       }`}
     >
       {isPortrait ? (
-        <span
-          className={`p-3 d-inline-flex align-items-start justify-content-between text-break border-bottom vehicle_details ${
-            isLightMode ? "light" : ""
+        <div
+          className={`border-bottom border-2 ps-3 ${
+            isLightMode ? "bg-body-secondary" : "bg-night"
           }`}
         >
-          <span>
-            <h1>{props.title}</h1>
-            {props.callsign != null ? (
-              <span className="text-primary">{props.callsign}</span>
-            ) : null}
+          <h1>{props.title}</h1>
+          <span className="d-flex">
+            <h4 className="text-primary">{props.callsign}</h4>
           </span>
-        </span>
-      ) : (
-        ""
-      )}
+        </div>
+      ) : null}
       <div
-        className={`flex-fill d-flex align-items-center justify-content-center ${
-          isPortrait ? "" : "flex-fill"
-        }`}
+        className={`flex-fill d-flex align-items-center justify-content-center`}
       >
         {props.imgSrc === Vehicle.defaultProps.imgSrc ? (
           <svg
@@ -87,21 +82,22 @@ const Vehicle = (props) => {
           <img src={props.imgSrc} className="vehicle_img" />
         )}
       </div>
-      {isPortrait ? "" : <div className="vr" />}
-
       {isPortrait ? (
         ""
       ) : (
         <span
-          className={`flex-fill p-3 d-inline-flex flex-column overflow-y-auto text-break vehicle_details scrollbar ${
-            isLightMode ? "light" : ""
+          className={`flex-fill p-3 d-inline-flex flex-column overflow-y-auto scrollbar-sm border-start border-2 vehicle_details wrapping-whitespace ${
+            isLightMode ? "bg-body-secondary" : "bg-night"
           }`}
         >
           <h1>{props.title}</h1>
           <h4 className="text-secondary">
             {props.callsign != null ? (
               <>
-                <span className="text-primary">{props.callsign}</span> <br />
+                <span className="text-primary wrapping-whitespace">
+                  {props.callsign}
+                </span>{" "}
+                <br />
               </>
             ) : null}
 
@@ -114,12 +110,16 @@ const Vehicle = (props) => {
           ) : null}
           {props.date != null ? (
             <h5 className="text-secondary">
-              Indienstellung: <br /> {props.date}
+              Indienstellung:
+              <br />
+              {props.date}
             </h5>
           ) : null}
           {props.carrier != null ? (
             <h5 className="text-secondary">
-              Träger: <br /> {props.carrier}
+              Träger:
+              <br />
+              {props.carrier}
             </h5>
           ) : null}
         </span>

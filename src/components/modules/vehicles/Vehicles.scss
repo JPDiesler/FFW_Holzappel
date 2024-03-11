@@ -1,7 +1,7 @@
 @media (orientation: landscape) {
   .vehicle_container {
-    width: 60vw !important; // or some percentage or viewport width
-    height: 30vw !important; // 500 / 1035 = 0.4831 or 48.31%
+    width: 60vw; // or some percentage or viewport width
+    height: 30vw; // 500 / 1035 = 0.4831 or 48.31%
     min-width: 700px;
     min-height: 328px;
     max-width: 1035px;
@@ -11,10 +11,9 @@
     width: 100%;
     max-width: 750px;
   }
-  .vehicle_details {
+
+  .bg-night {
     background-color: rgb(5, 5, 5);
-    max-width: 250px;
-    min-width: 220px;
   }
   .carousel-container > :not(:first-child):not(:nth-child(2)) {
     margin-left: 100vw !important;
@@ -35,9 +34,8 @@
   .vehicle_img {
     width: 50vw;
   }
-  .vehicle_details {
-    background-color: rgb(5, 5, 5);
-    width: 100%;
+  .bg-night {
+    background-color: rgb(5, 5, 5) !important;
   }
   .title {
     font-size: 2.5em;
@@ -52,10 +50,6 @@
   .carousel-container > :not(:first-child) {
     margin-left: 100vw !important;
   }
-}
-
-.vehicle_details.light {
-  background-color: var(--bs-secondary-bg);
 }
 
 .carousel-container {
@@ -86,23 +80,21 @@
 }
 
 .scrollbar-sm::-webkit-scrollbar {
-  height: 25px;
+  height: 5px;
   width: 5px;
 }
-.scrollbar-sm::-webkit-scrollbar-horizontal {
-  background-clip: content-box;
-}
 .scrollbar-sm::-webkit-scrollbar-vertical {
-  border: 7px solid transparent;
+  border: 30px solid transparent; // Increase the border size to 20px
   background-clip: content-box;
   border-radius: 5px;
 }
 
 .scrollbar-sm::-webkit-scrollbar-track:vertical {
-  border: solid transparent 8px;
+  border: solid transparent 500px;
   border-radius: 20px;
   background-clip: content-box;
   background-color: var(--bs-tertiary-bg);
+  margin-block: 25px;
 }
 
 .scrollbar-sm::-webkit-scrollbar-thumb:vertical {
@@ -110,17 +102,11 @@
   border-radius: 15px;
   background-clip: content-box;
 }
-
-.scrollbar-sm::-webkit-scrollbar-track:horizontal {
-  border: solid transparent 8px;
-  border-radius: 20px;
-  background-clip: content-box;
-  background-color: var(--bs-tertiary-bg);
+.scrollbar-sm::-webkit-scrollbar-track-piece .wrapping-whitespace {
+  white-space: pre-wrap;
 }
 
-.scrollbar-sm::-webkit-scrollbar-thumb:horizontal {
-  background: var(--bs-tertiary-color);
-  border-radius: 15px;
-  border: solid transparent 5px;
-  background-clip: content-box;
+.vehicle_details {
+  max-width: 255px !important;
+  min-width: 225px !important;
 }

@@ -7,7 +7,7 @@ export const tlfw = (
       <img src="./TLF_3000.png" className="vehicle_img" />
     </div>
     <div className="vr" />
-    <span className="flex-fill p-3 d-flex flex-column vehicle_details">
+    <span className="flex-fill p-3 d-flex flex-column vehicle_details wrapping-whitespace">
       <h1>TLF-3000</h1>
       <h4 className="text-secondary">
         Florian Diez 15/23-2 <br /> Besatzung: 1/2
