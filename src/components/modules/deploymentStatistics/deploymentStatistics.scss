@@ -1,18 +1,14 @@
-@media (orientation = portrait) {
-  .list {
-    max-height: 400px;
-    max-width: 350px;
-    width: 85vw;
-    flex: 0 0 auto !important;
-  }
-}
-
-@media (orientation = landscape) {
-  .list {
-    max-height: 450px;
-    max-width: 700px;
-    min-width: 650px;
-  }
+// .list {
+//   max-height: 400px !important;
+//   max-width: 350px;
+//   width: 85vw;
+//   flex: 0 0 auto !important;
+// }
+.list {
+  max-height: 450px !important;
+  height: auto;
+  max-width: 700px;
+  min-width: 650px;
 }
 .canvas-chart {
   width: 50vw;

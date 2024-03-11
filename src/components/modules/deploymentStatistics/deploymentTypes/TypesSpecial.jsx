@@ -37,7 +37,7 @@ const TypesFire = () => {
         className={`d-flex flex-column align-items-center justify-content-start gap-2 p-2 border-end border-2`}
       >
         <i className="fa-solid fa-circle-exclamation violet cfs-1"></i>
-        <span className="vertical-text cfs-1">Unterstützung</span>
+        <span className="vertical-text cfs-1">Sonder</span>
       </div>
       <div className="cfs-5">
         <div className="d-flex border-bottom border-2">

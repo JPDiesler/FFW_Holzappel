@@ -23,6 +23,7 @@
     // );
     clip-path: polygon(0% 0%, 0 100%, 48%100%, 35%50%, 48%0%);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .logo {

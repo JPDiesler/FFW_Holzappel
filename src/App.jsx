@@ -89,7 +89,9 @@ function App() {
                 className="logo translate-middle"
               />
             </div>
-            <div className="bg-body d-flex flex-column align-items-center rounded-top-5 rounded-spacer z-0 position-relative">
+            <div
+              className={`d-flex flex-column align-items-center rounded-top-5 rounded-spacer z-0 position-relative`}
+            >
               <div
                 className="d-flex flex-column align-items-center justify-content-center pointer"
                 onClick={() => scrollToElement("landing")}
@@ -129,8 +131,8 @@ function App() {
               </div>
               <div
                 className={
-                  // (colorMode == "dark" ? "bg-secondary-subtle" : "bg-body") +
-                  " bg-body d-flex align-items-center justify-content-center rounded-top-5 rounded-spacer z-0 position-relative"
+                  (colorMode == "dark" ? "bg-secondary-subtle" : "bg-body") +
+                  " d-flex align-items-center justify-content-center rounded-top-5 rounded-spacer z-0 position-relative"
                 }
               >
                 <div

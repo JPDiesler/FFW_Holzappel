@@ -41,7 +41,12 @@ const TypesFire = () => {
       </div>
       <div className="cfs-5">
         <div className="d-flex border-bottom border-2">
-          <div className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step">
+          <div
+            className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Kleinfeuer, Einsatz auf Staffelebene,örtliche Ebene"
+          >
             B1
           </div>
           <div className="flex-fill">
@@ -68,7 +73,12 @@ const TypesFire = () => {
           </div>
         </div>
         <div className="d-flex border-bottom border-2">
-          <div className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step">
+          <div
+            className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Einsatz auf Gruppenebene, Feuer mit Beteiligung der Stützpunktwehr"
+          >
             B2
           </div>
           <div className="flex-fill">
@@ -107,7 +117,12 @@ const TypesFire = () => {
           </div>
         </div>
         <div className="d-flex border-bottom border-2">
-          <div className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step">
+          <div
+            className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Einsatz auf Zugebene, Einsatz der die Gemeinde als solches fordert"
+          >
             B3
           </div>
           <div className="flex-fill">
@@ -130,7 +145,12 @@ const TypesFire = () => {
           </div>
         </div>
         <div className="d-flex border-bottom border-2">
-          <div className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step">
+          <div
+            className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Einsatz für Gefahrstoffzug, Einsatz der die Gemeinde als solches fordert"
+          >
             B4
           </div>
           <div className="flex-fill d-flex align-items-center">

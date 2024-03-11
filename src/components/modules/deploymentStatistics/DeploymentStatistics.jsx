@@ -296,15 +296,15 @@ const DeploymentStatistics = () => {
   }
 
   return (
-    <div className="position-relative vh-100 vw-100 overflow-hidden">
+    <div className="position-relative vw-100 overflow-x-hidden">
       <div
-        className={`position-absolute d-flex align-items-center justify-content-center flex-column ${
+        className={`vw-100 position-absolute flex-grow d-flex align-items-center justify-content-center flex-column ${
           showDetails ? "out-left" : "centered"
         }`}
       >
         <h1 className="title mb-5">Einsatzstatistik</h1>
         <div className="flex-fill d-flex align-items-center justify-content-center flex-column">
-          <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
+          <div className="flex-fill d-flex align-items-center justify-content-center gap-3 ">
             {deployment_data[year].length == 0 ? (
               <span className="d-flex flex-column align-items-center justify-content-center">
                 <h2>{year}</h2>
@@ -353,11 +353,15 @@ const DeploymentStatistics = () => {
           </div>
         </div>
         <span
-          className="icon-link icon-link-hover lh-1 mb-4 pointer"
+          className="icon-link icon-link-hover lh-1 mt-4 mb-4 pointer fw-semibold text-primary"
           href="#"
           onClick={() => setShowDetails(true)}
         >
-          Erfahre mehr über die Einsatzbezeichnungen
+          <span className="text-decoration-underline">
+            Erfahre mehr über die Einsatzbezeichnungen
+          </span>
+
+          <i className="bi bi-arrow-right fs-5"></i>
         </span>
         <div className="d-flex align-items-center justify-content-center mt-3">
           <div className="btn-group" role="group" aria-label="Basic example">
