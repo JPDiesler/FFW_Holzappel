@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import "./deploymentStatistics.scss";
 import deployment_data from "./deployments";
-import DeploymentTypes from "./DeploymentTypes";
+import DeploymentTypes from "./deploymentTypes/DeploymentTypes";
 import Hover from "../../hover/Hover";
 const DeploymentStatistics = () => {
   const chartRef = useRef(null);
@@ -256,7 +256,7 @@ const DeploymentStatistics = () => {
         <button
           key={i}
           type="button"
-          className="btn btn-primary border border-primary-subtle"
+          className="btn btn-primary"
           onClick={() => {
             setYear(year - i);
           }}
@@ -283,7 +283,7 @@ const DeploymentStatistics = () => {
         <button
           key={i}
           type="button"
-          className="btn btn-primary border border-primary-subtle"
+          className="btn btn-primary"
           onClick={() => {
             setYear(year + i);
           }}
@@ -296,9 +296,13 @@ const DeploymentStatistics = () => {
   }
 
   return (
-    <>
-      <div className="d-flex align-items-center justify-content-center flex-column pt-5 mt-3 mb-5">
-        <h1 className="title">Einsatzstatistik</h1>
+    <div className="position-relative vh-100 vw-100 overflow-hidden">
+      <div
+        className={`position-absolute d-flex align-items-center justify-content-center flex-column ${
+          showDetails ? "out-left" : "centered"
+        }`}
+      >
+        <h1 className="title mb-5">Einsatzstatistik</h1>
         <div className="flex-fill d-flex align-items-center justify-content-center flex-column">
           <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
             {deployment_data[year].length == 0 ? (
@@ -348,21 +352,19 @@ const DeploymentStatistics = () => {
             )}
           </div>
         </div>
-        <a
-          className="icon-link icon-link-hover lh-1 mb-4"
+        <span
+          className="icon-link icon-link-hover lh-1 mb-4 pointer"
           href="#"
           onClick={() => setShowDetails(true)}
         >
           Erfahre mehr über die Einsatzbezeichnungen
-        </a>
+        </span>
         <div className="d-flex align-items-center justify-content-center mt-3">
           <div className="btn-group" role="group" aria-label="Basic example">
             <button
               type="button"
               className={
-                year == firstYear
-                  ? "btn btn-primary-outline"
-                  : "btn btn-primary border border-primary-subtle"
+                year == firstYear ? "btn btn-primary" : "btn btn-primary"
               }
               onClick={() => {
                 setYear(firstYear);
@@ -375,9 +377,7 @@ const DeploymentStatistics = () => {
             <button
               type="button"
               className={
-                year == firstYear
-                  ? "btn btn-primary-outline"
-                  : "btn btn-primary border border-primary-subtle"
+                year == firstYear ? "btn btn-primary" : "btn btn-primary"
               }
               onClick={() => {
                 setYear(year - 1);
@@ -387,10 +387,7 @@ const DeploymentStatistics = () => {
               <i className="bi bi-chevron-left"></i>
             </button>
             {generatePreviousYearsButtons()}
-            <button
-              type="button"
-              className="pe-none btn btn-primary border border-primary-subtle "
-            >
+            <button type="button" className="pe-none btn btn-primary">
               {year}
             </button>
             {generateNextYearsButtons()}
@@ -398,8 +395,8 @@ const DeploymentStatistics = () => {
               type="button"
               className={
                 year == new Date().getFullYear()
-                  ? "btn btn-primary-outline"
-                  : "btn btn-primary border border-primary-subtle"
+                  ? "btn btn-primary"
+                  : "btn btn-primary"
               }
               onClick={() => {
                 setYear(year + 1);
@@ -412,8 +409,8 @@ const DeploymentStatistics = () => {
               type="button"
               className={
                 year == new Date().getFullYear()
-                  ? "btn btn-primary-outline"
-                  : "btn btn-primary border border-primary-subtle"
+                  ? "btn btn-primary"
+                  : "btn btn-primary"
               }
               onClick={() => {
                 setYear(new Date().getFullYear());
@@ -425,12 +422,14 @@ const DeploymentStatistics = () => {
           </div>
         </div>
       </div>
-      {showDetails ? (
-        <Hover fullScreen={true} centered={true}>
-          <DeploymentTypes onClickClose={() => setShowDetails(false)} />
-        </Hover>
-      ) : null}
-    </>
+      <div
+        className={`position-absolute ${
+          showDetails ? "centered" : "out-right"
+        }`}
+      >
+        <DeploymentTypes onClickClose={() => setShowDetails(false)} />
+      </div>
+    </div>
   );
 };
 

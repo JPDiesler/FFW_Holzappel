@@ -15,12 +15,12 @@
   .path {
     height: 100%;
     width: 100%;
-    background: rgb(166, 166, 166);
-    background: linear-gradient(
-      90deg,
-      rgba(166, 166, 166, 1) 0%,
-      rgba(166, 166, 166, 0.3) 50%
-    );
+    background: rgb(166, 166, 166, 0.2);
+    // background: linear-gradient(
+    //   90deg,
+    //   rgba(166, 166, 166, 1) 0%,
+    //   rgba(166, 166, 166, 0.3) 50%
+    // );
     clip-path: polygon(0% 0%, 0 100%, 48%100%, 35%50%, 48%0%);
     backdrop-filter: blur(10px);
   }
@@ -100,4 +100,12 @@
 
 .pointer {
   cursor: pointer !important;
+}
+
+.move-down i {
+  transition: padding-top 0.1s ease-out;
+}
+
+.move-down:hover i {
+  padding-top: 5px !important;
 }

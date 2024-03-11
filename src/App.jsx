@@ -129,12 +129,12 @@ function App() {
               </div>
               <div
                 className={
-                  (colorMode == "dark" ? "bg-secondary-subtle" : "bg-body") +
-                  " d-flex align-items-center justify-content-center rounded-top-5 rounded-spacer z-0 position-relative"
+                  // (colorMode == "dark" ? "bg-secondary-subtle" : "bg-body") +
+                  " bg-body d-flex align-items-center justify-content-center rounded-top-5 rounded-spacer z-0 position-relative"
                 }
               >
                 <div
-                  className="d-flex flex-column align-items-center justify-content-center pointer"
+                  className="d-flex flex-column align-items-center justify-content-center pointer move-down"
                   onClick={() => scrollToElement("recruting")}
                 >
                   <h5 className="fw-semibold m-0 mt-2">Scrollen</h5>
@@ -146,18 +146,18 @@ function App() {
         )}
 
         <div id="content">
-          <div
+          {/* <div
             id="recruting"
             className={"element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
             <Recruting />
-          </div>
-          <div
+          </div> */}
+          {/* <div
             id="aktuelles"
             className={"blog_element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
             <Aktuelles />
-          </div>
+          </div> */}
           {/* <div
             id="date"
             className={
@@ -170,7 +170,7 @@ function App() {
           <div
             id="deployment"
             className={
-              "d-flex justify-content-center element " +
+              "d-flex justify-content-center element position-relative " +
               (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
             }
           >

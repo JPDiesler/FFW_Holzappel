@@ -71,3 +71,31 @@
 .scrollbar::-webkit-scrollbar-corner {
   background-color: transparent;
 }
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.out-left {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-210%, -50%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.out-right {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(250%, -50%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.vw-90 {
+  width: 90vw !important;
+}

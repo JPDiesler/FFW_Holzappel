@@ -35,3 +35,29 @@
   height: 20px;
   width: 26px;
 }
+
+.step {
+  width: 52px;
+}
+
+.number {
+  width: 32px;
+}
+.closed {
+  width: 80px;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+}
+.open {
+  width: auto;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+}
+
+.cfs-5 {
+  font-size: 20px;
+}
+
+.cfs-1 {
+  font-size: 40px;
+}
