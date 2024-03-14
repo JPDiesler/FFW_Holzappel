@@ -27,12 +27,11 @@
 
 @media (orientation: portrait) {
   .vehicle_container {
-    width: 70vw !important; // or some percentage or viewport width
-    //height 500 / 1035 = 0.4831 or 48.31%
-    height: 70vw;
+    width: 90vw !important;
+    height: 90vw;
   }
   .vehicle_img {
-    width: 50vw;
+    width: 90vw;
   }
   .bg-night {
     background-color: rgb(5, 5, 5) !important;

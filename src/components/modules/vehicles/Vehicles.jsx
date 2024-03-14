@@ -1,5 +1,5 @@
 import React from "react";
-import Carousel from "./Carousel";
+import Carousel from "../../carousel/Carousel";
 import Vehicle from "./Vehicle";
 
 const Vehicles = () => {
@@ -99,7 +99,15 @@ const Vehicles = () => {
   return (
     <div className="flex-fill d-flex flex-column justify-content-center align-items-center overflow-hidden">
       <h1 className="title mb-5">Unsere Einsatzfahrzeuge</h1>
-      <Carousel items={vehicles} />
+      <Carousel className="border">
+        {vehicles.map((vehicle, index) => {
+          return (
+            <div className="" key={index}>
+              {vehicle}
+            </div>
+          );
+        })}
+      </Carousel>
       <a
         className="icon-link icon-link-hover lh-1"
         href="https://de.wikipedia.org/wiki/Feuerwehrfahrzeuge_in_Deutschland#Normung"
