@@ -1,252 +1,30 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import Chart from "chart.js/auto";
 import "./deploymentStatistics.scss";
 import deployment_data from "./deployments";
 import DeploymentTypes from "./deploymentTypes/DeploymentTypes";
-import Hover from "../../hover/Hover";
-import { main } from "@popperjs/core";
+import DeploymentChart from "./DeploymentChart";
+import DeploymentTable from "./DeploymentTable";
+import ButtonBar from "./ButtonBar";
+
 const DeploymentStatistics = () => {
-  const chartRef = useRef(null);
-  const divRef = useRef();
   const mainRef = useRef();
-  const [isScrollable, setIsScrollable] = useState(false);
+  const contentRef = useRef(null);
+  const secondaryRef = useRef(null);
+  const [isPortrait, setIsPortrait] = useState(false);
+  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
   const [year, setYear] = useState(new Date().getFullYear());
-  const firstYear = Math.min(...Object.keys(deployment_data).map(Number));
   const [showDetails, setShowDetails] = useState(false);
 
-  function countData(types, data) {
-    const entryCount = [];
-    types.forEach((type) => {
-      let count = 0;
-      data.forEach((deployment) => {
-        if (deployment.type.includes(type)) {
-          count += 1;
-        }
-      });
-      entryCount.push(count);
-    });
-    return entryCount;
-  }
-
-  function getComputedCSSProperty(className, cssProperty) {
-    // Create a hidden div with the given class
-    let div = document.createElement("div");
-    div.className = className;
-    div.style.display = "none";
-    document.body.appendChild(div);
-
-    // Get the computed color of the div
-    let color = window.getComputedStyle(div)[cssProperty];
-
-    // Remove the div
-    document.body.removeChild(div);
-
-    return color;
-  }
-
-  function createChart(data, year) {
-    // Destroy the old chart if it exists
-    if (window.myChart) {
-      window.myChart.destroy();
-    }
-
-    let colorMode = document.documentElement.getAttribute("data-bs-theme");
-
-    const ctx = document.getElementById("deploymentChart");
-
-    const indexOfLargest = data.indexOf(Math.max(...data));
-    const offsets = Array(data.length).fill(0);
-    offsets[indexOfLargest] = 20;
-
-    // Check if there is an existing Chart instance and destroy it
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-
-    // Create a hidden div with the .text-body class
-    let color = getComputedCSSProperty("text-body", "color");
-    let borderColor;
-    if (colorMode === "light") {
-      borderColor = getComputedCSSProperty("bg-body", "backgroundColor");
-    } else if (colorMode === "dark") {
-      borderColor = getComputedCSSProperty(
-        "bg-secondary-subtle",
-        "backgroundColor"
-      );
-    }
-    const chartPlugin = {
-      id: "custom_text_in_center",
-      beforeDatasetsDraw: (chart) => {
-        let chartArea = chart.chartArea;
-        let ctx = chart.ctx;
-
-        let width = chartArea.right - chartArea.left;
-        let height = chartArea.bottom - chartArea.top;
-
-        ctx.save();
-        let fontSize = (height / 114).toFixed(2);
-        ctx.font = "bold " + fontSize + "em Arial";
-        ctx.textBaseline = "middle";
-        // Use the color for the text
-        ctx.fillStyle = color;
-
-        let text = year, // Your text here
-          textX =
-            chartArea.left +
-            Math.round((width - ctx.measureText(text).width) / 2),
-          textY = chartArea.top + height / 2;
-
-        ctx.fillText(text, textX, textY);
-
-        // Add secondary text
-        let secondaryText = data.length + " Einsätze"; // Your secondary text here
-        let secondaryFontSize = fontSize / 3; // Adjust as needed
-        ctx.font = "bold " + secondaryFontSize + "em Arial";
-        let secondaryTextX =
-          chartArea.left +
-          Math.round((width - ctx.measureText(secondaryText).width) / 2);
-        let secondaryTextY = textY + parseInt(fontSize) * 10 + 5; // Adjust the multiplier as needed
-
-        ctx.fillText(secondaryText, secondaryTextX, secondaryTextY);
-
-        ctx.restore();
-      },
-    };
-
-    // Create a new Chart instance
-    chartRef.current = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [
-          "Brandeinsätze",
-          "Gefahrstoffeinsätze",
-          "Unterstüzungseinsätze",
-          "Hilfeleistungseinsätze",
-          "Wassereinsätze",
-          "Sondereinsätze",
-        ],
-        datasets: [
-          {
-            data: countData(["B", "G", "U", "H", "W", "S"], data),
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(255, 205, 86)",
-              "#30D9A3",
-              "rgb(54, 162, 235)",
-              "rgb(50, 70, 255)",
-              "rgb(156, 81, 255)",
-            ],
-            borderColor: borderColor,
-            borderWidth: 8,
-            borderRadius: 15,
-          },
-        ],
-      },
-      options: {
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: color,
-              font: {
-                weight: "550",
-                size: "15",
-              },
-            },
-            align: "center",
-            position: "bottom",
-          },
-          tooltip: {
-            displayColors: false,
-            titleFont: {
-              size: 14,
-              weight: 600,
-            },
-            callbacks: {
-              label: function (context) {
-                let label = context.dataset.label || "";
-
-                if (label) {
-                  label += ": ";
-                }
-                if (context.raw !== undefined) {
-                  label += context.raw + " Einsätze";
-                } else {
-                  label += "0 Einsätze"; // default to 0 if context.raw is undefined
-                }
-                return label;
-              },
-            },
-          },
-          custom_text_in_center: {}, // Enable the plugin
-        },
-      },
-      plugins: [chartPlugin],
-    });
-
-    // Cleanup: Destroy the Chart instance when the component unmounts
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }
-
   useEffect(() => {
-    // Create a MutationObserver instance
-    const observer = new MutationObserver((mutationsList) => {
-      // Removed unused observer parameter
-      // Look through all mutations that just occured
-      for (let mutation of mutationsList) {
-        // If the data-bs-theme attribute was modified
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "data-bs-theme"
-        ) {
-          // Update the chart
-          createChart(deployment_data[year], year);
-        }
-      }
-    });
-
-    // Start observing the document with the configured parameters
-    observer.observe(document.documentElement, { attributes: true });
-
-    // Cleanup: Disconnect the observer when the component unmounts
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (deployment_data[year] && deployment_data[year].length > 0) {
-      createChart(deployment_data[year], year);
-    }
-  }, [year, deployment_data]);
-
-  useEffect(() => {
-    const div = divRef.current;
-
-    function checkScrollable() {
-      if (div.scrollHeight > div.clientHeight) {
-        setIsScrollable(true);
-      } else {
-        setIsScrollable(false);
-      }
-    }
-
-    if (deployment_data[year].length > 0) {
-      const observer = new MutationObserver(checkScrollable);
-      observer.observe(div, { childList: true, subtree: true });
-      checkScrollable();
-      return () => observer.disconnect();
-    }
-  }, [year, deployment_data]);
+    isPortrait ? setShowDetails(false) : null;
+  }, [isPortrait]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         // If the element is not in the viewport, set showDetails to false
-        if (!entry.isIntersecting) {
+        if (!entry.isIntersecting && !isPortrait) {
           setShowDetails(false);
         }
       },
@@ -265,198 +43,139 @@ const DeploymentStatistics = () => {
     return () => observer.unobserve(mainRef.current);
   }, []);
 
-  function generatePreviousYearsButtons() {
-    let d = 0;
-    const currentYear = new Date().getFullYear();
-    const delta = currentYear - year;
-    if (delta >= 2) {
-      d = 2;
-    } else {
-      d = 4 - delta;
-    }
-    const buttons = [];
-    for (let i = 1; i <= d; i++) {
-      if (year - i < firstYear) break;
-      buttons.unshift(
-        <button
-          key={i}
-          type="button"
-          className="btn btn-primary"
-          onClick={() => {
-            setYear(year - i);
-          }}
-        >
-          {year - i}
-        </button>
-      );
-    }
-    return buttons;
-  }
+  useEffect(() => {
+    //toggle portrait mode
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
 
-  function generateNextYearsButtons() {
-    let d = 0;
-    const delta = year - firstYear;
-    if (delta >= 2) {
-      d = 2;
+    //set placeholder size
+    function updateSize() {
+      setContentSize({
+        width:
+          showDetails && !isPortrait
+            ? secondaryRef.current.offsetHeight
+            : contentRef.current.offsetWidth,
+        height:
+          showDetails && !isPortrait
+            ? secondaryRef.current.offsetHeight
+            : contentRef.current.offsetHeight,
+      });
+    }
+    updateSize();
+
+    window.addEventListener("resize", updateSize);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", updateSize);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [showDetails, isPortrait, year]);
+
+  //lock srolling
+  useEffect(() => {
+    if (showDetails && !isPortrait) {
+      const element = document.getElementById("deployment");
+      element.scrollIntoView({ behavior: "smooth" });
+      document.body.style.overflow = "hidden";
+    } else if (showDetails && isPortrait) {
+      const element = document.getElementById("deployment-types");
+      element.scrollIntoView({ behavior: "smooth" });
+      document.body.style.overflow = "auto";
     } else {
-      d = 4 - delta;
+      const element = document.getElementById("deployment");
+      element.scrollIntoView({ behavior: "smooth" });
     }
-    const buttons = [];
-    for (let i = 1; i <= d; i++) {
-      if (year + i > new Date().getFullYear()) break;
-      buttons.push(
-        <button
-          key={i}
-          type="button"
-          className="btn btn-primary"
-          onClick={() => {
-            setYear(year + i);
-          }}
-        >
-          {year + i}
-        </button>
-      );
-    }
-    return buttons;
-  }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showDetails]);
 
   return (
-    <div className="position-relative vw-100 overflow-x-hidden" ref={mainRef}>
+    <div
+      className="flex-fill d-flex flex-column overflow-visible"
+      ref={mainRef}
+    >
       <div
-        className={`vw-100 position-absolute flex-grow d-flex align-items-center justify-content-center flex-column ${
-          showDetails ? "out-left" : "centered"
-        }`}
+        className={`w-100 flex-fill d-flex flex-column justify-content-center align-items-center position-relative vw-100 overflow-x-hidden rounded-3 mt-5`}
       >
-        <h1 className="title mb-5">Einsatzstatistik</h1>
-        <div className="flex-fill d-flex align-items-center justify-content-center flex-column">
-          <div className="flex-fill d-flex align-items-center justify-content-center gap-3 ">
-            {deployment_data[year].length == 0 ? (
-              <span className="d-flex flex-column align-items-center justify-content-center">
-                <h2>{year}</h2>
-                <h5 className="fw-semibold text-secondary">
-                  Keine Einsätze vorhanden!
-                </h5>
-              </span>
-            ) : (
-              <>
-                <canvas id="deploymentChart" className="canvas-chart"></canvas>
-                <div
-                  className={`bg-body list overflow-y-auto scrollbar  rounded border p-2 ${
-                    isScrollable ? "pe-0" : ""
-                  }`}
-                  ref={divRef}
-                >
-                  <div className="rounded border  overflow-hidden">
-                    <table className="table table-striped table-hover rounded align-middle m-0">
-                      <tbody className="">
-                        {deployment_data[year].map((deployment, index) => (
-                          <tr key={index} className="fw-semibold">
-                            <td className="text-center border-end">
-                              {index + 1}.
-                            </td>
-                            <td>
-                              {deployment.date}
-                              <br />
-                              {deployment.time != null
-                                ? deployment.time + " Uhr"
-                                : null}
-                            </td>
-                            <td className="text-center border-start">
-                              {deployment.type}
-                            </td>
-                            <td className="fw-normal text-break border-start">
-                              {deployment.description}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        <span
-          className="icon-link icon-link-hover lh-1 mt-4 mb-4 pointer fw-semibold text-primary"
-          href="#"
-          onClick={() => setShowDetails(true)}
+        <div
+          id="placeholder"
+          className="invisible"
+          style={{ width: contentSize.width, height: contentSize.height }}
+        />
+        <div
+          className={`flex-fill w-100 d-flex flex-column ${
+            showDetails & !isPortrait ? "out-left" : "centered"
+          }`}
+          ref={contentRef}
         >
-          <span className="text-decoration-underline">
-            Erfahre mehr über die Einsatzbezeichnungen
-          </span>
-
-          <i className="bi bi-arrow-right fs-5"></i>
-        </span>
-        <div className="d-flex align-items-center justify-content-center mt-3">
-          <div className="btn-group" role="group" aria-label="Basic example">
-            <button
-              type="button"
-              className={
-                year == firstYear ? "btn btn-primary" : "btn btn-primary"
-              }
-              onClick={() => {
-                setYear(firstYear);
-              }}
-              disabled={year == firstYear}
-            >
-              <i className="bi bi-chevron-double-left"></i>
-            </button>
-
-            <button
-              type="button"
-              className={
-                year == firstYear ? "btn btn-primary" : "btn btn-primary"
-              }
-              onClick={() => {
-                setYear(year - 1);
-              }}
-              disabled={year == firstYear}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-            {generatePreviousYearsButtons()}
-            <button type="button" className="pe-none btn btn-primary">
-              {year}
-            </button>
-            {generateNextYearsButtons()}
-            <button
-              type="button"
-              className={
-                year == new Date().getFullYear()
-                  ? "btn btn-primary"
-                  : "btn btn-primary"
-              }
-              onClick={() => {
-                setYear(year + 1);
-              }}
-              disabled={year == new Date().getFullYear()}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-            <button
-              type="button"
-              className={
-                year == new Date().getFullYear()
-                  ? "btn btn-primary"
-                  : "btn btn-primary"
-              }
-              onClick={() => {
-                setYear(new Date().getFullYear());
-              }}
-              disabled={year == new Date().getFullYear()}
-            >
-              <i className="bi bi-chevron-double-right"></i>
-            </button>
+          <h1 className="title mb-5">Einsatzstatistik</h1>
+          <div
+            className={`flex-fill d-flex gap-3 flex-wrap justify-content-center align-items-center ps-3 pe-3 ${
+              isPortrait ? "mb-5" : ""
+            }`}
+          >
+            <DeploymentChart data={deployment_data[year]} year={year} />
+            <DeploymentTable data={deployment_data[year]} />
           </div>
+          {isPortrait ? null : (
+            <span
+              className="mt-5 mb-5 text-primary text-decoration-underline pointer icon-link icon-link-hover d-flex align-items-center lh-1"
+              onClick={() => setShowDetails(true)}
+            >
+              Erfahre mehr über die Einsatzcodes & -stichwörter
+              <i className="bi bi-arrow-right fs-5"></i>
+            </span>
+          )}
+
+          <ButtonBar
+            selectedYear={year}
+            setYear={setYear}
+            years={Object.keys(deployment_data)}
+            portraitMode={isPortrait}
+          />
         </div>
+        {isPortrait ? null : (
+          <div
+            className={
+              showDetails
+                ? "centered"
+                : isPortrait
+                ? "out-right top-0"
+                : "out-right"
+            }
+          >
+            <DeploymentTypes
+              onClickClose={() => setShowDetails(false)}
+              ref={secondaryRef}
+            />
+          </div>
+        )}
       </div>
-      <div
-        className={`position-absolute ${
-          showDetails ? "centered" : "out-right"
-        }`}
-      >
-        <DeploymentTypes onClickClose={() => setShowDetails(false)} />
+      <div className="w-100 d-flex flex-column align-items-center justify-content-center mt-3">
+        {isPortrait ? (
+          <>
+            {!showDetails ? (
+              <span
+                className="mt-5 mb-2 text-primary text-decoration-underline pointer icon-link icon-link-hover d-flex align-items-center lh-1"
+                onClick={() => setShowDetails(true)}
+              >
+                Erfahre mehr über die Einsatzcodes & -stichwörter
+                <i className="bi bi-arrow-right fs-5"></i>
+              </span>
+            ) : null}
+
+            {showDetails ? (
+              <DeploymentTypes
+                onClickClose={() => setShowDetails(false)}
+                portraitMode={true}
+              />
+            ) : null}
+          </>
+        ) : null}
       </div>
     </div>
   );

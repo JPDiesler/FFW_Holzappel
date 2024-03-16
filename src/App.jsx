@@ -154,12 +154,12 @@ function App() {
           >
             <Recruting />
           </div> */}
-          <div
+          {/* <div
             id="aktuelles"
             className={"blog_element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
             <Aktuelles />
-          </div>
+          </div> */}
           {/* <div
             id="date"
             className={
@@ -188,8 +188,6 @@ function App() {
             <Vehicles />
           </div>
         </div>
-
-        <Footer />
       </div>
     </>
   );

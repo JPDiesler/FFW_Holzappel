@@ -1,16 +1,24 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import "./deploymentTypes.scss";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-const TypesWater = () => {
+const TypesWater = (props) => {
   const [open, setOpen] = useState(false);
-  const [openWidth, setOpenWidth] = useState("80px");
+  const [contentSize, setContentSize] = useState({
+    width: "80px",
+    height: "80px",
+  });
   const divRef = useRef(null);
 
   useEffect(() => {
     if (open) {
-      setOpenWidth(`${divRef.current.scrollWidth}px`);
+      const size = {
+        width: `${divRef.current.scrollWidth}px`,
+        height: `${divRef.current.scrollHeight}px`,
+      };
+      setContentSize(size);
     }
   }, [open]);
 
@@ -26,18 +34,32 @@ const TypesWater = () => {
   return (
     <div
       className={`d-flex rounded border border-2  fw-semibold text-nowrap ${
-        open ? "open" : "closed"
+        props.isPortrait
+          ? "flex-column " + (open ? "p-open" : "p-closed")
+          : open
+          ? "f-open"
+          : "f-closed"
       }`}
       ref={divRef}
-      style={{ width: open ? openWidth : "80px" }}
+      style={
+        props.isPortrait
+          ? { height: open ? contentSize.height : "80px" }
+          : { width: open ? contentSize.width : "80px" }
+      }
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
       <div
-        className={`d-flex flex-column align-items-center justify-content-start gap-2 p-2 border-end border-2`}
+        className={`d-flex align-items-center justify-content-start gap-2 p-2 border-2 ${
+          props.isPortrait
+            ? "flex-row border-bottom"
+            : "flex-column border-end "
+        }`}
       >
         <i className="fa-solid fa-water dark-blue cfs-1"></i>
-        <span className="vertical-text cfs-1">Wasser</span>
+        <span className={`cfs-1 ${props.isPortrait ? "" : "vertical-text"}`}>
+          Wasser
+        </span>
       </div>
       <div className="cfs-5">
         <div className="d-flex border-bottom border-2">
@@ -74,7 +96,11 @@ const TypesWater = () => {
             </div>
           </div>
         </div>
-        <div className="d-flex border-bottom border-2">
+        <div
+          className={`d-flex ${
+            props.isPortrait ? "" : "border-bottom"
+          } border-2`}
+        >
           <div className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step">
             W3
           </div>
@@ -97,5 +123,8 @@ const TypesWater = () => {
     </div>
   );
 };
+
+TypesWater.propTypes = { isPortrait: PropTypes.bool };
+TypesWater.defaultProps = { isPortrait: false };
 
 export default TypesWater;

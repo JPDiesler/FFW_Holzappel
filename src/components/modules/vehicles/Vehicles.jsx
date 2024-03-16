@@ -99,7 +99,7 @@ const Vehicles = () => {
   return (
     <div className="flex-fill d-flex flex-column justify-content-center align-items-center overflow-hidden">
       <h1 className="title mb-5">Unsere Einsatzfahrzeuge</h1>
-      <Carousel className="border">
+      <Carousel>
         {vehicles.map((vehicle, index) => {
           return (
             <div className="" key={index}>
@@ -108,15 +108,15 @@ const Vehicles = () => {
           );
         })}
       </Carousel>
-      <a
-        className="icon-link icon-link-hover lh-1"
+      <span
+        className="icon-link icon-link-hover lh-1 text-primary text-decoration-underline pointer"
         href="https://de.wikipedia.org/wiki/Feuerwehrfahrzeuge_in_Deutschland#Normung"
         target="_blank"
         rel="noopener noreferrer"
       >
         Erfahre mehr über Feuerwehrfahrzeuge
-        <i className="bi bi-wikipedia"></i>
-      </a>
+        <i className="bi bi-arrow-right fs-5"></i>
+      </span>
     </div>
   );
 };

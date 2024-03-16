@@ -7,7 +7,6 @@ import { useState } from "react";
 const icons = {
   ligth: <i className="bi bi-brightness-high-fill pe-1"></i>,
   dark: <i className="bi bi-moon-stars-fill pe-1"></i>,
-  auto: <i className="bi bi-circle-half pe-1"></i>,
 };
 
 const ModeButton = () => {
@@ -108,20 +107,6 @@ const ModeButton = () => {
               title="Dark Mode"
             >
               <i className="bi bi-moon-stars-fill p-1"></i>
-            </button>
-          </li>
-          <li>
-            <button
-              className="btn d-flex align-items-center justify-content-center p-1"
-              onClick={() => {
-                setMenu(false);
-                setColorMode("auto");
-              }}
-              data-bs-toggle="tooltip"
-              data-bs-placement="right"
-              title="Automatisch"
-            >
-              <i className="bi bi-circle-half p-1"></i>
             </button>
           </li>
         </ul>

@@ -30,7 +30,7 @@ const deployments2008 = [
     type: "B2.03",
   },
   {
-    date: "13.09.2008",
+    date: "17.09.2008",
     time: null,
     description: "VU eingeklemmte Person Geilnau-Balduinstein",
     type: "H2.03",
@@ -1564,6 +1564,12 @@ const deployments2024 = [
     time: "16:28",
     description: "Auslaufende Betriebsstoffe PKW Giershausen",
     type: "G1.02",
+  },
+  {
+    date: "15.02.2024",
+    time: "23:33",
+    description: "Brandmeldeanlage Jugendheim Kirchähr",
+    type: "B2.07",
   },
 ];
 

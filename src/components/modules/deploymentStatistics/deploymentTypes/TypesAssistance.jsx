@@ -1,16 +1,24 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useState, useEffect, useRef } from "react";
 import "./deploymentTypes.scss";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-const TypesFire = () => {
+const TypesAssistance = (props) => {
   const [open, setOpen] = useState(false);
-  const [openWidth, setOpenWidth] = useState("80px");
+  const [contentSize, setContentSize] = useState({
+    width: "80px",
+    height: "80px",
+  });
   const divRef = useRef(null);
 
   useEffect(() => {
     if (open) {
-      setOpenWidth(`${divRef.current.scrollWidth}px`);
+      const size = {
+        width: `${divRef.current.scrollWidth}px`,
+        height: `${divRef.current.scrollHeight}px`,
+      };
+      setContentSize(size);
     }
   }, [open]);
 
@@ -26,18 +34,32 @@ const TypesFire = () => {
   return (
     <div
       className={`d-flex rounded border border-2  fw-semibold text-nowrap ${
-        open ? "open" : "closed"
+        props.isPortrait
+          ? "flex-column " + (open ? "p-open" : "p-closed")
+          : open
+          ? "f-open"
+          : "f-closed"
       }`}
       ref={divRef}
-      style={{ width: open ? openWidth : "80px" }}
+      style={
+        props.isPortrait
+          ? { height: open ? contentSize.height : "80px" }
+          : { width: open ? contentSize.width : "80px" }
+      }
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
       <div
-        className={`d-flex flex-column align-items-center justify-content-start gap-2 p-2 border-end border-2`}
+        className={`d-flex align-items-center justify-content-start gap-2 p-2 border-2 ${
+          props.isPortrait
+            ? "flex-row border-bottom"
+            : "flex-column border-end "
+        }`}
       >
         <i className="fa-solid fa-handshake-angle green cfs-1"></i>
-        <span className="vertical-text cfs-1">Unterstützung</span>
+        <span className={`cfs-1 ${props.isPortrait ? "" : "vertical-text"}`}>
+          Unterstützung
+        </span>
       </div>
       <div className="cfs-5">
         <div className="d-flex border-bottom border-2">
@@ -102,7 +124,11 @@ const TypesFire = () => {
             </div>
           </div>
         </div>
-        <div className="d-flex border-bottom border-2">
+        <div
+          className={`d-flex ${
+            props.isPortrait ? "" : "border-bottom"
+          } border-2`}
+        >
           <div className="ps-2 pe-2 border-end d-flex align-items-center justify-content-center step">
             U3
           </div>
@@ -118,4 +144,7 @@ const TypesFire = () => {
   );
 };
 
-export default TypesFire;
+TypesAssistance.propTypes = { isPortrait: PropTypes.bool };
+TypesAssistance.defaultProps = { isPortrait: false };
+
+export default TypesAssistance;

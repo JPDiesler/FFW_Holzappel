@@ -43,15 +43,28 @@
 .number {
   width: 32px;
 }
-.closed {
+.f-closed {
   width: 80px;
   overflow: hidden;
   transition: width 0.5s ease-in-out;
 }
-.open {
+.f-open {
   width: auto;
   overflow: hidden;
   transition: width 0.5s ease-in-out;
+}
+
+.p-closed {
+  height: 80px;
+  width: 420px;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
+}
+.p-open {
+  height: auto;
+  width: 420px;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
 }
 
 .cfs-5 {

@@ -23,6 +23,11 @@
     column-gap: 5px;
     box-sizing: content-box;
   }
+
+  .vehicle_details {
+    max-width: 255px !important;
+    min-width: 225px !important;
+  }
 }
 
 @media (orientation: portrait) {
@@ -46,36 +51,11 @@
     column-gap: 5px;
     box-sizing: content-box;
   }
-  .carousel-container > :not(:first-child) {
-    margin-left: 100vw !important;
+
+  .vehicle_details {
+    max-height: 120px !important;
+    min-height: 100px !important;
   }
-}
-
-.carousel-container {
-  position: absolute;
-  display: flex;
-  z-index: 0;
-  left: auto;
-  right: auto;
-}
-
-.indicator {
-  content: "";
-  height: 6px;
-  width: 50px;
-  border: none;
-  margin-left: 5px;
-  margin-right: 5px;
-  border-radius: 3px;
-  background-color: var(--bs-secondary-bg);
-}
-
-.indicator_active {
-  background-color: #b4b4b4;
-}
-
-.placeholder {
-  visibility: hidden;
 }
 
 .scrollbar-sm::-webkit-scrollbar {
@@ -103,9 +83,4 @@
 }
 .scrollbar-sm::-webkit-scrollbar-track-piece .wrapping-whitespace {
   white-space: pre-wrap;
-}
-
-.vehicle_details {
-  max-width: 255px !important;
-  min-width: 225px !important;
 }
