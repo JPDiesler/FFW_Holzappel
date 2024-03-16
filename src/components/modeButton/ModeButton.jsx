@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import "./ModeButton.scss";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const icons = {
   ligth: <i className="bi bi-brightness-high-fill pe-1"></i>,
@@ -10,12 +11,13 @@ const icons = {
 };
 
 const ModeButton = () => {
+  const [cookies, setCookie] = useCookies(["theme"]);
   const ulRef = useRef(null);
   const buttonRef = useRef(null);
   const html = document.getElementsByTagName("html")[0];
-  const [icon, setIcon] = useState(icons[html.getAttribute("data-bs-theme")]);
+  const [icon, setIcon] = useState();
   const [menu, setMenu] = useState(false);
-  const [mode, setMode] = useState(icons[html.getAttribute("data-bs-theme")]);
+  const [mode, setMode] = useState();
 
   useEffect(() => {
     var tooltipTriggerList = [].slice.call(
@@ -48,15 +50,28 @@ const ModeButton = () => {
       if (prefersDarkScheme) {
         html.setAttribute("data-bs-theme", "dark");
         setMode("dark");
+        setCookie("theme", mode, { path: "/" });
       } else {
         html.setAttribute("data-bs-theme", "light");
         setMode("light");
+        setCookie("theme", mode, { path: "/" });
       }
     } else {
       html.setAttribute("data-bs-theme", mode);
       setMode(mode);
+      setCookie("theme", mode, { path: "/" });
     }
   }
+
+  useEffect(() => {
+    // Load the mode from the cookie when the component mounts
+    const savedMode = cookies.theme;
+    if (savedMode) {
+      html.setAttribute("data-bs-theme", savedMode);
+      setIcon(icons[savedMode]);
+      setMode(icons[savedMode]);
+    }
+  }, []);
 
   return (
     <div className="position-relative">

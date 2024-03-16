@@ -10,15 +10,25 @@ import Vehicles from "./components/modules/vehicles/Vehicles";
 import NavbarMobile from "./components/navbar/NavbarMobile";
 import ScrollToTopButton from "./components/scrollToTopButton/ScrollToTopButton";
 import "./components/navbar/Navbar.scss";
+import { useCookies } from "react-cookie";
 import Recruting from "./components/modules/recruting/Recruting";
 import Footer from "./components/modules/footer/Footer";
 
 function App() {
   const [colorMode, setColorMode] = useState("auto");
+  const [cookies, setCookie] = useCookies(["theme"]);
 
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
   );
+
+  useEffect(() => {
+    // Load the mode from the cookie when the component mounts
+    const savedMode = cookies.theme;
+    if (savedMode) {
+      setColorMode(savedMode);
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
