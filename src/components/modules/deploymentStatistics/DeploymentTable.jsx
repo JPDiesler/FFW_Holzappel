@@ -26,31 +26,33 @@ const DeploymentTable = (props) => {
   }, [props.data]);
 
   return (
-    <div
-      className={`bg-body list overflow-y-auto scrollbar  rounded border p-2 ${
-        isScrollable ? "pe-0" : ""
-      }`}
-      ref={divRef}
-    >
-      <div className="rounded border overflow-hidden">
-        <table className="table table-striped table-hover rounded align-middle m-0">
-          <tbody className="">
-            {props.data.map((deployment, index) => (
-              <tr key={index} className="fw-semibold">
-                <td className="text-center border-end">{index + 1}.</td>
-                <td>
-                  {deployment.date}
-                  <br />
-                  {deployment.time != null ? deployment.time + " Uhr" : null}
-                </td>
-                <td className="text-center border-start">{deployment.type}</td>
-                <td className="fw-normal word-break border-start">
-                  {deployment.description}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="list-container rounded-3 border bg-body p-3">
+      <div
+        className={`list overflow-y-auto scrollbar border border-2  rounded ${
+          isScrollable ? "pe-0" : ""
+        }`}
+        ref={divRef}
+      >
+        <div className="rounded rounded-end-0 overflow-hidden">
+          <table className="table table-striped table-hover align-middle m-0">
+            <tbody className="">
+              {props.data.map((deployment, index) => (
+                <tr key={index} className="fw-semibold">
+                  <td className="text-center border-end">{index + 1}.</td>
+                  <td className="border-end">
+                    {deployment.date}
+                    <br />
+                    {deployment.time != null ? deployment.time + " Uhr" : null}
+                  </td>
+                  <td className="text-center border-end">{deployment.type}</td>
+                  <td className="fw-normal word-brea border-end">
+                    {deployment.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

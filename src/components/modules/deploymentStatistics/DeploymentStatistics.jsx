@@ -88,15 +88,15 @@ const DeploymentStatistics = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [showDetails]);
+  }, [showDetails, isPortrait]);
 
   return (
     <div
-      className="flex-fill d-flex flex-column overflow-x-hidden"
+      className="w-100 d-flex flex-column overflow-x-hidden overflow-y-hidden"
       ref={mainRef}
     >
       <div
-        className={`w-100 flex-fill d-flex flex-column justify-content-center align-items-center position-relative vw-100 overflow-x-hidden rounded-3 mt-5`}
+        className={`flex-fill d-flex flex-column justify-content-center align-items-center position-relative rounded-3 mt-5`}
       >
         <div
           id="placeholder"
@@ -104,15 +104,15 @@ const DeploymentStatistics = () => {
           style={{ width: contentSize.width, height: contentSize.height }}
         />
         <div
-          className={`flex-fill w-100 d-flex flex-column ${
+          className={`w-100 flex-fill d-flex flex-column ${
             showDetails & !isPortrait ? "out-left" : "centered"
           }`}
           ref={contentRef}
         >
           <h1 className="title mb-5">Einsatzstatistik</h1>
           <div
-            className={`flex-fill d-flex gap-3 flex-wrap justify-content-center align-items-center ps-3 pe-3 ${
-              isPortrait ? "mb-5" : ""
+            className={`flex-fill d-flex gap-3 align-items-center justify-content-center flex-wrap ${
+              isPortrait ? "mb-5 p-0" : "ps-3 pe-3"
             }`}
           >
             <DeploymentChart data={deployment_data[year]} year={year} />
@@ -152,7 +152,7 @@ const DeploymentStatistics = () => {
           </div>
         )}
       </div>
-      <div className="w-100 d-flex flex-column align-items-center justify-content-center mt-3">
+      <div className="flex-fill d-flex flex-column align-items-center justify-content-center mt-3">
         {isPortrait ? (
           <>
             {!showDetails ? (

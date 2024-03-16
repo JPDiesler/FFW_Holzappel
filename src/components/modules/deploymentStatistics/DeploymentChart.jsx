@@ -163,6 +163,7 @@ const DeploymentChart = (props) => {
         ],
       },
       options: {
+        responsive: true,
         plugins: {
           legend: {
             display: true,
@@ -203,7 +204,7 @@ const DeploymentChart = (props) => {
       },
       plugins: [chartPlugin],
     });
-
+    window.dispatchEvent(new Event("resize"));
     // Cleanup: Destroy the Chart instance when the component unmounts
     return () => {
       if (chartRef.current) {
@@ -212,19 +213,7 @@ const DeploymentChart = (props) => {
     };
   }
 
-  return (
-    <canvas
-      id="deploymentChart"
-      style={{
-        width: "50vw",
-        height: "50vw",
-        maxWidth: "500px",
-        maxHeight: "500px",
-        minWidth: "100px",
-        minHeight: "100px",
-      }}
-    />
-  );
+  return <canvas id="deploymentChart" className="canvas-chart" />;
 };
 
 DeploymentChart.propTypes = {

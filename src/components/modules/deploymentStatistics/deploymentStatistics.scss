@@ -1,23 +1,20 @@
-// .list {
-//   max-height: 400px !important;
-//   max-width: 350px;
-//   width: 85vw;
-//   flex: 0 0 auto !important;
-// }
 .list {
   max-height: 450px !important;
   height: auto;
+}
+
+.list-container {
   width: 90vw;
-  max-width: 700px;
   min-width: 370px;
+  max-width: 700px;
 }
 .canvas-chart {
-  width: 50vw;
-  height: 50vw;
   max-width: 500px;
   max-height: 500px;
-  min-width: 100px;
-  min-height: 100px;
+  min-width: 370px;
+  min-height: 370px;
+  width: 90vw !important;
+  height: 90vw !important;
 }
 
 .title {
@@ -74,7 +71,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.75s ease-in-out;
 }
 
 .out-left {
@@ -82,7 +79,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-210%, -50%);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.75s ease-in-out;
 }
 
 .out-right {
@@ -90,7 +87,7 @@
   top: 50%;
   left: 50%;
   transform: translate(250%, -50%);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.75s ease-in-out;
 }
 
 .vw-90 {
