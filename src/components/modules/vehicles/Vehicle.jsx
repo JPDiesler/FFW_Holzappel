@@ -1,14 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { useCookies } from "react-cookie";
 import "./Vehicles.scss";
 
 const Vehicle = (props) => {
+  const [cookies, setCookie] = useCookies(["theme"]);
   const [isLightMode, setIsLightMode] = useState(true);
   const [divWidth, setDivWidth] = useState(0);
   const divRef = useRef(null);
   const [isPortrait, setIsPortrait] = useState(
     window.innerHeight > window.innerWidth
   );
+
+  useEffect(() => {
+    // Load the mode from the cookie when the component mounts
+    const savedMode = cookies.theme;
+    if (savedMode) {
+      setIsLightMode(savedMode == "light");
+    }
+  }, []);
 
   useEffect(() => {
     setDivWidth(divRef.current.offsetWidth);
