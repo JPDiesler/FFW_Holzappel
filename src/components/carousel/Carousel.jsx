@@ -1,12 +1,20 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
+import { useSwipeable } from "react-swipeable";
 
 const Carousel = (props) => {
   const [index, setIndex] = useState(0);
   const [contentWidth, setContentWidth] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const contentRef = useRef(null);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleIndexChange(index + 1),
+    onSwipedRight: () => handleIndexChange(index - 1),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
   useEffect(() => {
     setContentWidth(contentRef.current.offsetWidth);
@@ -52,6 +60,7 @@ const Carousel = (props) => {
             }px)`,
             transition: "transform 0.75s ease-in-out",
           }}
+          {...handlers}
         >
           {props.children}
         </div>
