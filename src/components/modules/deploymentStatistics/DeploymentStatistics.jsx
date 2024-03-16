@@ -83,9 +83,6 @@ const DeploymentStatistics = () => {
       const element = document.getElementById("deployment-types");
       element.scrollIntoView({ behavior: "smooth" });
       document.body.style.overflow = "auto";
-    } else {
-      const element = document.getElementById("deployment");
-      element.scrollIntoView({ behavior: "smooth" });
     }
 
     return () => {
@@ -95,7 +92,7 @@ const DeploymentStatistics = () => {
 
   return (
     <div
-      className="flex-fill d-flex flex-column overflow-visible"
+      className="flex-fill d-flex flex-column overflow-x-hidden"
       ref={mainRef}
     >
       <div
