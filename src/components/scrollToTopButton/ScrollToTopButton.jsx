@@ -78,7 +78,7 @@ function ScrollToTopButton() {
         </button>
         <button
           className="btn text-white rounded-pill fw-semibold button"
-          onClick={() => scrollToElement("deployment")}
+          onClick={() => scrollToElement("deployments")}
           data-bs-toggle="tooltip"
           data-bs-placement="right"
           title="Einsätze"

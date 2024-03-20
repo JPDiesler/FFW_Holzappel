@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import DwdWidget from "./components/dwd/DwdWidget";
 import Navbar from "./components/navbar/Navbar";
 import ModeButton from "./components/modeButton/ModeButton";
-import DeploymentStatistics from "./components/modules/deploymentStatistics/DeploymentStatistics";
+import Deployments from "./components/modules/deployments/Deployments";
 import Aktuelles from "./components/modules/aktuelles/Aktuelles";
 import Vehicles from "./components/modules/vehicles/Vehicles";
 import NavbarMobile from "./components/navbar/NavbarMobile";
@@ -180,13 +180,13 @@ function App() {
             <EventCalendar />
           </div> */}
           <div
-            id="deployment"
+            id="deployments"
             className={
               "d-flex justify-content-center element position-relative " +
               (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
             }
           >
-            <DeploymentStatistics />
+            <Deployments />
           </div>
           <div
             id="vehicles"

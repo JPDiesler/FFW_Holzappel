@@ -33,7 +33,7 @@ const Navbar = (props) => {
           </button>
           <button
             className="btn text-white rounded-pill fw-semibold"
-            onClick={() => scrollToElement("deployment")}
+            onClick={() => scrollToElement("deployments")}
           >
             Einsätze
           </button>

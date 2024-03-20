@@ -90,7 +90,6 @@ const Vehicle = (props) => {
           const html = document.getElementsByTagName("html")[0];
           const colorMode = html.getAttribute("data-bs-theme");
           setIsLightMode(colorMode == "dark" ? false : true);
-          console.log("Color Mode: " + colorMode);
         }
       }
     });
@@ -140,8 +139,9 @@ const Vehicle = (props) => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
-            height="50%"
-            className="bi bi-card-image vehicle_img"
+            width={"50%"}
+            height={"50%"}
+            className="bi bi-card-image vehicle_img p-2"
             viewBox="0 0 16 16"
           >
             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />

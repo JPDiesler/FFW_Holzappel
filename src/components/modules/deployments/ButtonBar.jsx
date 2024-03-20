@@ -59,7 +59,9 @@ const ButtonBar = (props) => {
   }
 
   return (
-    <div className="d-flex align-items-center justify-content-center">
+    <div
+      className={`d-flex align-items-center justify-content-center ${props.className}`}
+    >
       <div className="btn-group" role="group" aria-label="Basic example">
         <button
           type="button"
@@ -129,6 +131,7 @@ const ButtonBar = (props) => {
 };
 
 ButtonBar.propTypes = {
+  className: PropTypes.string,
   years: PropTypes.array.isRequired,
   selectedYear: PropTypes.number.isRequired,
   setYear: PropTypes.func.isRequired,

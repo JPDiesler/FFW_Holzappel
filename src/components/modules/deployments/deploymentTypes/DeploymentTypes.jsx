@@ -29,17 +29,17 @@ const DeploymentTypes = React.forwardRef((props, ref) => {
       ref={ref}
       className={`vw-90 d-flex flex-column align-items-center ${
         isPortrait ? "justify-content-start" : "justify-content-center"
-      }`}
+      } ${props.className}`}
       id="deployment-types"
     >
       <div
         className={`w-100 position-relative d-flex align-items-center justify-content-center ${
-          isPortrait ? "mb-5" : "mt-5 mb-5"
+          isPortrait ? "mb-5" : "mb-1"
         }`}
       >
         {isPortrait ? null : (
           <button
-            className="position-absolute top-50 start-0 translate-middle btn fs-4 me-auto"
+            className="position-absolute top-50 start-5 translate-middle btn fs-4 me-auto"
             onClick={() => props.onClickClose()}
           >
             <i className="bi bi-arrow-left"></i>
@@ -78,10 +78,11 @@ const DeploymentTypes = React.forwardRef((props, ref) => {
 });
 
 DeploymentTypes.propTypes = {
+  className: PropTypes.string,
   onClickClose: PropTypes.func.isRequired,
   portraitMode: PropTypes.bool,
 };
 DeploymentTypes.displayName = "DeploymentTypes";
-DeploymentTypes.defaultProps = { portraitMode: false };
+DeploymentTypes.defaultProps = { className: "", portraitMode: false };
 
 export default DeploymentTypes;
