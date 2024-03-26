@@ -15,7 +15,9 @@ const ModeButton = () => {
   const ulRef = useRef(null);
   const buttonRef = useRef(null);
   const html = document.getElementsByTagName("html")[0];
-  const [icon, setIcon] = useState();
+  const [icon, setIcon] = useState(
+    cookies.theme ? icons[cookies.theme] : icons["light"]
+  );
   const [menu, setMenu] = useState(false);
   const [mode, setMode] = useState();
 

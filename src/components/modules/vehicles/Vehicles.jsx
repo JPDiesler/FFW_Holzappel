@@ -68,7 +68,7 @@ const Vehicles = () => {
 
   const mtf_details = (
     <>
-      GAMS+ Satz <br /> Taktikboard <br /> Wasserrettungssatz <br /> Pavillion
+      GAMS+ Satz <br /> Taktikboard <br /> Pavillion
     </>
   );
   const mtf = (
@@ -82,15 +82,15 @@ const Vehicles = () => {
     />
   );
 
-  const sga_details = <>24 KVA Leistung</>;
+  const sga_details = <>68 KVA Leistung</>;
   const sga = (
     <Vehicle
-      title="SGA 24"
+      title="SGA 68"
       callsign={null}
       crew={null}
       details={sga_details}
       date="28.04.2011"
-      carrier="Förderverein"
+      carrier="VG Diez"
     />
   );
 

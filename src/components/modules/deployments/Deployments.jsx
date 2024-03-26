@@ -64,7 +64,7 @@ const Deployments = () => {
       />
       <DeploymentTypes
         className={`position-absolute w-100 ${
-          action ? "centered" : "out-right"
+          action ? "centered2" : "out-right"
         }`}
         onClickClose={() => handleAction(false)}
         ref={secondaryContentRef}

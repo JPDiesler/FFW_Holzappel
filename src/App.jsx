@@ -158,18 +158,18 @@ function App() {
         )}
 
         <div id="content">
-          {/* <div
+          <div
             id="recruting"
             className={"element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
             <Recruting />
-          </div> */}
-          {/* <div
+          </div>
+          <div
             id="aktuelles"
             className={"blog_element " + (isPortrait ? "m-0 mt-5 mb-5" : "m-5")}
           >
             <Aktuelles />
-          </div> */}
+          </div>
           {/* <div
             id="date"
             className={
@@ -182,7 +182,7 @@ function App() {
           <div
             id="deployments"
             className={
-              "d-flex justify-content-center element position-relative " +
+              "d-flex justify-content-center align-items-center element position-relative " +
               (isPortrait ? "m-0 mt-5 mb-5" : "m-5")
             }
           >
@@ -197,6 +197,9 @@ function App() {
           >
             <Vehicles />
           </div>
+        </div>
+        <div className="">
+          <Footer />
         </div>
       </div>
     </>

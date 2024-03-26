@@ -179,7 +179,7 @@ const Vehicle = (props) => {
           ) : null}
           {props.date != null ? (
             <h5 className="text-secondary">
-              Indienstellung:
+              Indienststellung:
               <br />
               {props.date}
             </h5>

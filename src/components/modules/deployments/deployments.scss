@@ -74,6 +74,13 @@
   transition: transform 0.75s ease-in-out;
 }
 
+.centered2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.75s ease-in-out;
+}
+
 .out-left {
   position: absolute;
   top: 50%;
@@ -84,9 +91,8 @@
 
 .out-right {
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(250%, -50%);
+  transform: translateX(250%);
   transition: transform 0.75s ease-in-out;
 }
 
